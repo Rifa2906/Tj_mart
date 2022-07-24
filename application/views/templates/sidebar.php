@@ -4,7 +4,7 @@
           <div class="sidebar-brand-icon">
               <img src="<?= base_url('assets/ruang-admin'); ?>/img/logo/Tj.png">
           </div>
-          <div class="sidebar-brand-text mx-3 text-dark">TJ MART</div>
+          <div class="sidebar-brand-text mx-3 text-dark">Trengginas Jaya MART</div>
       </a>
       <hr class="sidebar-divider my-0">
       <li class="nav-item">
