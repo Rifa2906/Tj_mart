@@ -21,7 +21,7 @@
                                         <a href="http://">Lupa kata sandi?</a>
                                     </div>
                                     <div class="form-group">
-                                        <a href="<?= base_url('Halaman_utama'); ?>" class="btn btn-primary btn-block">Login</a>
+                                        <a href="<?= base_url('Dashboard'); ?>" class="btn btn-primary btn-block">Login</a>
                                     </div>
                                     <hr>
                                 </form>
