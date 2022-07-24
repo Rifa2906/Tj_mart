@@ -10,18 +10,23 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Login</h1>
                                 </div>
-                                <form class="user">
+                                <?= $this->session->flashdata('message'); ?>
+                                <form class="user" method="POST">
                                     <div class="form-group">
-                                        <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address">
+                                        <input type="email" name="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address">
+                                        <small class="text-danger"> <?= form_error('email') ?></small>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
+                                        <input type="password" name="password" class="form-control" id="exampleInputPassword" placeholder="Password">
+                                        <small class="text-danger"> <?= form_error('password') ?></small>
                                     </div>
                                     <div class="form-group">
                                         <a href="http://">Lupa kata sandi?</a>
                                     </div>
                                     <div class="form-group">
-                                        <a href="<?= base_url('Dashboard'); ?>" class="btn btn-primary btn-block">Login</a>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Login
+                                        </button>
                                     </div>
                                     <hr>
                                 </form>
