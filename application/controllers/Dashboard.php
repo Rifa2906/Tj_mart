@@ -10,7 +10,7 @@ class Dashboard extends CI_Controller
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
-        $this->load->view('Halaman utama/index', $data);
+        $this->load->view('Dashboard/index', $data);
         $this->load->view('templates/footer');
     }
 }

@@ -8,7 +8,7 @@
       </a>
       <hr class="sidebar-divider my-0">
       <li class="nav-item">
-          <a class="nav-link" href="<?= base_url('Halaman_utama'); ?>">
+          <a class="nav-link" href="<?= base_url('Dashboard'); ?>">
               <i class="fas fa-fw fa-tachometer-alt"></i>
               <span>Halaman Utama</span></a>
       </li>
@@ -16,6 +16,12 @@
       <div class="sidebar-heading">
           Features
       </div>
+      <li class="nav-item">
+          <a class="nav-link" href="<?= base_url('User'); ?>">
+              <i class="fas fa-fw fa-user"></i>
+              <span>Data Pengguna</span>
+          </a>
+      </li>
       <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap" aria-expanded="true" aria-controls="collapseBootstrap">
               <i class="far fa-fw fa-window-maximize"></i>
