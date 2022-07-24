@@ -55,4 +55,10 @@ class Login extends CI_Controller
             redirect('Login');
         }
     }
+
+    public function logout()
+    {
+        $this->session->unset_userdata('nama');
+        redirect('Login');
+    }
 }
