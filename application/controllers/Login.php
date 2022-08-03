@@ -61,4 +61,8 @@ class Login extends CI_Controller
         $this->session->unset_userdata('nama');
         redirect('Login');
     }
+
+    public function sendEmail()
+    {
+    }
 }
