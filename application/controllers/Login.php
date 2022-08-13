@@ -30,18 +30,19 @@ class Login extends CI_Controller
         $email = $this->input->post('email');
         $password = $this->input->post('password');
 
-        $user = $this->db->get_where('tb_user', ['email' => $email])->row_array();
+        $user = $this->db->get_where('tb_pengguna', ['email' => $email])->row_array();
+
 
         if ($user) {
 
             //cek pass
-            if ($password == $user['password']) {
+            if ($password == $user['kata_sandi']) {
                 $data = [
                     'nama' => $user['nama']
                 ];
 
                 $this->session->set_userdata($data);
-                redirect('Dashboard');
+                redirect('Halaman_utama');
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
                 Password salah

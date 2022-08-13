@@ -36,40 +36,43 @@
            <i class="fas fa-angle-up"></i>
        </a>
 
-       <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/jquery/jquery.min.js"></script>
+
        <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
        <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/jquery-easing/jquery.easing.min.js"></script>
        <script src="<?= base_url('assets/ruang-admin'); ?>/js/ruang-admin.min.js"></script>
 
-       <!-- Page level plugins -->
-       <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/datatables/jquery.dataTables.min.js"></script>
-       <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+       < <!-- swall 2 -->
+           <script src="<?= base_url('assets/swall2'); ?>/dist/sweetalert2.all.min.js"></script>
 
-       <!-- Page level custom scripts -->
-       <script>
-           $(document).ready(function() {
-               $('#dataTable').DataTable({
-                   'language': {
-                       "sProcessing": "Sedang memproses...",
-                       "sLengthMenu": "Tampilkan _MENU_",
-                       "sZeroRecords": "Tidak ditemukan data yang sesuai",
-                       "sInfo": "Menampilkan _START_ - _END_ dari _TOTAL_ data",
-                       "sInfoEmpty": "Menampilkan 0 - 0 dari 0 data",
-                       "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
-                       "sInfoPostFix": "",
-                       "sSearch": "Cari : ",
-                       "sUrl": "",
-                       "oPaginate": {
-                           "sFirst": "Pertama",
-                           "sPrevious": "Sebelumnya",
-                           "sNext": "Selanjutnya",
-                           "sLast": "Terakhir"
+           <!-- Page level plugins -->
+           <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/datatables/jquery.dataTables.min.js"></script>
+           <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+           <!-- Page level custom scripts -->
+           <script>
+               $(document).ready(function() {
+                   $('#dataTable').DataTable({
+                       'language': {
+                           "sProcessing": "Sedang memproses...",
+                           "sLengthMenu": "Tampilkan _MENU_",
+                           "sZeroRecords": "Tidak ditemukan data yang sesuai",
+                           "sInfo": "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                           "sInfoEmpty": "Menampilkan 0 - 0 dari 0 data",
+                           "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+                           "sInfoPostFix": "",
+                           "sSearch": "Cari : ",
+                           "sUrl": "",
+                           "oPaginate": {
+                               "sFirst": "Pertama",
+                               "sPrevious": "Sebelumnya",
+                               "sNext": "Selanjutnya",
+                               "sLast": "Terakhir"
+                           }
                        }
-                   }
-               }); // ID From dataTable 
-           });
-       </script>
+                   }); // ID From dataTable 
+               });
+           </script>
 
-       </body>
+           </body>
 
-       </html>
+           </html>
