@@ -36,7 +36,7 @@
           </div>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="ui-colors.html">
+          <a class="nav-link" href="<?= base_url('Pemasok'); ?>">
               <i class="fas fa-fw fa-palette"></i>
               <span>Data Supplier</span>
           </a>

@@ -38,7 +38,9 @@ class Login extends CI_Controller
             //cek pass
             if ($password == $user['kata_sandi']) {
                 $data = [
-                    'nama' => $user['nama']
+                    'nama' => $user['nama'],
+                    'hak_pengguna' => $user['hak_pengguna'],
+                    'id' => $user['id_pengguna']
                 ];
 
                 $this->session->set_userdata($data);

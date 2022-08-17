@@ -13,13 +13,17 @@ class M_pengguna extends CI_Model
     {
         $nama = $this->input->post('nama');
         $email = $this->input->post('email');
+        $alamat = $this->input->post('alamat');
+        $no_telpon = $this->input->post('no_telpon');
         $pass = $this->input->post('Pass1');
 
         $data = [
             'nama' => $nama,
+            'alamat' => $alamat,
+            'no_telpon' => $no_telpon,
             'email' => $email,
             'kata_sandi' => $pass,
-            'peran' => 'user'
+            'hak_pengguna' => 'kepala gudang'
         ];
         $this->db->insert('tb_pengguna', $data);
     }
@@ -34,22 +38,28 @@ class M_pengguna extends CI_Model
 
         $nama = $this->input->post('nama');
         $email = $this->input->post('email');
+        $alamat = $this->input->post('alamat');
+        $no_telpon = $this->input->post('no_telpon');
         $pass = $this->input->post('Pass1');
 
         $Peran = $peran;
         if ($Peran == 'admin') {
             $data = [
                 'nama' => $nama,
+                'alamat' => $alamat,
+                'no_telpon' => $no_telpon,
                 'email' => $email,
                 'kata_sandi' => $pass,
-                'peran' => 'admin'
+                'hak_pengguna' => 'admin gudang'
             ];
         } else {
             $data = [
                 'nama' => $nama,
+                'alamat' => $alamat,
+                'no_telpon' => $no_telpon,
                 'email' => $email,
                 'kata_sandi' => $pass,
-                'peran' => 'user'
+                'hak_pengguna' => 'kepala gudang'
             ];
         }
 
