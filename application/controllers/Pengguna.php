@@ -40,11 +40,11 @@ class Pengguna extends CI_Controller
             'required' => 'Alamat tidak boleh kosong'
         ]);
         $this->form_validation->set_rules('Pass1', 'Password', 'required', [
-            'required' => 'Password tidak boleh kosong'
+            'required' => 'Kata sandi tidak boleh kosong'
         ]);
-        $this->form_validation->set_rules('Pass2', 'Password Conf', 'required|matches[Pass1]', [
-            'required' => 'Password tidak boleh kosong',
-            'matches' => 'Password tidak sama'
+        $this->form_validation->set_rules('Pass2', 'Kata sandi Conf', 'required|matches[Pass1]', [
+            'required' => 'Kata sandi tidak boleh kosong',
+            'matches' => 'Kata sandi tidak sama'
         ]);
 
 

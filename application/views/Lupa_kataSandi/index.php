@@ -10,6 +10,7 @@
                                 <div class="text-center mb-3">
                                     <img src="<?= base_url('assets/ruang-admin'); ?>/img/logo/Tj.png">
                                 </div>
+                                <?= $this->session->flashdata('message'); ?>
                                 <form class="user" method="POST">
                                     <div class="form-group">
                                         <input type="email" name="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Masukan Email">
@@ -17,11 +18,11 @@
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="password_baru" class="form-control" placeholder="Masukan Kata sandi baru" id="exampleInputPassword">
-                                        <small class="text-danger"> <?= form_error('kata_sandiB') ?></small>
+                                        <small class="text-danger"> <?= form_error('password_baru') ?></small>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="password_conf" class="form-control" placeholder="Konfirmasi Kata sandi" id="exampleInputPassword">
-                                        <small class="text-danger"> <?= form_error('Conf_kataSandi') ?></small>
+                                        <small class="text-danger"> <?= form_error('password_conf') ?></small>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-danger btn-user btn-block">
