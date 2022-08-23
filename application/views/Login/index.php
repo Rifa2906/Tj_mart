@@ -22,7 +22,7 @@
                                             <small class="text-danger"> <?= form_error('password') ?></small>
                                         </div>
                                         <div class="form-group">
-                                            <a href="<?= base_url('Login/sendEmail'); ?>">Lupa kata sandi?</a>
+                                            <a href="<?= base_url('Lupa_kataSandi'); ?>">Lupa kata sandi?</a>
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-danger btn-user btn-block">

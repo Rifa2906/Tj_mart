@@ -27,7 +27,7 @@ class M_pemasok extends CI_Model
 
         $ket = 'PM';
 
-        return $newKode = $ket . sprintf('%04s', $nourut);
+        return $newKode = $ket . sprintf('%03s', $nourut);
     }
 
     function tambahdata()
@@ -46,9 +46,9 @@ class M_pemasok extends CI_Model
         $this->db->insert('tb_pemasok', $data);
     }
 
-    function ambilId($id)
+    function ambilId($id_pemasok)
     {
-        return $this->db->get_where('tb_pemasok', ['id_pemasok' => $id]);
+        return $this->db->get_where('tb_pemasok', ['id_pemasok' => $id_pemasok]);
     }
 
     function ubah_pemasok($id_pemasok)

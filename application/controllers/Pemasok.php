@@ -55,10 +55,10 @@ class Pemasok extends CI_Controller
 
     public function ambil_IdPemasok()
     {
-        $id = $this->input->post('id_pemasok');
-        $pemasok = $this->M_pemasok->ambilId($id)->row_array();
+        $id_pemasok = $this->input->post('id_pemasok');
+        $pemasok = $this->M_pemasok->ambilId($id_pemasok)->row_array();
         $data = [
-            'id_pemasok' => $pemasok['id_pemasok'],
+            'id_pemasok' =>  $pemasok['id_pemasok'],
             'kode_pemasok' => $pemasok['kode_pemasok'],
             'nama_pemasok' => $pemasok['nama_pemasok'],
             'no_telpon' => $pemasok['no_telpon'],
@@ -84,8 +84,8 @@ class Pemasok extends CI_Controller
         ]);
 
         if ($this->form_validation->run() == true) {
-            $id = $this->input->post('id_pemasok');
-            $this->M_pemasok->ubah_pemasok($id);
+            $id_pemasok = $this->input->post('id_pemasok');
+            $this->M_pemasok->ubah_pemasok($id_pemasok);
             $response['status'] = 1;
         } else {
             $response['status'] = 0;

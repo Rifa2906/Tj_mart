@@ -41,6 +41,12 @@
        <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/jquery-easing/jquery.easing.min.js"></script>
        <script src="<?= base_url('assets/ruang-admin'); ?>/js/ruang-admin.min.js"></script>
 
+       <!-- Chart -->
+       <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/chart.js/Chart.min.js"></script>
+       <script src="<?= base_url('assets/ruang-admin'); ?>/js/demo/chart-area-demo.js"></script>
+       <script src="<?= base_url('assets/ruang-admin'); ?>/js/demo/chart-pie-demo.js"></script>
+       <script src="<?= base_url('assets/ruang-admin'); ?>/js/demo/chart-bar-demo.js"></script>
+
        < <!-- swall 2 -->
            <script src="<?= base_url('assets/swall2'); ?>/dist/sweetalert2.all.min.js"></script>
 

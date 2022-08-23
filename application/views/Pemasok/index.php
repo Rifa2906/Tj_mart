@@ -38,13 +38,13 @@
                                           </button>
                                           <!-- </a> -->
 
-                                          <a data-toggle="tooltip" data-placement="top" title="Hapus">
+                                          <!-- <a data-toggle="tooltip" data-placement="top" title="Hapus"> -->
 
-                                              <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_pemasok'] ?>)">
-                                                  <i class="fas fa-trash"></i>
-                                              </button>
+                                          <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_pemasok'] ?>)">
+                                              <i class="fas fa-trash"></i>
+                                          </button>
 
-                                          </a>
+                                          <!-- </a> -->
                                       </td>
                                   </tr>
 
@@ -99,7 +99,6 @@
                   </div>
                   <div class="modal-footer">
                       <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Kembali</button>
-                      <button type="button" id="btn-ubah" class="btn btn-primary" onclick="ubah()">Ubah</button>
                       <button type="button" id="btn-tambah" class="btn btn-primary" onclick="simpan()">Simpan</button>
                   </div>
               </div>
@@ -111,7 +110,7 @@
           <div class="modal-dialog" role="document">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Ubah Data</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                       </button>
@@ -119,7 +118,7 @@
                   <div class="modal-body">
                       <form>
                           <div class="form-group">
-                              <input type="hidden" id="id_pemasok_edit">
+                              <input type="hidden" id="id_pemasok">
                               <label for="">Kode pemasok</label>
                               <input class="form-control" type="text" id="kode_pemasok_edit" readonly>
                           </div>
@@ -231,7 +230,7 @@
                   },
                   dataType: 'json',
                   success: function(data) {
-                      $("#id_pemasok_edit").val(data.id_pemasok);
+                      $("#id_pemasok").val(data.id_pemasok);
                       $("#kode_pemasok_edit").val(data.kode_pemasok);
                       $("#nama_pemasok_edit").val(data.nama_pemasok);
                       $("#no_telpon_edit").val(data.no_telpon);
@@ -242,7 +241,7 @@
 
           function ubah() {
 
-              var id = $("#id_pemasok_edit").val();
+              var id_pemasok = $("#id_pemasok").val();
               var nama_pemasok = $("#nama_pemasok_edit").val();
               var kode_pemasok = $("#kode_pemasok_edit").val();
               var no_telpon = $("#no_telpon_edit").val();
@@ -252,7 +251,7 @@
                   type: 'POST',
                   url: '<?= base_url('Pemasok/ubah') ?>',
                   data: {
-                      id_pemasok: id,
+                      id_pemasok: id_pemasok,
                       kode_pemasok: kode_pemasok,
                       nama_pemasok: nama_pemasok,
                       no_telpon: no_telpon,
