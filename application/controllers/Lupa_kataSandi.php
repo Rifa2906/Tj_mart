@@ -47,11 +47,19 @@ class Lupa_kataSandi extends CI_Controller
         $email = $this->input->post('email');
         $kataSandi_b = $this->input->post('password_baru');
 
+        $cek = $this->db->get_where('tb_pengguna', ['email' => $email])->row_array();
 
-        $data = [
-            'kata_sandi' => $kataSandi_b,
-        ];
-        $this->db->where('email', $email);
-        $this->db->update('tb_pengguna', $data);
+        if ($cek) {
+            $data = [
+                'kata_sandi' => $kataSandi_b,
+            ];
+            $this->db->where('email', $email);
+            $this->db->update('tb_pengguna', $data);
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+            Email tidak terdaftar
+           </div>');
+            redirect('Lupa_kataSandi');
+        }
     }
 }
