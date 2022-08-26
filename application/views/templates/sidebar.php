@@ -30,8 +30,9 @@
           <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
                   <a class="collapse-item" href="alerts.html">Barang masuk</a>
+                  <a class="collapse-item" href="<?= base_url('Stok_barang'); ?>">Stok barang</a>
                   <a class="collapse-item" href="buttons.html">Barang keluar</a>
-                  <a class="collapse-item" href="buttons.html">Satuan</a>
+                  <a class="collapse-item" href="<?= base_url('Satuan'); ?>">Satuan</a>
               </div>
           </div>
       </li>
