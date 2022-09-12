@@ -69,6 +69,7 @@
           </a>
       </li>
   </ul>
+
   <!-- Sidebar -->
   <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">

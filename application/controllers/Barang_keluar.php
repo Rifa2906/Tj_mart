@@ -108,9 +108,6 @@ class Barang_keluar extends CI_Controller
         $this->form_validation->set_rules('jumlah_keluar', 'No telpon', 'required', [
             'required' => 'Jumlah tidak boleh kosong'
         ]);
-        $this->form_validation->set_rules('pemasok', 'Alamat', 'required', [
-            'required' => 'Pemasok tidak boleh kosong'
-        ]);
 
         $this->form_validation->set_rules('tanggal_keluar', 'tanggal keluar', 'required', [
             'required' => 'Tanggal keluar tidak boleh kosong'
@@ -128,9 +125,9 @@ class Barang_keluar extends CI_Controller
             $this->load->view('Barang_keluar/form_ubah', $data);
             $this->load->view('templates/footer');
         } else {
-            $this->M_barang_masuk->ubahData();
+            $this->M_barang_keluar->ubahData();
             $this->session->set_flashdata('message', 'Diubah');
-            redirect('Barang_masuk');
+            redirect('Barang_keluar');
         }
     }
 
@@ -138,5 +135,29 @@ class Barang_keluar extends CI_Controller
     public function ambil_IdKeluar($id_keluar)
     {
         return $this->db->get_where('tb_barang_keluar', ['id_keluar' => $id_keluar])->row_array();
+    }
+
+    function hapus_data()
+    {
+        $id_keluar = $this->input->post('id_keluar');
+
+        $brg_keluar = $this->db->get_where('tb_barang_keluar', ['id_keluar' => $id_keluar])->row_array();
+        $id_barang = $brg_keluar['id_barang'];
+        $jumlah = $brg_keluar['jumlah'];
+        $brg_gudang = $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
+        $stok_gudang = $brg_gudang['stok'];
+
+        $total_stok = $stok_gudang + $jumlah;
+
+
+
+        $data = [
+            'stok' => $total_stok
+        ];
+        $this->db->where('id_barang', $id_barang);
+        $this->db->update('tb_stok_barang', $data);
+
+        $this->db->where('id_keluar', $id_keluar);
+        $this->db->delete('tb_barang_keluar');
     }
 }

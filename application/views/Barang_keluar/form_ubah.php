@@ -16,7 +16,7 @@
                        <div class="row">
                            <div class="col-6">
                                <div class="form-group">
-                                   <input type="hidden" name="id_masuk" value="<?= $id_keluar['id_keluar']; ?>">
+                                   <input type="hidden" name="id_keluar" value="<?= $id_keluar['id_keluar']; ?>">
                                    <label for="">Kode Barang Keluar</label>
                                    <input class="form-control" value="<?= $id_keluar['kode_barang_keluar']; ?>" type="text" id="kode_barang_keluar" name="kode_barang_keluar" readonly>
                                </div>
@@ -81,12 +81,12 @@
                                <div class="form-group">
                                    <label for="">Jumlah</label>
                                    <input type="hidden" class="form-control" id="jumlah_sebelum" name="jumlah_sebelum" value="<?= $id_keluar['jumlah']; ?>" readonly>
-                                   <input type="text" class="form-control" id="jumlah" name="jumlah" value="<?= $id_keluar['jumlah']; ?>">
-                                   <span class="text-danger" id="jumlah-error"><?= form_error('jumlah'); ?></span>
+                                   <input type="text" class="form-control" id="jumlah_keluar" name="jumlah_keluar" value="<?= $id_keluar['jumlah']; ?>">
+                                   <span class="text-danger" id="jumlah-error"><?= form_error('jumlah_keluar'); ?></span>
                                </div>
                            </div>
                            <button type="submit" class="btn btn-primary">Ubah</button>
-                           <a href="<?= base_url('Barang_masuk'); ?>" class="btn btn-warning ml-1">Kembali</a>
+                           <a href="<?= base_url('Barang_keluar'); ?>" class="btn btn-warning ml-1">Kembali</a>
                        </div>
                    </form>
 

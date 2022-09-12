@@ -56,42 +56,38 @@ class M_barang_keluar extends CI_Model
 
     function ubahData()
     {
-        $id_masuk = $this->input->post('id_masuk');
+        $id_keluar = $this->input->post('id_keluar');
         $id_barang = $this->input->post('nama_barang');
-        $nama_jenis = $this->input->post('nama_jenis');
-        $kode = $this->input->post('kode_barang_masuk');
-        $jumlah = $this->input->post('jumlah');
+        $id_jenis = $this->input->post('nama_jenis');
+        $kode = $this->input->post('kode_barang_keluar');
+        $jumlah_keluar = $this->input->post('jumlah_keluar');
         $jumlah_sebelumnya = $this->input->post('jumlah_sebelum');
         $satuan = $this->input->post('satuan');
-        $pemasok = $this->input->post('pemasok');
-        $tanggal_masuk = $this->input->post('tanggal_masuk');
-        $tanggal_kadaluarsa = $this->input->post('tanggal_kadaluarsa');
+        $tanggal_keluar = $this->input->post('tanggal_keluar');
 
 
 
         $data = [
-            'kode_barang_masuk' => $kode,
-            'tanggal_masuk' => $tanggal_masuk,
+            'kode_barang_keluar' => $kode,
+            'tanggal_keluar' => $tanggal_keluar,
             'id_barang' => $id_barang,
             'id_satuan' => $satuan,
-            'id_jenis' => $nama_jenis,
-            'jumlah' => $jumlah,
-            'id_pemasok' => $pemasok,
-            'tanggal_kadaluarsa' => $tanggal_kadaluarsa
+            'id_jenis' => $id_jenis,
+            'jumlah' => $jumlah_keluar,
         ];
-        $this->db->where('id_masuk', $id_masuk);
-        $this->db->update('tb_barang_masuk', $data);
+        $this->db->where('id_keluar', $id_keluar);
+        $this->db->update('tb_barang_keluar', $data);
 
         $brg_stok = $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
 
         $jumlah_gudang = $brg_stok['stok'];
 
-        if ($jumlah < $jumlah_sebelumnya) {
-            $selisih = $jumlah_sebelumnya - $jumlah;
+        if ($jumlah_keluar < $jumlah_sebelumnya) {
+            $selisih = $jumlah_sebelumnya - $jumlah_keluar;
+            $total_stok = $jumlah_gudang + $selisih;
+        } else if ($jumlah_keluar > $jumlah_sebelumnya) {
+            $selisih = $jumlah_keluar - $jumlah_sebelumnya;
             $total_stok = $jumlah_gudang - $selisih;
-        } else if ($jumlah > $jumlah_sebelumnya) {
-            $selisih = $jumlah - $jumlah_sebelumnya;
-            $total_stok = $selisih + $jumlah_gudang;
         }
 
         $data = [

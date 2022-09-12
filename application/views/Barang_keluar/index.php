@@ -114,15 +114,15 @@
 
                  $.ajax({
                      type: 'POST',
-                     url: '<?= base_url('Barang_masuk/hapus_data') ?>',
+                     url: '<?= base_url('Barang_keluar/hapus_data') ?>',
                      data: {
-                         id_masuk: x
+                         id_keluar: x
                      },
                      dataType: 'json',
                      success: function(data) {}
                  })
 
-                 swall('barang masuk', 'dihapus')
+                 swall('barang keluar', 'dihapus')
 
              }
          })
