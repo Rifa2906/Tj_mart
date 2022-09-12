@@ -1,18 +1,5 @@
        </div>
-       <!-- Footer -->
-       <footer class="sticky-footer bg-white">
-           <div class="container my-auto">
-               <div class="copyright text-center my-auto">
-                   <span>copyright &copy;
-                       <script>
-                           document.write(new Date().getFullYear());
-                       </script> - developed by
-                       <b><a href="https://indrijunanda.gitlab.io/" target="_blank">indrijunanda</a></b>
-                   </span>
-               </div>
-           </div>
-       </footer>
-       <!-- Footer -->
+
        </div>
        </div>
 
@@ -47,38 +34,47 @@
        <script src="<?= base_url('assets/ruang-admin'); ?>/js/demo/chart-pie-demo.js"></script>
        <script src="<?= base_url('assets/ruang-admin'); ?>/js/demo/chart-bar-demo.js"></script>
 
-       < <!-- swall 2 -->
-           <script src="<?= base_url('assets/swall2'); ?>/dist/sweetalert2.all.min.js"></script>
 
-           <!-- Page level plugins -->
-           <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/datatables/jquery.dataTables.min.js"></script>
-           <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+       <!-- Select2 -->
+       <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/select2/dist/js/select2.min.js"></script>
 
-           <!-- Page level custom scripts -->
-           <script>
-               $(document).ready(function() {
-                   $('#dataTable').DataTable({
-                       'language': {
-                           "sProcessing": "Sedang memproses...",
-                           "sLengthMenu": "Tampilkan _MENU_",
-                           "sZeroRecords": "Tidak ditemukan data yang sesuai",
-                           "sInfo": "Menampilkan _START_ - _END_ dari _TOTAL_ data",
-                           "sInfoEmpty": "Menampilkan 0 - 0 dari 0 data",
-                           "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
-                           "sInfoPostFix": "",
-                           "sSearch": "Cari : ",
-                           "sUrl": "",
-                           "oPaginate": {
-                               "sFirst": "Pertama",
-                               "sPrevious": "Sebelumnya",
-                               "sNext": "Selanjutnya",
-                               "sLast": "Terakhir"
-                           }
+
+       <!-- Page level plugins -->
+       <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/datatables/jquery.dataTables.min.js"></script>
+       <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+       <!-- swall 2 -->
+       <script src="<?= base_url('assets/swall2'); ?>/dist/sweetalert2.all.min.js"></script>
+
+
+
+       <!-- Bootstrap Datepicker -->
+       <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+       <!-- Page level custom scripts -->
+       <script>
+           $(document).ready(function() {
+               $('#dataTable').DataTable({
+                   'language': {
+                       "sProcessing": "Sedang memproses...",
+                       "sLengthMenu": "Tampilkan _MENU_",
+                       "sZeroRecords": "Tidak ditemukan data yang sesuai",
+                       "sInfo": "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                       "sInfoEmpty": "Menampilkan 0 - 0 dari 0 data",
+                       "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+                       "sInfoPostFix": "",
+                       "sSearch": "Cari : ",
+                       "sUrl": "",
+                       "oPaginate": {
+                           "sFirst": "Pertama",
+                           "sPrevious": "Sebelumnya",
+                           "sNext": "Selanjutnya",
+                           "sLast": "Terakhir"
                        }
-                   }); // ID From dataTable 
-               });
-           </script>
+                   }
+               }); // ID From dataTable 
+           });
+       </script>
 
-           </body>
+       </body>
 
-           </html>
+       </html>

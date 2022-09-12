@@ -416,6 +416,7 @@
             title: 'Apakah anda yakin ingin menghapusnya?',
             showCancelButton: true,
             confirmButtonText: 'Hapus',
+            icon: 'warning'
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {

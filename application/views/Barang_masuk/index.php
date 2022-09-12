@@ -14,7 +14,7 @@
          <div class="col-lg-12">
              <div class="card mb-4">
                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                     <a href="<?= base_url('Stok_barang/form_tambah'); ?>" class="btn btn-primary">
+                     <a href="<?= base_url('Barang_masuk/form_tambah'); ?>" class="btn btn-primary">
                          Tambah
                      </a>
                  </div>
@@ -25,7 +25,7 @@
                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                  <span aria-hidden="true">&times;</span>
                              </button>
-                             Data stok barang berhasil <?= $this->session->flashdata('message') ?>
+                             Data barang masuk berhasil <?= $this->session->flashdata('message') ?>
                          </div>
                      <?php
                         }
@@ -33,36 +33,40 @@
                      <table class="table align-items-center table-flush" id="dataTable">
                          <thead class="thead-light">
                              <tr>
-                                 <th>No</th>
                                  <th>Kode Barang</th>
+                                 <th>Tanggal Masuk</th>
                                  <th>Nama Barang</th>
+                                 <th>Jumlah</th>
                                  <th>Jenis Barang</th>
-                                 <th>Stok</th>
                                  <th>Satuan</th>
+                                 <th>Pemasok</th>
+                                 <th>Tanggal Kadaluarsa</th>
                                  <th>Aksi</th>
                              </tr>
                          </thead>
                          <tbody>
                              <?php
                                 $no = 1;
-                                foreach ($brg as $key => $value) { ?>
+                                foreach ($barang_masuk as $key => $value) { ?>
                                  <tr>
-                                     <td><?= $no++; ?></td>
-                                     <td><?= $value['kode_barang']; ?></td>
+                                     <td><?= $value['kode_barang_masuk']; ?></td>
+                                     <td><?= date('d F Y', strtotime($value['tanggal_masuk'])); ?></td>
                                      <td><?= $value['nama_barang']; ?></td>
+                                     <td><?= $value['jumlah']; ?></td>
                                      <td><?= $value['nama_jenis']; ?></td>
-                                     <td><?= $value['stok']; ?></td>
                                      <td><?= $value['satuan']; ?></td>
+                                     <td><?= $value['nama_pemasok']; ?></td>
+                                     <td><?= date('d F Y', strtotime($value['tanggal_kadaluarsa'])); ?></td>
                                      <td>
                                          <a data-toggle="tooltip" data-placement="top" title="Hapus">
-                                             <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_barang'] ?>)">
+                                             <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_masuk'] ?>)">
                                                  <i class="fas fa-trash"></i>
                                              </button>
                                          </a>
 
 
 
-                                         <a href="<?= base_url('Stok_barang/form_ubah/') . $value['id_barang']; ?>" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Ubah">
+                                         <a href="<?= base_url('Barang_masuk/form_ubah/') . $value['id_masuk']; ?>" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Ubah">
                                              <i class="fas fa-pencil-alt"></i>
                                          </a>
                                      </td>
@@ -70,32 +74,61 @@
                              <?php
                                 }
                                 ?>
+
                          </tbody>
                      </table>
                  </div>
              </div>
          </div>
-
-
-
      </div>
-     <!---Container Fluid-->
 
-     <script>
-         $(function() {
-             $('[data-toggle="tooltip"]').tooltip()
+
+
+
+ </div>
+ <!---Container Fluid-->
+
+ <script>
+     $(function() {
+         $('[data-toggle="tooltip"]').tooltip()
+     })
+
+     function swall(params1, params2) {
+         Swal.fire({
+             title: 'Data ' + params1,
+             text: 'Berhasil  ' + params2,
+             icon: 'success',
+             confirmButtonText: 'Oke'
+         }).then((result) => {
+             if (result.isConfirmed) {
+                 location.reload();
+             }
          })
+     }
 
-         function swall(params1, params2) {
-             Swal.fire({
-                 title: 'Data ' + params1,
-                 text: 'Berhasil  ' + params2,
-                 icon: 'success',
-                 confirmButtonText: 'Oke'
-             }).then((result) => {
-                 if (result.isConfirmed) {
-                     location.reload();
-                 }
-             })
-         }
-     </script>
+     function hapus(x) {
+         Swal.fire({
+             title: 'Apakah anda yakin ingin menghapusnya?',
+             showCancelButton: true,
+             confirmButtonText: 'Hapus',
+             icon: 'warning'
+         }).then((result) => {
+             /* Read more about isConfirmed, isDenied below */
+             if (result.isConfirmed) {
+
+                 $.ajax({
+                     type: 'POST',
+                     url: '<?= base_url('Barang_masuk/hapus_data') ?>',
+                     data: {
+                         id_masuk: x
+                     },
+                     dataType: 'json',
+                     success: function(data) {}
+                 })
+
+                 swall('barang masuk', 'dihapus')
+
+             }
+         })
+     }
+ </script>

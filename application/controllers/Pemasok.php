@@ -13,14 +13,29 @@ class Pemasok extends CI_Controller
 
     public function index()
     {
-        $data['kode_pemasok'] = $this->M_pemasok->kode_otomatis();
+        $data['kode_pemasok'] = $this->kode_otomatis();
         $data['pemasok'] = $this->M_pemasok->tampil();
-        $data['title'] = 'Halaman Pemasok';
+        $data['title'] = 'Pemasok';
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Pemasok/index', $data);
         $this->load->view('templates/footer');
+    }
+
+    function kode_otomatis()
+    {
+        $tabel = "tb_pemasok";
+        $field = "kode_pemasok";
+
+        $lastkode = $this->M_pemasok->get_max($tabel, $field);
+
+        //mengambil 4 karakter dari belakang
+        $noUrut = (int) substr($lastkode, -4, 4);
+        $noUrut++;
+        $str = "PM";
+        $newKode = $str . sprintf('%04s', $noUrut);
+        return $newKode;
     }
 
     public function tambah_pemasok()

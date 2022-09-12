@@ -16,30 +16,33 @@
           <div class="col-lg-12">
               <div class="card mb-4">
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <button type="button" data-toggle="modal" data-target="#Modal_satuan" id="#exampleModal" onclick="submit('tambah')" class="btn btn-primary">Tambah</button>
+                      <button type="button" data-toggle="modal" data-target="#Modal_jenis_barang" id="#exampleModal" onclick="submit('tambah')" class="btn btn-primary">Tambah</button>
                   </div>
                   <div class="table-responsive p-3">
                       <table class="table align-items-center table-flush" id="dataTable">
                           <thead class="thead-light">
                               <tr>
-                                  <th>Satuan</th>
+                                  <th>No</th>
+                                  <th>Nama Jenis</th>
                                   <th>Aksi</th>
                               </tr>
                           </thead>
                           <tbody>
                               <?php
-                                foreach ($satuan as $key => $value) { ?>
+                                $no = 1;
+                                foreach ($jenis as $key => $value) { ?>
                                   <tr>
-                                      <td><?= $value['satuan']; ?></td>
+                                      <td><?= $no++; ?></td>
+                                      <td><?= $value['nama_jenis']; ?></td>
                                       <td>
                                           <a data-toggle="tooltip" data-placement="top" title="Ubah">
-                                              <button data-toggle="modal" data-target="#Modal_satuan_edit" id="#exampleModal" onclick="ambil_id(<?= $value['id_satuan'] ?>)" class="btn btn-warning btn-sm">
+                                              <button data-toggle="modal" data-target="#Modal_jenis_barang_edit" id="#exampleModal" onclick="ambil_id(<?= $value['id_jenis'] ?>)" class="btn btn-warning btn-sm">
                                                   <i class="fas fa-pencil-alt"></i>
                                               </button>
                                           </a>
 
                                           <a data-toggle="tooltip" data-placement="top" title="Hapus">
-                                              <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_satuan'] ?>)">
+                                              <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_jenis'] ?>)">
                                                   <i class="fas fa-trash"></i>
                                               </button>
                                           </a>
@@ -65,7 +68,7 @@
   <!---Container Fluid-->
 
   <!-- Modal tambah satuan -->
-  <div class="modal fade" id="Modal_satuan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="Modal_jenis_barang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
           <div class="modal-content">
               <div class="modal-header">
@@ -77,8 +80,8 @@
               <div class="modal-body">
                   <form>
                       <div class="form-group">
-                          <input type="text" placeholder="Masukan satuan" class="form-control" id="satuan">
-                          <span class="text-danger" id="satuan-error"></span>
+                          <input type="text" placeholder="Masukan jenis barang" class="form-control" id="nama_jenis">
+                          <span class="text-danger" id="nama_jenis-error"></span>
                       </div>
               </div>
               </form>
@@ -91,7 +94,7 @@
   </div>
 
   <!-- Modal edit satuan -->
-  <div class="modal fade" id="Modal_satuan_edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="Modal_jenis_barang_edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
           <div class="modal-content">
               <div class="modal-header">
@@ -103,9 +106,9 @@
               <div class="modal-body">
                   <form>
                       <div class="form-group">
-                          <input type="hidden" id="id_satuan">
-                          <input type="text" class="form-control" id="satuan_edit">
-                          <span class="text-danger" id="satuan_edit-error"></span>
+                          <input type="hidden" id="id_jenis">
+                          <input type="text" class="form-control" id="edit_nama_jenis">
+                          <span class="text-danger" id="edit_nama_jenis-error"></span>
                       </div>
               </div>
               </form>
@@ -118,6 +121,10 @@
   </div>
 
   <script>
+      $(function() {
+          $('[data-toggle="tooltip"]').tooltip()
+      })
+
       function swall(params1, params2) {
           Swal.fire({
               title: 'Data ' + params1,
@@ -133,30 +140,30 @@
 
       function simpan() {
 
-          var satuan = $("#satuan").val();
+          var nama_jenis = $("#nama_jenis").val();
 
           $.ajax({
               type: 'POST',
-              url: '<?= base_url('Satuan/tambah_satuan') ?>',
+              url: '<?= base_url('Jenis_barang/tambah_jenis_barang') ?>',
               data: {
-                  satuan: satuan
+                  nama_jenis: nama_jenis
               },
               dataType: 'json',
               success: function(data) {
 
                   if (data['status'] == 0) {
-                      if (data['satuan'] != "") {
-                          $("#satuan-error").html(data['satuan']);
+                      if (data['nama_jenis'] != "") {
+                          $("#nama_jenis-error").html(data['nama_jenis']);
                       } else {
-                          $("#satuan-error").html('');
+                          $("#nama_jenis-error").html('');
                       }
 
 
 
                   } else if (data['status'] == 1) {
-                      $("#Modal_satuan").modal('hide');
-                      $("#satuan").val('');
-                      swall('satuan', 'Ditambahkan')
+                      $("#Modal_jenis_barang").modal('hide');
+                      $("#nama_jenis").val('');
+                      swall('jenis barang', 'Ditambahkan')
 
 
                   }
@@ -170,14 +177,14 @@
 
           $.ajax({
               type: 'POST',
-              url: '<?= base_url('Satuan/ambil_IdSatuan') ?>',
+              url: '<?= base_url('Jenis_barang/ambil_Idjenis') ?>',
               data: {
-                  id_satuan: x
+                  id_jenis: x
               },
               dataType: 'json',
               success: function(data) {
-                  $("#id_satuan").val(data.id_satuan);
-                  $("#satuan_edit").val(data.satuan);
+                  $("#id_jenis").val(data.id_jenis);
+                  $("#edit_nama_jenis").val(data.nama_jenis);
               }
           })
 
@@ -185,32 +192,32 @@
 
       function ubah() {
 
-          var id_satuan = $("#id_satuan").val();
-          var satuan = $("#satuan_edit").val();
+          var id_jenis = $("#id_jenis").val();
+          var nama_jenis = $("#edit_nama_jenis").val();
 
           $.ajax({
               type: 'POST',
-              url: '<?= base_url('Satuan/ubah_data') ?>',
+              url: '<?= base_url('Jenis_barang/ubah_data') ?>',
               data: {
-                  id_satuan: id_satuan,
-                  satuan: satuan
+                  id_jenis: id_jenis,
+                  nama_jenis: nama_jenis
               },
               dataType: 'json',
               success: function(data) {
 
                   if (data['status'] == 0) {
-                      if (data['satuan'] != "") {
-                          $("#satuan_edit-error").html(data['satuan']);
+                      if (data['nama_jenis'] != "") {
+                          $("#edit_nama_jenis-error").html(data['nama_jenis']);
                       } else {
-                          $("#satuan_edit-error").html('');
+                          $("#edit_nama_jenis-error").html('');
                       }
 
 
 
                   } else if (data['status'] == 1) {
-                      $("#Modal_satuan_edit").modal('hide');
-                      $("#satuan_edit").val('');
-                      swall('satuan', 'Diubah')
+                      $("#Modal_jenis_barang_edit").modal('hide');
+                      $("#edit_nama_jenis").val('');
+                      swall('jenis barang', 'Diubah')
 
 
                   }
@@ -232,15 +239,15 @@
 
                   $.ajax({
                       type: 'POST',
-                      url: '<?= base_url('Satuan/hapus_data') ?>',
+                      url: '<?= base_url('Jenis_barang/hapus_data') ?>',
                       data: {
-                          id_satuan: x
+                          id_jenis: x
                       },
                       dataType: 'json',
                       success: function(data) {}
                   })
 
-                  swall('satuan', 'dihapus')
+                  swall('jenis barang', 'dihapus')
 
               }
           })

@@ -14,14 +14,8 @@
       </li>
       <hr class="sidebar-divider">
       <div class="sidebar-heading">
-          Features
+          Data Master
       </div>
-      <li class="nav-item">
-          <a class="nav-link" href="<?= base_url('Pengguna'); ?>">
-              <i class="fas fa-fw fa-user"></i>
-              <span>Data Pengguna</span>
-          </a>
-      </li>
       <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap" aria-expanded="true" aria-controls="collapseBootstrap">
               <i class="far fa-fw fa-window-maximize"></i>
@@ -29,10 +23,9 @@
           </a>
           <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
-                  <a class="collapse-item" href="alerts.html">Barang masuk</a>
-                  <a class="collapse-item" href="<?= base_url('Stok_barang'); ?>">Stok barang</a>
-                  <a class="collapse-item" href="buttons.html">Barang keluar</a>
+                  <a class="collapse-item" href="<?= base_url('Jenis_barang'); ?>">Jenis barang</a>
                   <a class="collapse-item" href="<?= base_url('Satuan'); ?>">Satuan</a>
+                  <a class="collapse-item" href="<?= base_url('Stok_barang'); ?>">Stok barang</a>
               </div>
           </div>
       </li>
@@ -42,10 +35,37 @@
               <span>Data Supplier</span>
           </a>
       </li>
+      <hr class="sidebar-divider">
+      <div class="sidebar-heading">
+          Transaksi
+      </div>
+      <li class="nav-item">
+          <a class="nav-link" href="<?= base_url('Barang_masuk'); ?>">
+              <i class="fas fa-fw fa-palette"></i>
+              <span>Barang Masuk</span>
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="<?= base_url('Barang_keluar'); ?>">
+              <i class="fas fa-fw fa-palette"></i>
+              <span>Barang Keluar</span>
+          </a>
+      </li>
       <li class="nav-item">
           <a class="nav-link" href="ui-colors.html">
               <i class="fas fa-fw fa-palette"></i>
-              <span>Pengadaan Barang</span>
+              <span>Permintaan</span>
+          </a>
+      </li>
+
+      <hr class="sidebar-divider">
+      <div class="sidebar-heading">
+          Pengguna
+      </div>
+      <li class="nav-item">
+          <a class="nav-link" href="<?= base_url('Pengguna'); ?>">
+              <i class="fas fa-fw fa-user"></i>
+              <span>Data Pengguna</span>
           </a>
       </li>
   </ul>

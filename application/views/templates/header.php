@@ -14,6 +14,12 @@
     <link href="<?= base_url('assets/ruang-admin'); ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="<?= base_url('assets/ruang-admin'); ?>/css/ruang-admin.min.css" rel="stylesheet">
     <link href="<?= base_url('assets/ruang-admin'); ?>/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!-- Select2 -->
+    <link href="<?= base_url('assets/ruang-admin'); ?>/vendor/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap DatePicker -->
+    <link href="<?= base_url('assets/ruang-admin'); ?>/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">

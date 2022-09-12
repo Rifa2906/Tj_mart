@@ -15,20 +15,7 @@ class M_pemasok extends CI_Model
         return $this->db->get($tabel)->row_array()[$field];
     }
 
-    function kode_otomatis()
-    {
-        $tabel = 'tb_pemasok';
-        $field = 'kode_pemasok';
-        $lastkode = $this->get_max($tabel, $field);
 
-        //mengambil 4 karakter dari belakang
-        $nourut = (int) substr($lastkode, -4, 4);
-        $nourut++;
-
-        $ket = 'PM';
-
-        return $newKode = $ket . sprintf('%03s', $nourut);
-    }
 
     function tambahdata()
     {
