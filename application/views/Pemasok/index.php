@@ -1,3 +1,9 @@
+  <?php
+    if ($this->session->userdata('nama') == null) {
+        $login = base_url('Login');
+        header("Location:$login");
+    }
+    ?>
   <!-- Container Fluid-->
   <div class="container-fluid" id="container-wrapper">
       <div class="d-sm-flex align-items-center justify-content-between mb-4">

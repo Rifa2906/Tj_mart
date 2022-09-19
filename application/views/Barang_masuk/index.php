@@ -1,3 +1,9 @@
+ <?php
+    if ($this->session->userdata('nama') == null) {
+        $login = base_url('Login');
+        header("Location:$login");
+    }
+    ?>
  <!-- Container Fluid-->
  <div class="container-fluid" id="container-wrapper">
      <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -50,13 +56,13 @@
                                 foreach ($barang_masuk as $key => $value) { ?>
                                  <tr>
                                      <td><?= $value['kode_barang_masuk']; ?></td>
-                                     <td><?= date('d F Y', strtotime($value['tanggal_masuk'])); ?></td>
+                                     <td><?= date('d/m/Y', strtotime($value['tanggal_masuk'])); ?></td>
                                      <td><?= $value['nama_barang']; ?></td>
                                      <td><?= $value['jumlah']; ?></td>
                                      <td><?= $value['nama_jenis']; ?></td>
                                      <td><?= $value['satuan']; ?></td>
                                      <td><?= $value['nama_pemasok']; ?></td>
-                                     <td><?= date('d F Y', strtotime($value['tanggal_kadaluarsa'])); ?></td>
+                                     <td><?= date('d/m/Y', strtotime($value['tanggal_kadaluarsa'])); ?></td>
                                      <td>
                                          <a data-toggle="tooltip" data-placement="top" title="Hapus">
                                              <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_masuk'] ?>)">

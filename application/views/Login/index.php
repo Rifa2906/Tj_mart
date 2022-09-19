@@ -26,7 +26,7 @@
                                             <a href="<?= base_url('Lupa_kataSandi'); ?>">Lupa kata sandi?</a>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-danger btn-user btn-block">
+                                            <button type="submit" class="btn btn-primary btn-user btn-block">
                                                 Masuk
                                             </button>
                                         </div>

@@ -26,10 +26,18 @@
                                         <small class="text-danger"> <?= form_error('password_conf') ?></small>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-danger btn-user btn-block">
-                                            Simpan
-                                        </button>
-                                        <a class="btn btn-danger btn-user btn-block" href="<?= base_url('Login'); ?>">Kembali</a>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                                    Simpan
+                                                </button>
+                                            </div>
+                                            <div class="col-6">
+                                                <a class="btn btn-warning btn-user btn-block" href="<?= base_url('Login'); ?>">Kembali</a>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                     <hr>
                                 </form>

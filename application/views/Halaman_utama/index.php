@@ -1,3 +1,10 @@
+<?php
+if ($this->session->userdata('nama') == null) {
+    $login = base_url('Login');
+    header("Location:$login");
+}
+?>
+
 <!-- Container Fluid-->
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -49,7 +56,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Stok</div>
-                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0</div>
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="jml_stok"></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-warehouse fa-2x text-primary"></i>
@@ -66,39 +73,71 @@
 
     <div class="row">
         <!-- Area Chart -->
-        <div class="col-7">
+        <div class="col-8">
             <div class="card mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-black">Monthly Recap Report</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
+                <div class="card-header  bg-primary text-white py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-black">Barang</h6>
                 </div>
                 <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="myAreaChart"></canvas>
+                    <div>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal Kadaluarsa</th>
+                                    <th>Barang</th>
+                                    <th>Jumlah</th>
+                                    <th>Satuan</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $tanggal_sekarang = date("Y-m-d");
+                                foreach ($brg as $key => $value) { ?>
+
+                                    <tr>
+                                        <td><?= date("d-m-Y", strtotime($value['tanggal_kadaluarsa']))  ?></td>
+                                        <td><?= $value['nama_barang']; ?></td>
+                                        <td><?= $value['jumlah']; ?></td>
+                                        <td><?= $value['satuan']; ?></td>
+                                        <td>
+                                            <?php
+                                            $tanggal_kadaluarsa = $value['tanggal_kadaluarsa'];
+                                            if ($tanggal_sekarang >= $tanggal_kadaluarsa) { ?>
+                                                <span class="badge badge-danger">Kadaluarsa</span>
+                                            <?php
+                                            }
+                                            ?>
+
+                                        </td>
+
+                                        </td>
+                                    </tr>
+                                <?php
+
+                                }
+
+                                ?>
+                            </tbody>
+                        </table>
+                        <div class="card-footer text-center">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-5">
+        <div class="col-4">
             <div class="card">
                 <div class="card-header">
                     <h6 class="m-0 font-weight-bold text-black">Monthly Recap Report</h6>
                 </div>
                 <div class="card-body">
+                    <input type="hidden" id="brg_masuk">
+                    <input type="hidden" id="brg_keluar">
                     <div class="chart-pie pt-4">
-                        <canvas id="myPieChart"></canvas>
+                        <canvas id="Pie"></canvas>
                     </div>
                     <hr>
                     Styling for the donut chart can be found in the <code>/js/demo/chart-pie-demo.js</code> file.
@@ -124,8 +163,47 @@
             success: function(data) {
                 $('#jml_pengguna').text(data.pengguna);
                 $('#jml_pemasok').text(data.pemasok);
+                $('#jml_stok').text(data.stok);
+                $('#brg_masuk').val(data.brg_masuk);
+                $('#brg_keluar').val(data.brg_keluar);
             }
         })
+
+
+
+
+
+        // Pie Chart Example
+        var ctx = document.getElementById("Pie");
+        var myPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["Direct", "Referral", "Social"],
+                datasets: [{
+                    data: [55, 30],
+                    backgroundColor: ['#4e73df', '#1cc88a'],
+                    hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: false
+                },
+                cutoutPercentage: 80,
+            },
+        });
 
     })
 </script>

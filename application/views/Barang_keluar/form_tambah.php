@@ -50,6 +50,9 @@
                                    </select>
                                    <span class="text-danger" id="nama_barang-error"><?= form_error('nama_barang'); ?></span>
                                </div>
+
+                           </div>
+                           <div class="col-6">
                                <div class="form-group">
                                    <label for="select2Single">Satuan</label><br>
                                    <select class="select2-single form-control" id="satuan" name="satuan">
@@ -64,8 +67,6 @@
                                    </select>
                                </div>
                                <span class="text-danger" id="satuan-error"><?= form_error('satuan'); ?></span>
-                           </div>
-                           <div class="col-6">
                                <div class="form-group">
                                    <label for="select2Single">Jenis barang</label><br>
                                    <select class="form-control" id="nama_jenis" name="nama_jenis">
@@ -110,18 +111,6 @@
 
            $('.select2-single').select2();
 
-
-
-
-
-           // Bootstrap Date Picker
-           //    $('#simple-date1 .input-group.date').datepicker({
-           //        format: 'dd/mm/yyyy',
-           //        todayBtn: 'linked',
-           //        todayHighlight: true,
-           //        autoclose: true,
-           //    });
-
        })
 
        $("#nama_barang").change(function() {
@@ -136,9 +125,7 @@
                success: function(data) {
                    $("#jumlah_stok").text("Jangan lebih dari : " +
                        data.stok);
-
                    $("#jumlah_stok_G").val(data.stok);
-
                }
            })
        })

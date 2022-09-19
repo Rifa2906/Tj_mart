@@ -26,7 +26,7 @@
                                        <div class="input-group-prepend">
                                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                        </div>
-                                       <input type="text" id="tanggal_keluar" value="<?= $id_keluar['tanggal_keluar']; ?>" class="form-control" name="tanggal_keluar">
+                                       <input type="date" id="tanggal_keluar" value="<?= $id_keluar['tanggal_keluar']; ?>" class="form-control" name="tanggal_keluar">
                                    </div>
                                    <span class="text-danger" id="tanggal_masuk-error"><?= form_error('tanggal_masuk'); ?></span>
                                </div>
@@ -45,6 +45,9 @@
                                    </select>
                                    <span class="text-danger" id="nama_barang-error"><?= form_error('nama_barang'); ?></span>
                                </div>
+
+                           </div>
+                           <div class="col-6">
                                <div class="form-group">
                                    <label for="select2Single">Satuan</label><br>
                                    <select class="select2-single form-control" id="satuan" name="satuan">
@@ -60,8 +63,6 @@
                                    </select>
                                </div>
                                <span class="text-danger" id="satuan-error"><?= form_error('satuan'); ?></span>
-                           </div>
-                           <div class="col-6">
                                <div class="form-group">
                                    <label for="select2Single">Jenis barang</label><br>
                                    <select class="form-control" id="nama_jenis" name="nama_jenis">
@@ -107,13 +108,7 @@
 
            $('.select2-single').select2();
 
-           // Bootstrap Date Picker
-           $('#simple-date1 .input-group.date').datepicker({
-               format: 'dd/mm/yyyy',
-               todayBtn: 'linked',
-               todayHighlight: true,
-               autoclose: true,
-           });
+
 
        })
    </script>

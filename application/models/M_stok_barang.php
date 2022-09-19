@@ -14,6 +14,17 @@ class M_stok_barang extends CI_Model
         return $query;
     }
 
+    function jumlah_stok()
+    {
+        $jml_stok = 0;
+        $query = $this->db->get('tb_stok_barang')->result_array();
+        foreach ($query as $key => $value) {
+            $jml_stok += $value['stok'];
+        }
+
+        return $jml_stok;
+    }
+
     function get_max($tabel = null, $field = null)
     {
         $this->db->select_max($field);

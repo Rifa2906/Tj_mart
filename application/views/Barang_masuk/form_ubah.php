@@ -26,7 +26,7 @@
                                        <div class="input-group-prepend">
                                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                        </div>
-                                       <input type="text" id="tanggal_masuk" value="<?= $id_masuk['tanggal_masuk']; ?>" class="form-control" name="tanggal_masuk">
+                                       <input type="date" id="tanggal_masuk" value="<?= $id_masuk['tanggal_masuk']; ?>" class="form-control" name="tanggal_masuk">
                                    </div>
                                    <span class="text-danger" id="tanggal_masuk-error"><?= form_error('tanggal_masuk'); ?></span>
                                </div>
@@ -106,7 +106,7 @@
                                        <div class="input-group-prepend">
                                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                        </div>
-                                       <input type="text" class="form-control" name="tanggal_kadaluarsa" id="tanggal_kadaluarsa" value="<?= $id_masuk['tanggal_kadaluarsa']; ?>">
+                                       <input type="date" class="form-control" name="tanggal_kadaluarsa" id="tanggal_kadaluarsa" value="<?= $id_masuk['tanggal_kadaluarsa']; ?>">
                                    </div>
                                    <span class="text-danger" id="tanggal_kadaluarsa-error"><?= form_error('tanggal_kadaluarsa'); ?></span>
                                </div>
@@ -134,13 +134,7 @@
 
            $('.select2-single').select2();
 
-           // Bootstrap Date Picker
-           $('#simple-date1 .input-group.date').datepicker({
-               format: 'dd/mm/yyyy',
-               todayBtn: 'linked',
-               todayHighlight: true,
-               autoclose: true,
-           });
+
 
        })
    </script>

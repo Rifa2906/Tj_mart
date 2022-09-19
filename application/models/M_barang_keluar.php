@@ -65,6 +65,32 @@ class M_barang_keluar extends CI_Model
         $satuan = $this->input->post('satuan');
         $tanggal_keluar = $this->input->post('tanggal_keluar');
 
+        $brg_stok = $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
+
+        $jumlah_gudang = $brg_stok['stok'];
+
+        if ($jumlah_keluar < $jumlah_sebelumnya) {
+            $selisih = $jumlah_sebelumnya - $jumlah_keluar;
+            $total_stok = $jumlah_gudang + $selisih;
+
+            $data = [
+                'stok' => $total_stok
+            ];
+
+            $this->db->where('id_barang', $id_barang);
+            $this->db->update('tb_stok_barang', $data);
+        } else if ($jumlah_keluar > $jumlah_sebelumnya) {
+            $selisih = $jumlah_keluar - $jumlah_sebelumnya;
+            $total_stok = $jumlah_gudang - $selisih;
+
+            $data = [
+                'stok' => $total_stok
+            ];
+
+            $this->db->where('id_barang', $id_barang);
+            $this->db->update('tb_stok_barang', $data);
+        }
+
 
 
         $data = [
@@ -77,24 +103,5 @@ class M_barang_keluar extends CI_Model
         ];
         $this->db->where('id_keluar', $id_keluar);
         $this->db->update('tb_barang_keluar', $data);
-
-        $brg_stok = $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
-
-        $jumlah_gudang = $brg_stok['stok'];
-
-        if ($jumlah_keluar < $jumlah_sebelumnya) {
-            $selisih = $jumlah_sebelumnya - $jumlah_keluar;
-            $total_stok = $jumlah_gudang + $selisih;
-        } else if ($jumlah_keluar > $jumlah_sebelumnya) {
-            $selisih = $jumlah_keluar - $jumlah_sebelumnya;
-            $total_stok = $jumlah_gudang - $selisih;
-        }
-
-        $data = [
-            'stok' => $total_stok
-        ];
-
-        $this->db->where('id_barang', $id_barang);
-        $this->db->update('tb_stok_barang', $data);
     }
 }
