@@ -14,7 +14,7 @@ class Satuan extends CI_Controller
     public function index()
     {
         $data['satuan'] = $this->M_satuan->tampil();
-        $data['title'] = 'Halaman Satuan';
+        $data['title'] = 'Satuan';
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');

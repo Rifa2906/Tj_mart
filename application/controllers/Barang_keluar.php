@@ -55,7 +55,7 @@ class Barang_keluar extends CI_Controller
     public function form_tambah()
     {
 
-        $jumlah_stok_G = $this->input->post('jumlah_stok_G');
+
         $this->form_validation->set_rules('nama_barang', 'nama_barang', 'required', [
             'required' => 'Nama barang tidak boleh kosong'
         ]);

@@ -23,7 +23,7 @@ class M_pengguna extends CI_Model
             'no_telpon' => $no_telpon,
             'email' => $email,
             'kata_sandi' => $pass,
-            'hak_pengguna' => 'kepala gudang'
+            'hak_pengguna' => 'staf gudang'
         ];
         $this->db->insert('tb_pengguna', $data);
     }

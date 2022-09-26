@@ -14,7 +14,7 @@ class Jenis_barang extends CI_Controller
     public function index()
     {
         $data['jenis'] = $this->M_jenis_barang->tampil();
-        $data['title'] = 'Halaman Jenis Barang';
+        $data['title'] = 'Jenis Barang';
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');

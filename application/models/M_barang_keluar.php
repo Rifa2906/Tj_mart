@@ -35,6 +35,8 @@ class M_barang_keluar extends CI_Model
         $satuan = $this->input->post('satuan');
         $tanggal_keluar = $this->input->post('tanggal_keluar');
 
+
+
         $data = [
             'kode_barang_keluar' => $kode,
             'tanggal_keluar' => $tanggal_keluar,

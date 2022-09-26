@@ -7,9 +7,8 @@
                     <div class="row justify-content-center">
                         <div class="col">
                             <div class="login-form">
-                                <div class="text-center mb-3">
-                                    <img src="<?= base_url('assets/ruang-admin'); ?>/img/logo/Tj.png">
-                                    TJ MART
+                                <div class="font-weight-bold  mb-3">
+                                    <h4>Ubah Kata Sandi</h4>
                                 </div>
                                 <?= $this->session->flashdata('message'); ?>
                                 <form class="user" method="POST">

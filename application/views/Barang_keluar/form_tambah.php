@@ -102,6 +102,9 @@
 
    <script>
        $(function() {
+
+
+
            // Select2 Single  with Placeholder
            $('.select2-single-placeholder').select2({
                placeholder: "Pilih pemasok",

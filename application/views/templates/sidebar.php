@@ -31,7 +31,7 @@
       </li>
       <li class="nav-item">
           <a class="nav-link" href="<?= base_url('Pemasok'); ?>">
-              <i class="fas fa-fw fa-palette"></i>
+              <i class="fas fa-fw fa-truck-moving"></i>
               <span>Data Supplier</span>
           </a>
       </li>
@@ -41,19 +41,19 @@
       </div>
       <li class="nav-item">
           <a class="nav-link" href="<?= base_url('Barang_masuk'); ?>">
-              <i class="fas fa-fw fa-palette"></i>
+              <i class="fas fa-fw fa-arrow-right"></i>
               <span>Barang Masuk</span>
           </a>
       </li>
       <li class="nav-item">
           <a class="nav-link" href="<?= base_url('Barang_keluar'); ?>">
-              <i class="fas fa-fw fa-palette"></i>
+              <i class="fas fa-fw fa-arrow-left"></i>
               <span>Barang Keluar</span>
           </a>
       </li>
       <li class="nav-item">
           <a class="nav-link" href="ui-colors.html">
-              <i class="fas fa-fw fa-palette"></i>
+              <i class="fas fa-fw fa-cube"></i>
               <span>Permintaan</span>
           </a>
       </li>
@@ -64,8 +64,18 @@
       </div>
       <li class="nav-item">
           <a class="nav-link" href="<?= base_url('Pengguna'); ?>">
-              <i class="fas fa-fw fa-user"></i>
+              <i class="fas fa-fw fa-users"></i>
               <span>Data Pengguna</span>
+          </a>
+      </li>
+      <hr class="sidebar-divider">
+      <div class="sidebar-heading">
+          Laporan
+      </div>
+      <li class="nav-item">
+          <a class="nav-link" href="<?= base_url('Cetak_laporan'); ?>">
+              <i class="fas fa-fw fa-print"></i>
+              <span>Cetak Laporan</span>
           </a>
       </li>
   </ul>
