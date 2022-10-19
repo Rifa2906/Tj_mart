@@ -88,7 +88,8 @@ if ($this->session->userdata('nama') == null) {
                             </thead>
                             <tbody>
                                 <?php
-                                $tanggal_sekarang = date("Y-m-d");
+                                $tanggal_sekarang = date('Y-m-d', strtotime("-3 day", strtotime(date("Y-m-d"))));
+
                                 foreach ($brg as $key => $value) { ?>
 
                                     <tr>
@@ -99,9 +100,16 @@ if ($this->session->userdata('nama') == null) {
                                         <td>
                                             <?php
                                             $tanggal_kadaluarsa = $value['tanggal_kadaluarsa'];
-                                            if ($tanggal_sekarang >= $tanggal_kadaluarsa) { ?>
-                                                <span class="badge badge-danger">Kadaluarsa</span>
+                                            if ($tanggal_kadaluarsa >= $tanggal_sekarang) { ?>
+                                                <span class="badge badge-warning">segera kadaluarsa</span><br>
+
                                             <?php
+                                            } else if ($tanggal_kadaluarsa >= date('Y-m-d')) {
+                                            ?>
+                                                <span class="badge badge-warning">kadaluarsa</span><br>
+
+                                            <?php
+
                                             }
                                             ?>
 

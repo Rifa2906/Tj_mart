@@ -17,7 +17,7 @@ class Halaman_utama extends CI_Controller
     public function index()
     {
         $data['title'] = 'Halaman Utama';
-        $data['brg'] = $this->tampil();
+        $data['brg'] = $this->kadaluarsa();
         // $data['segera_expired'] = $this->segera_kadaluarsa();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
@@ -40,23 +40,11 @@ class Halaman_utama extends CI_Controller
         echo json_encode($data);
     }
 
-    public function tampil()
-    {
-        $tanggal_sekarang = date("Y-m-d");
-        $this->db->select('*');
-        $this->db->from('tb_barang_masuk bm',);
-        $this->db->join('tb_satuan s', 's.id_satuan = bm.id_satuan');
-        $this->db->join('tb_jenis_barang j', 'j.id_jenis = bm.id_jenis');
-        $this->db->join('tb_stok_barang sb', 'sb.id_barang = bm.id_barang');
-        $query = $this->db->get()->result_array();
-        return $query;
-    }
 
-    // public function segera_kadaluarsa()
-    // {
-    //     $query = $this->db->get('tb_barang_masuk')->result_array();
-    //     $tanggal_kadaluarsa = $query['tanggal_kadaluarsa'];
-    //     $tanggal_mundur =  date('Y-m-d', strtotime("-3 day", strtotime($tanggal_kadaluarsa)));
-    //     return $tanggal_mundur;
-    // }
+
+    public function kadaluarsa()
+    {
+        $tanggal_sekarang = date('Y-m-d', strtotime("-3 day", strtotime(date("Y-m-d"))));
+        return $this->db->query("SELECT * FROM tb_barang_masuk bm JOIN tb_stok_barang sb ON bm.id_barang = sb.id_barang JOIN tb_satuan s ON bm.id_satuan = s.id_satuan WHERE tanggal_kadaluarsa >= $tanggal_sekarang")->result_array();
+    }
 }

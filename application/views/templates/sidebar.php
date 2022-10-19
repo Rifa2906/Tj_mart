@@ -58,6 +58,13 @@
           </a>
       </li>
 
+      <li class="nav-item">
+          <a class="nav-link" href="#">
+              <i class="fas fa-fw fa-cube"></i>
+              <span>Barang kadaluarsa</span>
+          </a>
+      </li>
+
       <hr class="sidebar-divider">
       <div class="sidebar-heading">
           Pengguna

@@ -12,7 +12,7 @@
                    </div>
                    <div class="modal-footer">
                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Kembali</button>
-                       <a href="<?= base_url('Login/logout'); ?>" class="btn btn-primary">Keluar</a>
+                       <a href="<?= base_url('Autentikasi/logout'); ?>" class="btn btn-primary">Keluar</a>
                    </div>
                </div>
            </div>

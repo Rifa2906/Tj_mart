@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Login extends CI_Controller
+class Autentikasi extends CI_Controller
 {
 
     public function __construct()
@@ -17,7 +17,7 @@ class Login extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header_login');
-            $this->load->view('Login/index');
+            $this->load->view('Autentikasi/index');
             $this->load->view('templates/footer_login');
         } else {
             $this->login_aksi();
@@ -49,20 +49,20 @@ class Login extends CI_Controller
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
                 Password salah
                </div>');
-                redirect('Login');
+                redirect('Autentikasi');
             }
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
            Email belum terdaftar
           </div>');
-            redirect('Login');
+            redirect('Autentikasi');
         }
     }
 
     public function logout()
     {
         $this->session->unset_userdata('nama');
-        redirect('Login');
+        redirect('Autentikasi');
     }
 
     public function sendEmail()
