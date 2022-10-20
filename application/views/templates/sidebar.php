@@ -59,7 +59,7 @@
       </li>
 
       <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="<?= base_url('Kadaluarsa'); ?>">
               <i class="fas fa-fw fa-cube"></i>
               <span>Barang kadaluarsa</span>
           </a>

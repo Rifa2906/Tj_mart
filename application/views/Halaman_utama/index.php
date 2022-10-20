@@ -68,14 +68,13 @@ if ($this->session->userdata('nama') == null) {
 
     <div class="row">
         <!-- Area Chart -->
-        <div class="col-8">
+        <div class="col">
             <div class="card mb-4">
                 <div class="card-header  bg-primary text-white py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-black">Barang</h6>
+                    <h6 class="m-0 font-weight-bold text-black">Monitoring Barang Kadaluarsa</h6>
                 </div>
                 <div class="card-body">
                     <div>
-
                         <table class="table">
                             <thead>
                                 <tr>
@@ -83,38 +82,49 @@ if ($this->session->userdata('nama') == null) {
                                     <th>Barang</th>
                                     <th>Jumlah</th>
                                     <th>Satuan</th>
-                                    <th>Status</th>
+                                    <th>Jenis Barang</th>
+                                    <th>Status</th>                                  
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $tanggal_sekarang = date('Y-m-d', strtotime("-3 day", strtotime(date("Y-m-d"))));
+                                $tanggal_kemarin = date('d-m-Y', strtotime('-5 day', strtotime(date('d-m-Y'))));
 
-                                foreach ($brg as $key => $value) { ?>
+                                $tanggal_p = date('d-m-Y', strtotime('-1 day', strtotime(date('d-m-Y'))));
+
+                                foreach ($mkd as $key => $value) { ?>
 
                                     <tr>
                                         <td><?= date("d-m-Y", strtotime($value['tanggal_kadaluarsa']))  ?></td>
                                         <td><?= $value['nama_barang']; ?></td>
                                         <td><?= $value['jumlah']; ?></td>
                                         <td><?= $value['satuan']; ?></td>
+                                        <td><?= $value['nama_jenis']; ?></td>
                                         <td>
                                             <?php
-                                            $tanggal_kadaluarsa = $value['tanggal_kadaluarsa'];
-                                            if ($tanggal_kadaluarsa >= $tanggal_sekarang) { ?>
-                                                <span class="badge badge-warning">segera kadaluarsa</span><br>
-
+                                            $tanggal_kadaluarsa = date("d-m-Y", strtotime($value['tanggal_kadaluarsa']));
+                                            if ($tanggal_kadaluarsa >= $tanggal_kemarin && $tanggal_kadaluarsa <= $tanggal_p) { ?>
+                                                <span class="badge badge-warning p-2">segera kadaluarsa</span><br>
                                             <?php
-                                            } else if ($tanggal_kadaluarsa >= date('Y-m-d')) {
-                                            ?>
-                                                <span class="badge badge-warning">kadaluarsa</span><br>
-
+                                            } else if ($tanggal_kadaluarsa >= date('d-m-Y')) { ?>
+                                                <span class="badge badge-danger p-2">kadaluarsa</span><br>
                                             <?php
-
+                                            } else { ?>
+                                                <span class="badge badge-success p-2">Aman</span><br>
+                                            <?php
                                             }
                                             ?>
 
-                                        </td>
 
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if ($tanggal_kadaluarsa >= date('d-m-Y')) { ?>
+                                                <button type="button" onclick="tambah_kadaluarsa(<?= $value['id_monitoring'] ?>)" class="btn btn-danger btn-sm" id="btn-kdl"><i class="fas fa-solid fa-arrow-right"></i></button>
+                                            <?php
+                                            }
+                                            ?>
                                         </td>
                                     </tr>
                                 <?php
@@ -131,25 +141,6 @@ if ($this->session->userdata('nama') == null) {
             </div>
         </div>
 
-        <div class="col-4">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="m-0 font-weight-bold text-black">Monthly Recap Report</h6>
-                </div>
-                <div class="card-body">
-                    <input type="hidden" id="brg_masuk">
-                    <input type="hidden" id="brg_keluar">
-                    <div class="chart-pie pt-4">
-                        <canvas id="Pie"></canvas>
-                    </div>
-                    <hr>
-                    Styling for the donut chart can be found in the <code>/js/demo/chart-pie-demo.js</code> file.
-                </div>
-            </div>
-
-
-        </div>
-
     </div>
 
 
@@ -158,6 +149,25 @@ if ($this->session->userdata('nama') == null) {
 <!---Container Fluid-->
 
 <script>
+    function tambah_kadaluarsa(id) {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('Halaman_utama/tambah_kadaluarsa') ?>',
+            data: {
+                id_monitoring: id
+            },
+            dataType: 'json',
+            success: function(data) {
+                if (data['status'] == 1) {
+                    alert('Data berhasil disimpan ke tabel Kadaluarsa');
+                    location.reload()
+                }
+
+            }
+        })
+    }
+
+
     $(function() {
         $.ajax({
             type: 'POST',

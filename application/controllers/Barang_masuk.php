@@ -176,5 +176,8 @@ class Barang_masuk extends CI_Controller
 
         $this->db->where('id_masuk', $id_masuk);
         $this->db->delete('tb_barang_masuk');
+
+        $this->db->where('id_barang', $id_barang);
+        $this->db->delete('tb_monitoring_kadaluarsa');
     }
 }

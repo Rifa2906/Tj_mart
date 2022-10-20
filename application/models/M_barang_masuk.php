@@ -49,6 +49,16 @@ class M_barang_masuk extends CI_Model
             'tanggal_kadaluarsa' => $tanggal_kadaluarsa
         ];
         $this->db->insert('tb_barang_masuk', $data);
+
+        $data_monitoring = [
+            'tanggal_kadaluarsa' => $tanggal_kadaluarsa,
+            'id_barang' => $id_barang,
+            'jumlah' => $jumlah,
+            'id_satuan' => $satuan,
+            'id_jenis' => $nama_jenis
+        ];
+        $this->db->insert('tb_monitoring_kadaluarsa', $data_monitoring);
+
         $jumlah_stok = $this->input->post('jumlah_stok');
         $total = $jumlah + $jumlah_stok;
 
@@ -111,5 +121,15 @@ class M_barang_masuk extends CI_Model
         ];
         $this->db->where('id_masuk', $id_masuk);
         $this->db->update('tb_barang_masuk', $data);
+
+        $data = [
+            'tanggal_kadaluarsa' => $tanggal_kadaluarsa,
+            'id_barang' => $id_barang,
+            'jumlah' => $jumlah,
+            'id_satuan' => $satuan
+        ];
+
+        $this->db->where('id_barang', $id_barang);
+        $this->db->update('tb_monitoring_kadaluarsa', $data);
     }
 }
