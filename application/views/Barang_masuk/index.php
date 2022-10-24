@@ -20,9 +20,31 @@
          <div class="col-lg-12">
              <div class="card mb-4">
                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                     <a href="<?= base_url('Barang_masuk/form_tambah'); ?>" class="btn btn-primary">
-                         Tambah
-                     </a>
+
+                     <table>
+                         <tr>
+                             <td>
+                                 <a href="<?= base_url('Barang_masuk/form_tambah'); ?>" class="btn btn-primary">
+                                     Tambah
+                                 </a>
+                             </td>
+                             <td>
+                                 <div class="btn-group mb-1 mt-1">
+                                     <button type="button" class="btn btn-primary">Cetak Laporan</button>
+                                     <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                         <span class="sr-only">Toggle Dropdown</span>
+                                     </button>
+                                     <div class="dropdown-menu">
+                                         <a class="dropdown-item" href="<?= base_url('Barang_masuk/cetak_pdf'); ?>">PDF</a>
+                                         <a class="dropdown-item" href="#">EXCEL</a>
+                                         <a class="dropdown-item" href="#">PRINT</a>
+                                     </div>
+                                 </div>
+                             </td>
+                         </tr>
+                     </table>
+
+
                  </div>
                  <div class="table-responsive p-3">
                      <?php
@@ -39,7 +61,7 @@
                      <table class="table align-items-center table-flush" id="dataTable">
                          <thead class="thead-light">
                              <tr>
-                                 <th>Kode Barang</th>
+                                 <th>Kode</th>
                                  <th>Tanggal Masuk</th>
                                  <th>Nama Barang</th>
                                  <th>Jumlah</th>

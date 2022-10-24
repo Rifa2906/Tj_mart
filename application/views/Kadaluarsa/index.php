@@ -3,8 +3,7 @@
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
           <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="./">Barang</a></li>
-              <li class="breadcrumb-item"><?= $title; ?></li>
+
           </ol>
       </div>
 
@@ -15,6 +14,17 @@
           <div class="col-lg-12">
               <div class="card mb-4">
                   <div class="table-responsive p-3">
+                      <div class="btn-group mb-1 mb-2">
+                          <button type="button" class="btn btn-primary">Cetak Laporan</button>
+                          <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <div class="dropdown-menu">
+                              <a class="dropdown-item" href="<?= base_url('Kadaluarsa/cetak_pdf'); ?>">PDF</a>
+                              <a class="dropdown-item" href="<?= base_url('Kadaluarsa/cetak_excel'); ?>">EXCEL</a>
+                              <a class="dropdown-item" href="#">PRINT</a>
+                          </div>
+                      </div>
                       <table class="table align-items-center table-flush" id="dataTable">
                           <thead class="thead-light">
                               <tr>
@@ -24,7 +34,6 @@
                                   <th>Jumlah</th>
                                   <th>Satuan</th>
                                   <th>Jenis</th>
-                                  <th>Aksi</th>
                               </tr>
                           </thead>
                           <tbody>
