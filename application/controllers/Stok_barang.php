@@ -111,4 +111,10 @@ class Stok_barang extends CI_Controller
             redirect('Stok_barang');
         }
     }
+
+    public function hapus_data()
+    {
+        $id_barang = $this->input->post('id_barang');
+        return $this->db->query("DELETE FROM tb_stok_barang WHERE id_barang= $id_barang");
+    }
 }

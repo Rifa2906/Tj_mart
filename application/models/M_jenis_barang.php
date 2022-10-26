@@ -12,9 +12,16 @@ class M_jenis_barang extends CI_Model
     {
         $nama_jenis = $this->input->post('nama_jenis');
 
+        if ($nama_jenis == 'Minuman') {
+            $min_stok = 10;
+        } elseif ($nama_jenis == 'Makanan') {
+            $min_stok = 3;
+        }
+
 
         $data = [
-            'nama_jenis' => $nama_jenis
+            'nama_jenis' => $nama_jenis,
+            'minimal_stok' => $min_stok
         ];
         $this->db->insert('tb_jenis_barang', $data);
     }
@@ -28,10 +35,16 @@ class M_jenis_barang extends CI_Model
     {
 
         $nama_jenis = $this->input->post('nama_jenis');
+        if ($nama_jenis == 'Minuman') {
+            $min_stok = 10;
+        } elseif ($nama_jenis == 'Makanan') {
+            $min_stok = 3;
+        }
 
 
         $data = [
-            'nama_jenis' => $nama_jenis
+            'nama_jenis' => $nama_jenis,
+            'minimal_stok' => $min_stok
         ];
         $this->db->where('id_jenis', $id_jenis);
         $this->db->update('tb_jenis_barang', $data);

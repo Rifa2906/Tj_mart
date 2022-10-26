@@ -103,4 +103,30 @@
                  }
              })
          }
+
+         function hapus(x) {
+             Swal.fire({
+                 title: 'Apakah anda yakin ingin menghapusnya?',
+                 showCancelButton: true,
+                 confirmButtonText: 'Hapus',
+                 icon: 'warning'
+             }).then((result) => {
+                 /* Read more about isConfirmed, isDenied below */
+                 if (result.isConfirmed) {
+
+                     $.ajax({
+                         type: 'POST',
+                         url: '<?= base_url('Stok_barang/hapus_data') ?>',
+                         data: {
+                             id_barang: x
+                         },
+                         dataType: 'json',
+                         success: function(data) {}
+                     })
+
+                     swall('Stok barang', 'dihapus')
+
+                 }
+             })
+         }
      </script>

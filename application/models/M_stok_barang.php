@@ -50,6 +50,13 @@ class M_stok_barang extends CI_Model
             'id_satuan' => $satuan
         ];
         $this->db->insert('tb_stok_barang', $data);
+
+        $data_peramalan = [
+            'nama_barang' => $nama_barang,
+            'id_jenis' => $nama_jenis,
+            'id_satuan' => $satuan
+        ];
+        $this->db->insert('tb_peramalan', $data_peramalan);
     }
 
     function ubahData()

@@ -23,6 +23,7 @@
                               <tr>
                                   <th>No</th>
                                   <th>Nama Jenis</th>
+                                  <th>Minimal Stok</th>
                                   <th>Aksi</th>
                               </tr>
                           </thead>
@@ -33,6 +34,7 @@
                                   <tr>
                                       <td><?= $no++; ?></td>
                                       <td><?= $value['nama_jenis']; ?></td>
+                                      <td><?= $value['minimal_stok']; ?></td>
                                       <td>
                                           <a data-toggle="tooltip" data-placement="top" title="Ubah">
                                               <button data-toggle="modal" data-target="#Modal_jenis_barang_edit" id="#exampleModal" onclick="ambil_id(<?= $value['id_jenis'] ?>)" class="btn btn-warning btn-sm">

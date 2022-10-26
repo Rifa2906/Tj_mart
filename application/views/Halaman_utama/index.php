@@ -65,83 +65,88 @@ if ($this->session->userdata('nama') == null) {
 
 
     </div>
-
-    <div class="row">
-        <!-- Area Chart -->
-        <div class="col">
-            <div class="card mb-4">
-                <div class="card-header  bg-primary text-white py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-black">Monitoring Barang Kadaluarsa</h6>
-                </div>
-                <div class="card-body">
-                    <div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Tanggal Kadaluarsa</th>
-                                    <th>Barang</th>
-                                    <th>Jumlah</th>
-                                    <th>Satuan</th>
-                                    <th>Jenis Barang</th>
-                                    <th>Status</th>                                  
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $tanggal_kemarin = date('d-m-Y', strtotime('-5 day', strtotime(date('d-m-Y'))));
-
-                                $tanggal_p = date('d-m-Y', strtotime('-1 day', strtotime(date('d-m-Y'))));
-
-                                foreach ($mkd as $key => $value) { ?>
-
+    <?php
+    if ($this->session->userdata('hak_pengguna') == 'kepala gudang') { ?>
+        <div class="row">
+            <!-- Area Chart -->
+            <div class="col">
+                <div class="card mb-4">
+                    <div class="card-header  bg-primary text-white py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-black">Monitoring Barang Kadaluarsa</h6>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <td><?= date("d-m-Y", strtotime($value['tanggal_kadaluarsa']))  ?></td>
-                                        <td><?= $value['nama_barang']; ?></td>
-                                        <td><?= $value['jumlah']; ?></td>
-                                        <td><?= $value['satuan']; ?></td>
-                                        <td><?= $value['nama_jenis']; ?></td>
-                                        <td>
-                                            <?php
-                                            $tanggal_kadaluarsa = date("d-m-Y", strtotime($value['tanggal_kadaluarsa']));
-                                            if ($tanggal_kadaluarsa >= $tanggal_kemarin && $tanggal_kadaluarsa <= $tanggal_p) { ?>
-                                                <span class="badge badge-warning p-2">segera kadaluarsa</span><br>
-                                            <?php
-                                            } else if ($tanggal_kadaluarsa >= date('d-m-Y')) { ?>
-                                                <span class="badge badge-danger p-2">kadaluarsa</span><br>
-                                            <?php
-                                            } else { ?>
-                                                <span class="badge badge-success p-2">Aman</span><br>
-                                            <?php
-                                            }
-                                            ?>
-
-
-                                        </td>
-                                        <td>
-                                            <?php
-                                            if ($tanggal_kadaluarsa >= date('d-m-Y')) { ?>
-                                                <button type="button" onclick="tambah_kadaluarsa(<?= $value['id_monitoring'] ?>)" class="btn btn-danger btn-sm" id="btn-kdl"><i class="fas fa-solid fa-arrow-right"></i></button>
-                                            <?php
-                                            }
-                                            ?>
-                                        </td>
+                                        <th>Tanggal Kadaluarsa</th>
+                                        <th>Barang</th>
+                                        <th>Jumlah</th>
+                                        <th>Satuan</th>
+                                        <th>Jenis Barang</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
-                                <?php
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $tanggal_kemarin = date('d-m-Y', strtotime('-5 day', strtotime(date('d-m-Y'))));
 
-                                }
+                                    $tanggal_p = date('d-m-Y', strtotime('-1 day', strtotime(date('d-m-Y'))));
 
-                                ?>
-                            </tbody>
-                        </table>
-                        <div class="card-footer text-center">
+                                    foreach ($mkd as $key => $value) { ?>
+
+                                        <tr>
+                                            <td><?= date("d-m-Y", strtotime($value['tanggal_kadaluarsa']))  ?></td>
+                                            <td><?= $value['nama_barang']; ?></td>
+                                            <td><?= $value['jumlah']; ?></td>
+                                            <td><?= $value['satuan']; ?></td>
+                                            <td><?= $value['nama_jenis']; ?></td>
+                                            <td>
+                                                <?php
+                                                $tanggal_kadaluarsa = date("d-m-Y", strtotime($value['tanggal_kadaluarsa']));
+                                                if ($tanggal_kadaluarsa >= $tanggal_kemarin && $tanggal_kadaluarsa <= $tanggal_p) { ?>
+                                                    <span class="badge badge-warning p-2">segera kadaluarsa</span><br>
+                                                <?php
+                                                } else if ($tanggal_kadaluarsa >= date('d-m-Y')) { ?>
+                                                    <span class="badge badge-danger p-2">kadaluarsa</span><br>
+                                                <?php
+                                                } else { ?>
+                                                    <span class="badge badge-success p-2">Aman</span><br>
+                                                <?php
+                                                }
+                                                ?>
+
+
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($tanggal_kadaluarsa >= date('d-m-Y')) { ?>
+                                                    <button type="button" onclick="tambah_kadaluarsa(<?= $value['id_monitoring'] ?>)" class="btn btn-danger btn-sm" id="btn-kdl"><i class="fas fa-solid fa-arrow-right"></i></button>
+                                                <?php
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                    <?php
+
+                                    }
+
+                                    ?>
+                                </tbody>
+                            </table>
+                            <div class="card-footer text-center">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
+    <?php
+    }
+    ?>
+
 
 
 
@@ -169,22 +174,22 @@ if ($this->session->userdata('nama') == null) {
 
 
     $(function() {
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Halaman_utama/jml_data') ?>',
-            dataType: 'json',
-            success: function(data) {
-                $('#jml_pengguna').text(data.pengguna);
-                $('#jml_pemasok').text(data.pemasok);
-                $('#jml_stok').text(data.stok);
-                $('#brg_masuk').val(data.brg_masuk);
-                $('#brg_keluar').val(data.brg_keluar);
-            }
-        })
+        jml_data()
 
-
-
-
+        function jml_data() {
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('Halaman_utama/jml_data') ?>',
+                dataType: 'json',
+                success: function(data) {
+                    $('#jml_pengguna').text(data.pengguna);
+                    $('#jml_pemasok').text(data.pemasok);
+                    $('#jml_stok').text(data.stok);
+                    $('#brg_masuk').val(data.brg_masuk);
+                    $('#brg_keluar').val(data.brg_keluar);
+                }
+            })
+        }
 
         // Pie Chart Example
         var ctx = document.getElementById("Pie");
