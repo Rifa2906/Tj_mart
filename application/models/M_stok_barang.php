@@ -36,44 +36,44 @@ class M_stok_barang extends CI_Model
     function tambahData()
     {
         $nama_barang = $this->input->post('nama_barang');
-        $nama_jenis = $this->input->post('nama_jenis');
-        $kode = $this->input->post('kode_barang');
-        $stok = $this->input->post('jumlah_stok');
+        $jenis = $this->input->post('jenis');
+        $kode_barang = $this->input->post('kode_barang');
+        $stok = $this->input->post('stok');
         $satuan = $this->input->post('satuan');
 
-
         $data = [
-            'kode_barang' => $kode,
+            'kode_barang' => $kode_barang,
             'nama_barang' => $nama_barang,
-            'id_jenis' => $nama_jenis,
-            'stok' => $stok,
-            'id_satuan' => $satuan
+            'id_jenis' => $jenis,
+            'id_satuan' => $satuan,
+            'stok' => $stok
+
         ];
         $this->db->insert('tb_stok_barang', $data);
+    }
 
-        $data_peramalan = [
-            'nama_barang' => $nama_barang,
-            'id_jenis' => $nama_jenis,
-            'id_satuan' => $satuan
-        ];
-        $this->db->insert('tb_peramalan', $data_peramalan);
+    function ambilId($id_barang)
+    {
+        return $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
     }
 
     function ubahData()
     {
-        $id_barang = $this->input->post('Edt_id_brg');
+        $id_barang = $this->input->post('Edt_id_barang');
+        $kode_barang = $this->input->post('Edt_kode_barang');
         $nama_barang = $this->input->post('Edt_nama_barang');
-        $id_jenis = $this->input->post('Edt_nama_jenis');
-        $kode = $this->input->post('Edt_kode_barang');
-        $stok = $this->input->post('Edt_stok');
         $id_satuan = $this->input->post('Edt_satuan');
+        $id_jenis = $this->input->post('Edt_jenis');
+        $stok = $this->input->post('Edt_stok');
+
 
         $data = [
-            'kode_barang' => $kode,
+            'kode_barang' => $kode_barang,
             'nama_barang' => $nama_barang,
             'id_jenis' => $id_jenis,
-            'stok' => $stok,
             'id_satuan' => $id_satuan,
+            'stok' => $stok,
+
         ];
         $this->db->where('id_barang', $id_barang);
         $this->db->update('tb_stok_barang', $data);

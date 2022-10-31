@@ -1,6 +1,6 @@
 <?php
 if ($this->session->userdata('nama') == null) {
-    $login = base_url('Login');
+    $login = base_url('Autentikasi');
     header("Location:$login");
 }
 ?>
@@ -23,6 +23,7 @@ if ($this->session->userdata('nama') == null) {
                     <a href="<?= base_url('Barang_keluar/form_tambah'); ?>" class="btn btn-primary">
                         Tambah
                     </a>
+
                 </div>
                 <div class="table-responsive p-3">
                     <?php
@@ -39,7 +40,6 @@ if ($this->session->userdata('nama') == null) {
                     <table class="table align-items-center table-flush" id="dataTable">
                         <thead class="thead-light">
                             <tr>
-                                <th>Kode Barang</th>
                                 <th>Tanggal keluar</th>
                                 <th>Nama Barang</th>
                                 <th>Jumlah</th>
@@ -53,7 +53,6 @@ if ($this->session->userdata('nama') == null) {
                             $no = 1;
                             foreach ($barang_keluar as $key => $value) { ?>
                                 <tr>
-                                    <td><?= $value['kode_barang_keluar']; ?></td>
                                     <td><?= date('d F Y', strtotime($value['tanggal_keluar'])); ?></td>
                                     <td><?= $value['nama_barang']; ?></td>
                                     <td><?= $value['jumlah']; ?></td>
@@ -89,6 +88,8 @@ if ($this->session->userdata('nama') == null) {
 
 </div>
 <!---Container Fluid-->
+
+
 
 <script>
     $(function() {
@@ -133,4 +134,23 @@ if ($this->session->userdata('nama') == null) {
             }
         })
     }
+
+
+    $("#nama_barang").change(function() {
+        id_barang = $("#nama_barang").val();
+        $.ajax({
+            method: "POST",
+            url: "<?= base_url('Barang_keluar/tampil_brg') ?>",
+            data: {
+                id_brg: id_barang
+            },
+            dataType: "json",
+            success: function(data) {
+                $("#jumlah_stok").text("Jangan lebih dari : " +
+                    data.stok);
+                $("#jumlah_stok_G").val(data.stok);
+                $("#jml_stok").val(data.stok);
+            }
+        })
+    })
 </script>

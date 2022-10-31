@@ -15,11 +15,7 @@ class M_barang_keluar extends CI_Model
         return $query;
     }
 
-    function get_max($tabel = null, $field = null)
-    {
-        $this->db->select_max($field);
-        return $this->db->get($tabel)->row_array()[$field];
-    }
+
 
     function tampil_idBrg($id_brg)
     {
@@ -29,20 +25,17 @@ class M_barang_keluar extends CI_Model
     function tambahData()
     {
         $id_barang = $this->input->post('nama_barang');
-        $nama_jenis = $this->input->post('nama_jenis');
-        $kode = $this->input->post('kode_barang_keluar');
-        $jumlah_keluar = $this->input->post('jumlah_keluar');
-        $satuan = $this->input->post('satuan');
+        $barang = $this->db->query("SELECT * FROM tb_stok_barang WHERE id_barang = $id_barang")->row_array();
         $tanggal_keluar = $this->input->post('tanggal_keluar');
-
-
+        $id_jenis = $barang['id_jenis'];
+        $id_satuan = $barang['id_satuan'];
+        $jumlah_keluar = $this->input->post('jumlah_keluar');
 
         $data = [
-            'kode_barang_keluar' => $kode,
             'tanggal_keluar' => $tanggal_keluar,
             'id_barang' => $id_barang,
-            'id_satuan' => $satuan,
-            'id_jenis' => $nama_jenis,
+            'id_satuan' => $id_satuan,
+            'id_jenis' => $id_jenis,
             'jumlah' => $jumlah_keluar,
         ];
         $this->db->insert('tb_barang_keluar', $data);
@@ -60,11 +53,12 @@ class M_barang_keluar extends CI_Model
     {
         $id_keluar = $this->input->post('id_keluar');
         $id_barang = $this->input->post('nama_barang');
-        $id_jenis = $this->input->post('nama_jenis');
-        $kode = $this->input->post('kode_barang_keluar');
+        $barang = $this->db->query("SELECT * FROM tb_stok_barang WHERE id_barang = $id_barang")->row_array();
+        $id_jenis = $barang['id_jenis'];
+        $id_satuan = $barang['id_satuan'];
         $jumlah_keluar = $this->input->post('jumlah_keluar');
         $jumlah_sebelumnya = $this->input->post('jumlah_sebelum');
-        $satuan = $this->input->post('satuan');
+
         $tanggal_keluar = $this->input->post('tanggal_keluar');
 
         $brg_stok = $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
@@ -96,11 +90,10 @@ class M_barang_keluar extends CI_Model
 
 
         $data = [
-            'kode_barang_keluar' => $kode,
-            'tanggal_keluar' => $tanggal_keluar,
             'id_barang' => $id_barang,
-            'id_satuan' => $satuan,
+            'id_satuan' => $id_satuan,
             'id_jenis' => $id_jenis,
+            'tanggal_keluar' => $tanggal_keluar,
             'jumlah' => $jumlah_keluar,
         ];
         $this->db->where('id_keluar', $id_keluar);

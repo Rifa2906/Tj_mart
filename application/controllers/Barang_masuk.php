@@ -41,19 +41,7 @@ class Barang_masuk extends CI_Controller
     }
 
 
-    function kode_otomatis()
-    {
-        $tabel = "tb_barang_masuk";
-        $field = "kode_barang_masuk";
 
-        $lastkode = $this->M_barang_masuk->get_max($tabel, $field);
-        //mengambil 4 karakter dari belakang
-        $noUrut = (int) substr($lastkode, -4, 4);
-        $noUrut++;
-        $str = "T-BM-";
-        $newKode = $str . sprintf('%04s', $noUrut);
-        return $newKode;
-    }
 
     public function form_tambah()
     {
@@ -62,12 +50,6 @@ class Barang_masuk extends CI_Controller
             'required' => 'Nama barang tidak boleh kosong'
         ]);
 
-        $this->form_validation->set_rules('nama_jenis', 'nama_jenis', 'required', [
-            'required' => 'Jenis barang tidak boleh kosong'
-        ]);
-        $this->form_validation->set_rules('satuan', 'satuan', 'required', [
-            'required' => 'Satuan tidak boleh kosong'
-        ]);
         $this->form_validation->set_rules('jumlah', 'No telpon', 'required', [
             'required' => 'Jumlah tidak boleh kosong'
         ]);
@@ -84,7 +66,6 @@ class Barang_masuk extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Form Tambah Barang Masuk';
-            $data['kode_bm'] = $this->kode_otomatis();
             $data['satuan'] = $this->M_satuan->tampil();
             $data['pemasok'] = $this->M_pemasok->tampil();
             $data['jenis'] = $this->M_jenis_barang->tampil();
@@ -110,12 +91,6 @@ class Barang_masuk extends CI_Controller
             'required' => 'Nama barang tidak boleh kosong'
         ]);
 
-        $this->form_validation->set_rules('nama_jenis', 'nama_jenis', 'required', [
-            'required' => 'Jenis barang tidak boleh kosong'
-        ]);
-        $this->form_validation->set_rules('satuan', 'satuan', 'required', [
-            'required' => 'Satuan tidak boleh kosong'
-        ]);
         $this->form_validation->set_rules('jumlah', 'No telpon', 'required', [
             'required' => 'Jumlah tidak boleh kosong'
         ]);
@@ -132,9 +107,7 @@ class Barang_masuk extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Form Ubah Barang Masuk';
-            $data['satuan'] = $this->M_satuan->tampil();
             $data['pemasok'] = $this->M_pemasok->tampil();
-            $data['jenis'] = $this->M_jenis_barang->tampil();
             $data['brg'] = $this->M_stok_barang->tampil();
             $data['id_masuk'] = $this->ambil_IdMasuk($id_masuk);
             $this->load->view('templates/header');

@@ -1,6 +1,6 @@
  <?php
     if ($this->session->userdata('nama') == null) {
-        $login = base_url('Login');
+        $login = base_url('Autentikasi');
         header("Location:$login");
     }
     ?>
@@ -61,7 +61,6 @@
                      <table class="table align-items-center table-flush" id="dataTable">
                          <thead class="thead-light">
                              <tr>
-                                 <th>Kode</th>
                                  <th>Tanggal Masuk</th>
                                  <th>Nama Barang</th>
                                  <th>Jumlah</th>
@@ -77,7 +76,6 @@
                                 $no = 1;
                                 foreach ($barang_masuk as $key => $value) { ?>
                                  <tr>
-                                     <td><?= $value['kode_barang_masuk']; ?></td>
                                      <td><?= date('d/m/Y', strtotime($value['tanggal_masuk'])); ?></td>
                                      <td><?= $value['nama_barang']; ?></td>
                                      <td><?= $value['jumlah']; ?></td>

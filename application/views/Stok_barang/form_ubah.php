@@ -16,13 +16,13 @@
                        <div class="row">
                            <div class="col-6">
                                <div class="form-group">
-                                   <input type="hidden" name="Edt_id_brg" value="<?= $id_brg['id_barang']; ?>">
+                                   <input type="hidden" name="Edt_id_barang" value="<?= $id_barang['id_barang']; ?>">
                                    <label for="">Kode Barang</label>
-                                   <input class="form-control" value="<?= $id_brg['kode_barang']; ?>" type="text" id="Edt_kode_barang" name="Edt_kode_barang" readonly>
+                                   <input class="form-control" value="<?= $id_barang['kode_barang']; ?>" type="text" id="Edt_kode_barang" name="Edt_kode_barang" readonly>
                                </div>
                                <div class="form-group">
                                    <label for="">Nama Barang</label>
-                                   <input class="form-control" id="Edt_nama_barang" name="Edt_nama_barang" value="<?= $id_brg['nama_barang']; ?>">
+                                   <input class="form-control" id="Edt_nama_barang" name="Edt_nama_barang" value="<?= $id_barang['nama_barang']; ?>">
                                    <span class="text-danger" id="nama_barang-error"><?= form_error('Edt_nama_barang'); ?></span>
                                </div>
                                <div class="form-group">
@@ -31,7 +31,7 @@
                                        <option value="">Pilih satuan</option>
                                        <?php
                                         foreach ($satuan as $key => $value) { ?>
-                                           <option <?php if ($value['id_satuan'] == $id_brg['id_satuan']) {
+                                           <option <?php if ($value['id_satuan'] == $id_barang['id_satuan']) {
                                                         echo 'selected';
                                                     } ?> value="<?= $value['id_satuan']; ?>"><?= $value['satuan']; ?></option>
                                        <?php
@@ -44,11 +44,11 @@
                            <div class="col-6">
                                <div class="form-group">
                                    <label for="select2Single">Jenis barang</label><br>
-                                   <select class="form-control select2-single" id="Edt_nama_jenis" name="Edt_nama_jenis">
+                                   <select class="form-control select2-single" id="Edt_jenis" name="Edt_jenis">
                                        <option value="">pilih jenis barang</option>
                                        <?php
                                         foreach ($jenis as $key => $value) { ?>
-                                           <option <?php if ($value['id_jenis'] == $id_brg['id_jenis']) {
+                                           <option <?php if ($value['id_jenis'] == $id_barang['id_jenis']) {
                                                         echo 'selected';
                                                     } ?> value="<?= $value['id_jenis']; ?>"><?= $value['nama_jenis']; ?></option>
 
@@ -57,10 +57,10 @@
                                         ?>
                                    </select>
                                </div>
-                               <span class="text-danger" id="nama_jenis-error"><?= form_error('Edt_nama_jenis'); ?></span>
+                               <span class="text-danger" id="jenis-error"><?= form_error('Edt_jenis'); ?></span>
                                <div class="form-group">
                                    <label for="">Stok</label>
-                                   <input type="text" class="form-control" id="Edt_stok" name="Edt_stok" value="<?= $id_brg['stok']; ?>">
+                                   <input type="text" class="form-control" id="Edt_stok" name="Edt_stok" value="<?= $id_barang['stok']; ?>">
                                    <span class="text-danger" id="stok-error"><?= form_error('Edt_stok'); ?></span>
                                </div>
                            </div>

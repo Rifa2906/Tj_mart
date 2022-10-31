@@ -45,8 +45,6 @@ class Halaman_utama extends CI_Controller
     {
         $this->db->select('*');
         $this->db->from('tb_monitoring_kadaluarsa mkd');
-        $this->db->join('tb_satuan s', 's.id_satuan = mkd.id_satuan');
-        $this->db->join('tb_jenis_barang jb', 'jb.id_jenis = mkd.id_jenis');
         $this->db->join('tb_stok_barang sb', 'sb.id_barang = mkd.id_barang');
         $query = $this->db->get()->result_array();
         return $query;

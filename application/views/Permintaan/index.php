@@ -16,28 +16,6 @@
          <div class="col-lg-12">
              <div class="card mb-4">
                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                     <form action="<?= base_url('Peramalan/tambah_data'); ?>" method="post">
-                         <div class="row">
-                             <div class="form-group">
-                                 <select class="select2-single form-control" id="nama_barang" name="id_barang">
-                                     <option value="">Pilih barang</option>
-                                     <?php
-                                        foreach ($barang as $key => $value) { ?>
-                                         <option value="<?= $value['id_barang']; ?>"><?= $value['nama_barang']; ?></option>
-
-                                     <?php
-                                        }
-                                        ?>
-                                 </select>
-                                 <span class="text-danger"><?= form_error('id_barang'); ?></span>
-                             </div>
-                             <div class="form-group ml-3">
-                                 <button type="submit" class="btn btn-primary">Tambah</button>
-                             </div>
-
-                         </div>
-
-                     </form>
 
                  </div>
                  <div class="table-responsive p-3">
@@ -46,35 +24,50 @@
                              <tr>
                                  <th>No</th>
                                  <th>Nama Barang</th>
-                                 <th>Stok</th>
-                                 <th>Minimal Stok</th>
-                                 <th>Aksi</th>
+                                 <th>Jumlah Pengadaan</th>
+                                 <th>Satuan</th>
+                                 <th>Status</th>
+                                 <?php
+                                    if ($this->session->userdata('hak_pengguna') == 'staf administrasi') { ?>
+                                     <th>Aksi</th>
+                                 <?php
+                                    }
+                                    ?>
                              </tr>
                          </thead>
                          <tbody>
                              <?php
                                 $no = 1;
-                                foreach ($peramalan as $key => $value) { ?>
+                                foreach ($permintaan as $key => $value) { ?>
                                  <tr>
                                      <td><?= $no++; ?></td>
                                      <td><?= $value['nama_barang']; ?></td>
-                                     <td><?= $value['stok']; ?></td>
-                                     <td><?= $value['minimal_stok']; ?></td>
-                                     <td>
-                                         <?php
-                                            if ($value['stok'] < $value['minimal_stok']) { ?>
-                                             <button data-toggle="tooltip" data-placement="top" title="Hasil Peramalan" onclick="peramalan(<?= $value['id_barang'] ?>,<?= $value['minimal_stok'] ?>)" class="btn btn-success btn-sm"><i class="fas fa-solid fa-calculator"></i></button>
+                                     <td><?= $value['jumlah_pengadaan']; ?></td>
+                                     <td><?= $value['satuan']; ?></td>
+                                     <td class="font-weight-bold"><?= $value['status']; ?></td>
+                                     <?php
+                                        if ($this->session->userdata('hak_pengguna') == 'staf administrasi') { ?>
+                                         <td>
+                                             <?php
+                                                if ($value['status'] == "Meminta persetujuan") { ?>
+                                                 <button onclick="disetujui(<?= $value['id_permintaan'] ?>)" class="btn btn-success btn-sm">
+                                                     Disetujui
+                                                 </button>
+                                                 <button onclick="ditolak(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm">
+                                                     Ditolak
+                                                 </button>
+                                             <?php
+                                                }
+                                                ?>
 
-                                             <button onclick="kirim(<?= $value['id_peramalan'] ?>,<?= $value['id_barang'] ?>)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Kirim ke tabel permintaan"><i class="fas fa-sharp fa-solid fa-paper-plane"></i></button>
 
-                                             <button onclick="hapus(<?= $value['id_peramalan'] ?>)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Hapus data"><i class="fas fa-trash"></i></button>
-                                         <?php
-                                            }
-                                            ?>
+                                         </td>
 
-                                     </td>
+                                     <?php
+                                        }
+                                        ?>
+
                                  </tr>
-
                              <?php
                                 }
                                 ?>
@@ -92,11 +85,9 @@
 
 
 
-
      <script>
          $(function() {
              $('[data-toggle="tooltip"]').tooltip()
-             $('.select2-single').select2();
          })
 
          function swall(produk, peramalan, satuan, bulan) {
@@ -150,22 +141,20 @@
              })
          }
 
-         function kirim(id_peramalan, id_barang) {
+         function disetujui(x) {
              $.ajax({
-                 method: "POST",
-                 url: "<?= base_url('Peramalan/kirim') ?>",
+                 type: 'POST',
+                 url: '<?= base_url('Permintaan/Disetujui') ?>',
+                 dataType: 'json',
                  data: {
-                     id_peramalan: id_peramalan,
-                     id_barang: id_barang
+                     id_permintaan: x,
                  },
-                 dataType: "json",
                  success: function(data) {
-
                      if (data.status == 1) {
 
                          Swal.fire({
-                             title: 'Data',
-                             text: 'Berhasil disimpan ke tabel permintaan',
+                             title: 'Data Permintaan',
+                             text: 'Telah disetujui',
                              icon: 'success',
                              confirmButtonText: 'Oke'
                          }).then((result) => {
@@ -174,25 +163,24 @@
                              }
                          })
                      }
-
-
                  }
              })
          }
 
-         function hapus(x) {
+         function ditolak(x) {
              $.ajax({
-                 method: "POST",
-                 url: "<?= base_url('Peramalan/hapus_data') ?>",
+                 type: 'POST',
+                 url: '<?= base_url('Permintaan/Ditolak') ?>',
+                 dataType: 'json',
                  data: {
-                     id_peramalan: x
+                     id_permintaan: x,
                  },
-                 dataType: "json",
                  success: function(data) {
                      if (data.status == 1) {
+
                          Swal.fire({
-                             title: 'Data',
-                             text: 'Berhasil dihapus',
+                             title: 'Data Permintaan',
+                             text: 'Tidak disetujui',
                              icon: 'success',
                              confirmButtonText: 'Oke'
                          }).then((result) => {

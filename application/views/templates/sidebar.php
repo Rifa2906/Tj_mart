@@ -14,6 +14,19 @@
       </li>
       <hr class="sidebar-divider">
       <?php
+        if ($this->session->userdata('hak_pengguna') == 'staf administrasi') { ?>
+          <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('Permintaan'); ?>">
+                  <i class="fas fa-fw fa-cube"></i>
+                  <span>Permintaan</span>
+              </a>
+          </li>
+      <?php
+        }
+        ?>
+
+
+      <?php
         if ($this->session->userdata('hak_pengguna') == 'staf gudang') { ?>
           <div class="sidebar-heading">
               Data Master
@@ -100,7 +113,7 @@
               </a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="ui-colors.html">
+              <a class="nav-link" href="<?= base_url('Permintaan'); ?>">
                   <i class="fas fa-fw fa-cube"></i>
                   <span>Permintaan</span>
               </a>

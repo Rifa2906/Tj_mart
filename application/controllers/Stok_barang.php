@@ -18,6 +18,8 @@ class Stok_barang extends CI_Controller
 
         $data['title'] = 'Stok barang';
         $data['brg'] = $this->M_stok_barang->tampil();
+        $data['satuan'] = $this->M_satuan->tampil();
+        $data['jenis'] = $this->M_jenis_barang->tampil();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
@@ -36,56 +38,49 @@ class Stok_barang extends CI_Controller
         $noUrut++;
         $str = "BRG";
         $newKode = $str . sprintf('%04s', $noUrut);
-        return $newKode;
+        echo json_encode($newKode);
     }
 
-    public function form_tambah()
+    public function tambah_data()
     {
-        $this->form_validation->set_rules('nama_barang', 'nama_barang', 'required', [
-            'required' => 'Nama barang tidak boleh kosong'
+        $this->form_validation->set_rules('nama_barang', 'nama_barang', 'required|is_unique[tb_stok_barang.nama_barang]', [
+            'required' => 'Nama barang tidak boleh kosong',
+            'is_unique' => 'Nama barang sudah ada'
         ]);
 
-        $this->form_validation->set_rules('nama_jenis', 'nama_jenis', 'required', [
+        $this->form_validation->set_rules('jenis', 'jenis', 'required', [
             'required' => 'Jenis barang tidak boleh kosong'
         ]);
         $this->form_validation->set_rules('satuan', 'satuan', 'required', [
             'required' => 'Satuan tidak boleh kosong'
         ]);
-        $this->form_validation->set_rules('jumlah_stok', 'jumlah stok', 'required', [
-            'required' => 'Jumlah stok tidak boleh kosong'
+        $this->form_validation->set_rules('stok', 'stok', 'required', [
+            'required' => 'Stok tidak boleh kosong'
         ]);
 
         if ($this->form_validation->run() == false) {
-            $data['title'] = 'Stok barang';
-            $data['brg'] = $this->M_stok_barang->tampil();
-            $data['satuan'] = $this->M_satuan->tampil();
-            $data['jenis'] = $this->M_jenis_barang->tampil();
-            $data['kode_brg'] = $this->kode_otomatis();
-            $this->load->view('templates/header');
-            $this->load->view('templates/sidebar');
-            $this->load->view('templates/topbar');
-            $this->load->view('Stok_barang/form_tambah', $data);
-            $this->load->view('templates/footer');
+            $response['status'] = 0;
+            $response['nama_barang'] = strip_tags(form_error('nama_barang'));
+            $response['jenis'] = strip_tags(form_error('jenis'));
+            $response['satuan'] = strip_tags(form_error('satuan'));
+            $response['stok'] = strip_tags(form_error('stok'));
         } else {
             $this->M_stok_barang->tambahData();
-            $this->session->set_flashdata('message', 'Ditambahkan');
-            redirect('Stok_barang');
+            $response['status'] = 1;
         }
-    }
 
-    public function ambil_IdBarang($id_barang)
-    {
-        return $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
+        echo json_encode($response);
     }
 
     public function form_ubah($id_barang)
     {
 
+
         $this->form_validation->set_rules('Edt_nama_barang', 'nama_barang', 'required', [
             'required' => 'Nama barang tidak boleh kosong'
         ]);
 
-        $this->form_validation->set_rules('Edt_nama_jenis', 'nama_jenis', 'required', [
+        $this->form_validation->set_rules('Edt_jenis', 'jenis', 'required', [
             'required' => 'Jenis barang tidak boleh kosong'
         ]);
         $this->form_validation->set_rules('Edt_satuan', 'satuan', 'required', [
@@ -96,10 +91,10 @@ class Stok_barang extends CI_Controller
         ]);
 
         if ($this->form_validation->run() == false) {
-            $data['title'] = 'Form Ubah Stok Barang ';
+            $data['title'] = 'Form Ubah Stok Barang';
+            $data['id_barang'] = $this->M_stok_barang->ambilId($id_barang);
             $data['satuan'] = $this->M_satuan->tampil();
             $data['jenis'] = $this->M_jenis_barang->tampil();
-            $data['id_brg'] = $this->ambil_IdBarang($id_barang);
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar');
             $this->load->view('templates/topbar');

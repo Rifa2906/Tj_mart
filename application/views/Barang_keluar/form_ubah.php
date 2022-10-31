@@ -14,11 +14,7 @@
                    <form method="POST">
                        <div class="row">
                            <div class="col-6">
-                               <div class="form-group">
-                                   <input type="hidden" name="id_keluar" value="<?= $id_keluar['id_keluar']; ?>">
-                                   <label for="">Kode Barang Keluar</label>
-                                   <input class="form-control" value="<?= $id_keluar['kode_barang_keluar']; ?>" type="text" id="kode_barang_keluar" name="kode_barang_keluar" readonly>
-                               </div>
+                               <input type="hidden" name="id_keluar" value="<?= $id_keluar['id_keluar']; ?>">
                                <div class="form-group" id="simple-date1">
                                    <label for="simpleDataInput">Tanggal Keluar</label>
                                    <div class="input-group date">
@@ -47,37 +43,6 @@
 
                            </div>
                            <div class="col-6">
-                               <div class="form-group">
-                                   <label for="select2Single">Satuan</label><br>
-                                   <select class="select2-single form-control" id="satuan" name="satuan">
-                                       <option value="">Pilih satuan</option>
-                                       <?php
-                                        foreach ($satuan as $key => $value) { ?>
-                                           <option <?php if ($value['id_satuan'] == $id_keluar['id_satuan']) {
-                                                        echo 'selected';
-                                                    } ?> value="<?= $id_keluar['id_satuan']; ?>"><?= $value['satuan']; ?></option>
-                                       <?php
-                                        }
-                                        ?>
-                                   </select>
-                               </div>
-                               <span class="text-danger" id="satuan-error"><?= form_error('satuan'); ?></span>
-                               <div class="form-group">
-                                   <label for="select2Single">Jenis barang</label><br>
-                                   <select class="form-control" id="nama_jenis" name="nama_jenis">
-                                       <option value="">Pilih jenis barang</option>
-                                       <?php
-                                        foreach ($jenis as $key => $value) { ?>
-                                           <option <?php if ($value['id_jenis'] == $id_keluar['id_jenis']) {
-                                                        echo 'selected';
-                                                    } ?> value="<?= $id_keluar['id_jenis']; ?>"><?= $value['nama_jenis']; ?></option>
-
-                                       <?php
-                                        }
-                                        ?>
-                                   </select>
-                               </div>
-                               <span class="text-danger" id="nama_jenis-error"><?= form_error('nama_jenis'); ?></span>
                                <div class="form-group">
                                    <label for="">Jumlah</label>
                                    <input type="hidden" class="form-control" id="jumlah_sebelum" name="jumlah_sebelum" value="<?= $id_keluar['jumlah']; ?>" readonly>

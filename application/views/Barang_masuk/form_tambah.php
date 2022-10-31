@@ -14,10 +14,6 @@
                    <form method="POST">
                        <div class="row">
                            <div class="col-6">
-                               <div class="form-group">
-                                   <label for="">Kode Barang Masuk</label>
-                                   <input class="form-control" value="<?= $kode_bm; ?>" type="text" id="kode_barang_masuk" name="kode_barang_masuk" readonly>
-                               </div>
                                <div class="form-group" id="simple-date1">
                                    <label for="simpleDataInput">Tanggal Masuk</label>
                                    <div class="input-group date">
@@ -43,35 +39,21 @@
                                    <span class="text-danger" id="nama_barang-error"><?= form_error('nama_barang'); ?></span>
                                </div>
                                <div class="form-group">
-                                   <label for="select2Single">Satuan</label><br>
-                                   <select class="select2-single form-control" id="satuan" name="satuan">
-                                       <option value="">Pilih satuan</option>
-                                       <?php
-                                        foreach ($satuan as $key => $value) { ?>
-                                           <option value="<?= $value['id_satuan']; ?>"><?= $value['satuan']; ?></option>
+                                   <div class="row">
+                                       <div class="col-4">
+                                           <label for="">Jumlah</label>
+                                           <input type="text" class="form-control" id="jumlah" name="jumlah">
+                                           <span class="text-danger" id="jumlah-error"><?= form_error('jumlah'); ?></span>
+                                       </div>
+                                       <div class="col-4">
+                                           <label for="">Jumlah stok</label>
+                                           <input type="text" class="form-control" id="jumlah_stok" name="jumlah_stok" readonly>
+                                       </div>
+                                   </div>
 
-                                       <?php
-                                        }
-                                        ?>
-                                   </select>
                                </div>
-                               <span class="text-danger" id="satuan-error"><?= form_error('satuan'); ?></span>
                            </div>
                            <div class="col-6">
-                               <div class="form-group">
-                                   <label for="select2Single">Jenis barang</label><br>
-                                   <select class="form-control" id="nama_jenis" name="nama_jenis">
-                                       <option value="">Pilih jenis barang</option>
-                                       <?php
-                                        foreach ($jenis as $key => $value) { ?>
-                                           <option value="<?= $value['id_jenis']; ?>"><?= $value['nama_jenis']; ?></option>
-
-                                       <?php
-                                        }
-                                        ?>
-                                   </select>
-                               </div>
-                               <span class="text-danger" id="nama_jenis-error"><?= form_error('nama_jenis'); ?></span>
                                <div class="form-group">
                                    <label for="">Pemasok</label><br>
                                    <select class="form-control select2-single-placeholder" name="pemasok" id="pemasok">
@@ -96,20 +78,6 @@
                                    </div>
                                    <span class="text-danger" id="tanggal_kadaluarsa-error"><?= form_error('tanggal_kadaluarsa'); ?></span>
                                </div>
-                               <div class="form-group">
-                                   <div class="row">
-                                       <div class="col-4">
-                                           <label for="">Jumlah</label>
-                                           <input type="text" class="form-control" id="jumlah" name="jumlah">
-                                           <span class="text-danger" id="jumlah-error"><?= form_error('jumlah'); ?></span>
-                                       </div>
-                                       <div class="col-4">
-                                           <label for="">Jumlah stok</label>
-                                           <input type="text" class="form-control" id="jumlah_stok" name="jumlah_stok" readonly>
-                                       </div>
-                                   </div>
-
-                               </div>
                            </div>
                            <button type="submit" class="btn btn-primary">Simpan</button>
                            <a href="<?= base_url('Barang_masuk'); ?>" class="btn btn-warning ml-1">Kembali</a>
@@ -132,18 +100,6 @@
 
 
            $('.select2-single').select2();
-
-
-
-
-
-           // Bootstrap Date Picker
-           //    $('#simple-date1 .input-group.date').datepicker({
-           //        format: 'dd/mm/yyyy',
-           //        todayBtn: 'linked',
-           //        todayHighlight: true,
-           //        autoclose: true,
-           //    });
 
        })
 

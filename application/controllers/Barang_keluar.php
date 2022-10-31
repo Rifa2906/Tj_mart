@@ -18,6 +18,7 @@ class Barang_keluar extends CI_Controller
     {
 
         $data['barang_keluar'] = $this->M_barang_keluar->tampil();
+        $data['brg'] = $this->M_stok_barang->tampil();
         $data['title'] = 'Barang keluar';
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
@@ -38,19 +39,7 @@ class Barang_keluar extends CI_Controller
         echo json_encode($data);
     }
 
-    function kode_otomatis()
-    {
-        $tabel = "tb_barang_keluar";
-        $field = "kode_barang_keluar";
 
-        $lastkode = $this->M_barang_keluar->get_max($tabel, $field);
-        //mengambil 4 karakter dari belakang
-        $noUrut = (int) substr($lastkode, -4, 4);
-        $noUrut++;
-        $str = "T-BK-";
-        $newKode = $str . sprintf('%04s', $noUrut);
-        return $newKode;
-    }
 
     public function form_tambah()
     {
@@ -60,12 +49,6 @@ class Barang_keluar extends CI_Controller
             'required' => 'Nama barang tidak boleh kosong'
         ]);
 
-        $this->form_validation->set_rules('nama_jenis', 'nama_jenis', 'required', [
-            'required' => 'Jenis barang tidak boleh kosong'
-        ]);
-        $this->form_validation->set_rules('satuan', 'satuan', 'required', [
-            'required' => 'Satuan tidak boleh kosong'
-        ]);
         $this->form_validation->set_rules('jumlah_keluar', 'jumlah', 'required', [
             'required' => 'Jumlah tidak boleh kosong'
         ]);
@@ -76,7 +59,6 @@ class Barang_keluar extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Form Tambah Barang Keluar';
-            $data['kode_bk'] = $this->kode_otomatis();
             $data['satuan'] = $this->M_satuan->tampil();
             $data['jenis'] = $this->M_jenis_barang->tampil();
             $data['brg'] = $this->M_stok_barang->tampil();
@@ -86,12 +68,25 @@ class Barang_keluar extends CI_Controller
             $this->load->view('Barang_keluar/form_tambah', $data);
             $this->load->view('templates/footer');
         } else {
-            $this->M_barang_keluar->tambahData();
-
-            $this->session->set_flashdata('message', 'Ditambahkan');
-            redirect('Barang_keluar');
+            $jumlah_keluar = $this->input->post('jumlah_keluar');
+            $jumlah_stok = $this->input->post('jml_stok');
+            $url = base_url('Barang_keluar/form_tambah');
+            if ($jumlah_keluar > $jumlah_stok) {
+                echo "
+                <script>
+                alert('Stok di gudang tidak mencukupi');
+                window.location.href='" . $url . "';
+                </script>
+                ";
+            } else {
+                $this->M_barang_keluar->tambahData();
+                $this->session->set_flashdata('message', 'Ditambahkan');
+                redirect('Barang_keluar');
+            }
         }
     }
+
+
 
     public function form_ubah($id_keluar)
     {
@@ -100,12 +95,6 @@ class Barang_keluar extends CI_Controller
             'required' => 'Nama barang tidak boleh kosong'
         ]);
 
-        $this->form_validation->set_rules('nama_jenis', 'nama_jenis', 'required', [
-            'required' => 'Jenis barang tidak boleh kosong'
-        ]);
-        $this->form_validation->set_rules('satuan', 'satuan', 'required', [
-            'required' => 'Satuan tidak boleh kosong'
-        ]);
         $this->form_validation->set_rules('jumlah_keluar', 'No telpon', 'required', [
             'required' => 'Jumlah tidak boleh kosong'
         ]);

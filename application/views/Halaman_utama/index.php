@@ -100,8 +100,8 @@ if ($this->session->userdata('nama') == null) {
                                             <td><?= date("d-m-Y", strtotime($value['tanggal_kadaluarsa']))  ?></td>
                                             <td><?= $value['nama_barang']; ?></td>
                                             <td><?= $value['jumlah']; ?></td>
-                                            <td><?= $value['satuan']; ?></td>
-                                            <td><?= $value['nama_jenis']; ?></td>
+                                            <td><?= $value['id_satuan']; ?></td>
+                                            <td><?= $value['id_jenis']; ?></td>
                                             <td>
                                                 <?php
                                                 $tanggal_kadaluarsa = date("d-m-Y", strtotime($value['tanggal_kadaluarsa']));

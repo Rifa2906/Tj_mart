@@ -14,11 +14,7 @@
                    <form method="POST">
                        <div class="row">
                            <div class="col-6">
-                               <div class="form-group">
-                                   <input type="hidden" name="id_masuk" value="<?= $id_masuk['id_masuk']; ?>">
-                                   <label for="">Kode Barang Masuk</label>
-                                   <input class="form-control" value="<?= $id_masuk['kode_barang_masuk']; ?>" type="text" id="kode_barang_masuk" name="kode_barang_masuk" readonly>
-                               </div>
+                               <input type="hidden" name="id_masuk" value="<?= $id_masuk['id_masuk']; ?>">
                                <div class="form-group" id="simple-date1">
                                    <label for="simpleDataInput">Tanggal Masuk</label>
                                    <div class="input-group date">
@@ -44,39 +40,18 @@
                                    </select>
                                    <span class="text-danger" id="nama_barang-error"><?= form_error('nama_barang'); ?></span>
                                </div>
-                               <div class="form-group">
-                                   <label for="select2Single">Satuan</label><br>
-                                   <select class="form-control" id="satuan" name="satuan">
-                                       <option value="">Pilih satuan</option>
-                                       <?php
-                                        foreach ($satuan as $key => $value) { ?>
-                                           <option <?php if ($value['id_satuan'] == $id_masuk['id_satuan']) {
-                                                        echo 'selected';
-                                                    } ?> value="<?= $id_masuk['id_satuan']; ?>"><?= $value['satuan']; ?></option>
-                                       <?php
-                                        }
-                                        ?>
-                                   </select>
+                               <div class="form-group" id="simple-date1">
+                                   <label for="simpleDataInput">Tanggal Kadaluarsa</label>
+                                   <div class="input-group date">
+                                       <div class="input-group-prepend">
+                                           <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                       </div>
+                                       <input type="date" class="form-control" name="tanggal_kadaluarsa" id="tanggal_kadaluarsa" value="<?= $id_masuk['tanggal_kadaluarsa']; ?>">
+                                   </div>
+                                   <span class="text-danger" id="tanggal_kadaluarsa-error"><?= form_error('tanggal_kadaluarsa'); ?></span>
                                </div>
-                               <span class="text-danger" id="satuan-error"><?= form_error('satuan'); ?></span>
                            </div>
                            <div class="col-6">
-                               <div class="form-group">
-                                   <label for="select2Single">Jenis barang</label><br>
-                                   <select class="form-control" id="nama_jenis" name="nama_jenis">
-                                       <option value="">Pilih jenis barang</option>
-                                       <?php
-                                        foreach ($jenis as $key => $value) { ?>
-                                           <option <?php if ($value['id_jenis'] == $id_masuk['id_jenis']) {
-                                                        echo 'selected';
-                                                    } ?> value="<?= $id_masuk['id_jenis']; ?>"><?= $value['nama_jenis']; ?></option>
-
-                                       <?php
-                                        }
-                                        ?>
-                                   </select>
-                               </div>
-                               <span class="text-danger" id="nama_jenis-error"><?= form_error('nama_jenis'); ?></span>
                                <div class="form-group">
                                    <label for="">Jumlah</label>
                                    <input type="hidden" class="form-control" id="jumlah_sebelum" name="jumlah_sebelum" value="<?= $id_masuk['jumlah']; ?>" readonly>
@@ -99,17 +74,6 @@
                                    </select>
                                </div>
                                <span class="text-danger" id="pemasok-error"><?= form_error('pemasok'); ?></span>
-                               <div class="form-group" id="simple-date1">
-                                   <label for="simpleDataInput">Tanggal Kadaluarsa</label>
-                                   <div class="input-group date">
-                                       <div class="input-group-prepend">
-                                           <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                                       </div>
-                                       <input type="date" class="form-control" name="tanggal_kadaluarsa" id="tanggal_kadaluarsa" value="<?= $id_masuk['tanggal_kadaluarsa']; ?>">
-                                   </div>
-                                   <span class="text-danger" id="tanggal_kadaluarsa-error"><?= form_error('tanggal_kadaluarsa'); ?></span>
-                               </div>
-
                            </div>
                            <button type="submit" class="btn btn-primary">Ubah</button>
                            <a href="<?= base_url('Barang_masuk'); ?>" class="btn btn-warning ml-1">Kembali</a>

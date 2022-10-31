@@ -21,4 +21,28 @@ class Permintaan extends CI_Controller
         $this->load->view('Permintaan/index', $data);
         $this->load->view('templates/footer');
     }
+
+    public function Disetujui()
+    {
+        $id_permintaan = $this->input->post('id_permintaan');
+        $data = [
+            'status' => 'Sudah disetujui'
+        ];
+        $this->db->update('tb_permintaan', $data, ['id_permintaan' => $id_permintaan]);
+
+        $response['status'] = 1;
+        echo json_encode($response);
+    }
+
+    public function Ditolak()
+    {
+        $id_permintaan = $this->input->post('id_permintaan');
+        $data = [
+            'status' => 'Tidak disetujui'
+        ];
+        $this->db->update('tb_permintaan', $data, ['id_permintaan' => $id_permintaan]);
+
+        $response['status'] = 1;
+        echo json_encode($response);
+    }
 }
