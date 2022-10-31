@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="img/logo/logo.png" rel="icon">
-    <title>RuangAdmin - Login</title>
+    <title><?= $title; ?></title>
     <link href="<?= base_url('assets/ruang-admin'); ?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="<?= base_url('assets/ruang-admin'); ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="<?= base_url('assets/ruang-admin'); ?>/css/ruang-admin.min.css" rel="stylesheet">

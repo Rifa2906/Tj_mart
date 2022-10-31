@@ -32,7 +32,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-6">
-                                                <a class="btn btn-warning btn-user btn-block" href="<?= base_url('Login'); ?>">Kembali</a>
+                                                <a class="btn btn-warning btn-user btn-block" href="<?= base_url('Autentikasi'); ?>">Kembali</a>
                                             </div>
                                         </div>
 
