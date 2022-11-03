@@ -119,9 +119,9 @@
               </a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('Kadaluarsa'); ?>">
+              <a class="nav-link" href="<?= base_url('Keluar_barang'); ?>">
                   <i class="fas fa-fw fa-cube"></i>
-                  <span>Barang kadaluarsa</span>
+                  <span>Barang yang dikeluarkan</span>
               </a>
           </li>
           <hr class="sidebar-divider">

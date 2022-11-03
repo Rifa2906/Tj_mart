@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kadaluarsa extends CI_Controller
+class Keluar_barang extends CI_Controller
 {
 
     public function __construct()
     {
         parent::__construct();
         $this->load->library('form_validation');
-        $this->load->model('M_kadaluarsa');
+        $this->load->model('M_Keluar_barang');
         $this->load->library('Pdf'); // MEMANGGIL LIBRARY YANG KITA BUAT TADI
 
 
@@ -16,12 +16,12 @@ class Kadaluarsa extends CI_Controller
 
     public function index()
     {
-        $data['kd'] = $this->M_kadaluarsa->tampil();
-        $data['title'] = 'Barang Kadaluarsa';
+        $data['kd'] = $this->M_Keluar_barang->tampil();
+        $data['title'] = 'Barang yang akan dikeluarkan';
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
-        $this->load->view('Kadaluarsa/index', $data);
+        $this->load->view('Keluar barang/index', $data);
         $this->load->view('templates/footer');
     }
 
@@ -66,6 +66,6 @@ class Kadaluarsa extends CI_Controller
 
     public function hapus_semua_data()
     {
-        return $this->db->query('DELETE FROM tb_kadaluarsa');
+        return $this->db->query('DELETE FROM tb_keluar');
     }
 }

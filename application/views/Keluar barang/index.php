@@ -89,12 +89,12 @@ if ($this->session->userdata('nama') == null) {
 
                 $.ajax({
                     type: 'POST',
-                    url: '<?= base_url('Kadaluarsa/hapus_semua_data') ?>',
+                    url: '<?= base_url('Keluar_barang/hapus_semua_data') ?>',
                     dataType: 'json',
                     success: function(data) {}
                 })
 
-                swall('Barang kadaluarsa', 'dihapus')
+                swall('Barang yang dikeluarkan', 'dihapus')
 
             }
         })

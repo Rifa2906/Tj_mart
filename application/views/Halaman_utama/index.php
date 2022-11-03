@@ -1,6 +1,6 @@
 <?php
 if ($this->session->userdata('nama') == null) {
-    $login = base_url('Login');
+    $login = base_url('Autentikasi');
     header("Location:$login");
 }
 ?>
@@ -82,17 +82,13 @@ if ($this->session->userdata('nama') == null) {
                                         <th>Tanggal Kadaluarsa</th>
                                         <th>Barang</th>
                                         <th>Jumlah</th>
-                                        <th>Satuan</th>
-                                        <th>Jenis Barang</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $tanggal_kemarin = date('d-m-Y', strtotime('-5 day', strtotime(date('d-m-Y'))));
-
-                                    $tanggal_p = date('d-m-Y', strtotime('-1 day', strtotime(date('d-m-Y'))));
+                                    $warning = date('d-m-Y', strtotime('-30 day', strtotime(date('d-m-Y'))));
 
                                     foreach ($mkd as $key => $value) { ?>
 
@@ -100,31 +96,30 @@ if ($this->session->userdata('nama') == null) {
                                             <td><?= date("d-m-Y", strtotime($value['tanggal_kadaluarsa']))  ?></td>
                                             <td><?= $value['nama_barang']; ?></td>
                                             <td><?= $value['jumlah']; ?></td>
-                                            <td><?= $value['id_satuan']; ?></td>
-                                            <td><?= $value['id_jenis']; ?></td>
                                             <td>
-                                                <?php
-                                                $tanggal_kadaluarsa = date("d-m-Y", strtotime($value['tanggal_kadaluarsa']));
-                                                if ($tanggal_kadaluarsa >= $tanggal_kemarin && $tanggal_kadaluarsa <= $tanggal_p) { ?>
-                                                    <span class="badge badge-warning p-2">segera kadaluarsa</span><br>
-                                                <?php
-                                                } else if ($tanggal_kadaluarsa >= date('d-m-Y')) { ?>
-                                                    <span class="badge badge-danger p-2">kadaluarsa</span><br>
-                                                <?php
-                                                } else { ?>
-                                                    <span class="badge badge-success p-2">Aman</span><br>
-                                                <?php
-                                                }
-                                                ?>
+                                                <center>
+                                                    <?php
+                                                    $awal  = date_create($value['tanggal_kadaluarsa']);
+                                                    $akhir = date_create(); // waktu sekarang
+                                                    $diff  = date_diff($awal, $akhir);
 
+
+                                                    if (date("d-m-Y", strtotime($value['tanggal_kadaluarsa'])) >= $warning) { ?>
+                                                        <span class="badge badge-warning p-2"><i class="fas fa-exclamation-triangle"></i></span><br>
+                                                        <small><?= $diff->d . ' hari lagi '; ?></small>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </center>
 
                                             </td>
                                             <td>
                                                 <?php
-                                                if ($tanggal_kadaluarsa >= date('d-m-Y')) { ?>
-                                                    <button type="button" onclick="tambah_kadaluarsa(<?= $value['id_monitoring'] ?>)" class="btn btn-danger btn-sm" id="btn-kdl"><i class="fas fa-solid fa-arrow-right"></i></button>
+                                                if (date("d-m-Y", strtotime($value['tanggal_kadaluarsa'])) >= $warning) { ?>
+                                                    <button type="button" onclick="barang_keluar(<?= $value['id_monitoring'] ?>)" class="btn btn-danger btn-sm" id="btn-kdl"><i class="fas fa-solid fa-arrow-right"></i></button>
                                                 <?php
                                                 }
+
                                                 ?>
                                             </td>
                                         </tr>
@@ -154,22 +149,28 @@ if ($this->session->userdata('nama') == null) {
 <!---Container Fluid-->
 
 <script>
-    function tambah_kadaluarsa(id) {
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Halaman_utama/tambah_kadaluarsa') ?>',
-            data: {
-                id_monitoring: id
-            },
-            dataType: 'json',
-            success: function(data) {
-                if (data['status'] == 1) {
-                    alert('Data berhasil disimpan ke tabel Kadaluarsa');
-                    location.reload()
-                }
+    function barang_keluar(id) {
 
-            }
-        })
+
+        let text;
+        if (confirm("Apakah anda yakin ingin mengeluarkan barang ini?") == true) {
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('Halaman_utama/barang_keluar') ?>',
+                data: {
+                    id_monitoring: id
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data['status'] == 1) {
+                        location.reload()
+                    }
+
+                }
+            })
+        } else {
+            text = "You canceled!";
+        }
     }
 
 

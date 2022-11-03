@@ -50,7 +50,7 @@ class Halaman_utama extends CI_Controller
         return $query;
     }
 
-    public function tambah_kadaluarsa()
+    public function barang_keluar()
     {
         $id_monitoring = $this->input->post('id_monitoring');
         $barang = $this->db->get_where('tb_monitoring_kadaluarsa', ['id_monitoring' => $id_monitoring])->row_array();
@@ -67,7 +67,8 @@ class Halaman_utama extends CI_Controller
             'id_jenis' => $id_jenis
         ];
 
-        $this->db->insert('tb_kadaluarsa', $data);
+        $this->db->insert('tb_keluar', $data);
+
 
         $brg_g = $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
 
@@ -81,10 +82,11 @@ class Halaman_utama extends CI_Controller
 
         $this->db->update('tb_stok_barang', $data_gudang, ['id_barang' => $id_barang]);
 
-        $this->db->where('id_barang', $id_barang);
+        $this->db->where('id_monitoring', $id_monitoring);
         $this->db->delete('tb_monitoring_kadaluarsa');
 
-
+        $this->db->where('jumlah', $jumlah);
+        $this->db->delete('tb_barang_masuk');
         $respon['status'] = 1;
 
         echo json_encode($respon);
