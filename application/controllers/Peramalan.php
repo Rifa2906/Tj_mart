@@ -10,6 +10,7 @@ class Peramalan extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('M_peramalan');
         $this->load->model('M_stok_barang');
+        $this->load->model('M_produk');
     }
 
     public function index()
@@ -98,6 +99,8 @@ class Peramalan extends CI_Controller
         $id_barang = $this->input->post('id_barang');
         $id_peramalan = $this->input->post('id_peramalan');
 
+        $pemasok = $this->db->query("SELECT * FROM tb_peramalan WHERE id_peramalan = $id_peramalan")->row_array();
+
         $this->db->select('*');
         $this->db->from('tb_stok_barang sb',);
         $this->db->join('tb_satuan s', 's.id_satuan = sb.id_satuan');
@@ -116,22 +119,66 @@ class Peramalan extends CI_Controller
         $min_stok = $this->input->post('min_stok');
         $sisa_stok = $barang['stok'];
 
-        $hasil_peramalan = ceil($nilai_peramalan + $min_stok - $sisa_stok);
-        $id_barang = $barang['id_barang'];
-        $id_satuan = $barang['id_satuan'];
-        $data_permintaan = [
-            'id_peramalan' => $id_peramalan,
-            'id_barang' => $id_barang,
-            'id_satuan' => $id_satuan,
-            'jumlah_pengadaan' => $hasil_peramalan,
-            'status' => 'Meminta persetujuan'
+        if ($pemasok['pemasok'] == 'Supplier belum dipilih') {
+            $response['status'] = 0;
+        } else {
+            $hasil_peramalan = ceil($nilai_peramalan + $min_stok - $sisa_stok);
+            $id_barang = $barang['id_barang'];
+            $id_satuan = $barang['id_satuan'];
+            $data_permintaan = [
+                'id_peramalan' => $id_peramalan,
+                'id_barang' => $id_barang,
+                'id_satuan' => $id_satuan,
+                'jumlah_pengadaan' => $hasil_peramalan,
+                'pemasok' => $pemasok['pemasok'],
+                'status' => 'Meminta persetujuan'
+            ];
+
+            $this->db->insert('tb_permintaan', $data_permintaan);
+
+
+            $response['status'] = 1;
+        }
+
+
+        echo json_encode($response);
+    }
+
+    public function tampil_supplier()
+    {
+        $id_barang = $this->input->post('id_barang');
+        $barang = $this->db->get('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
+        $nama_produk = $barang['nama_barang'];
+
+        $this->db->select('*');
+        $this->db->from('tb_produk p',);
+        $this->db->join('tb_pemasok pm', 'pm.id_pemasok = p.id_pemasok');
+        $this->db->where('p.produk', $nama_produk);
+        $query = $this->db->get()->result_array();
+
+        $data = [
+            'id_peramalan' => $this->input->post('id_peramalan'),
+            'supplier' => $query
         ];
 
-        $this->db->insert('tb_permintaan', $data_permintaan);
+        echo json_encode($data);
+    }
 
+    public function pilih_supplier()
+    {
+        $id_peramalan = $this->input->post('id_peramalan');
+        $id_pemasok = $this->input->post('id_pemasok');
+        $pemasok = $this->db->get('tb_pemasok', ['id_pemasok' => $id_pemasok])->row_array();
+
+
+        $data = [
+            'pemasok' => $pemasok['nama_pemasok']
+        ];
+
+        $this->db->where('id_peramalan', $id_peramalan);
+        $this->db->update('tb_peramalan', $data);
 
         $response['status'] = 1;
-
         echo json_encode($response);
     }
 

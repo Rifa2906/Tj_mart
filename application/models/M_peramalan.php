@@ -34,6 +34,7 @@ class M_peramalan extends CI_Model
             'id_barang' => $id_barang,
             'id_satuan' => $id_satuan,
             'id_jenis' => $id_jenis,
+            'pemasok' => 'Supplier belum dipilih',
             'minimal_stok' => $minimal_stok
         ];
 

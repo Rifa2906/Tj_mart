@@ -1,10 +1,3 @@
-<?php
-if ($this->session->userdata('nama') == null) {
-    $login = base_url('Autentikasi');
-    header("Location:$login");
-}
-?>
-
 <!-- Container Fluid-->
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -88,7 +81,10 @@ if ($this->session->userdata('nama') == null) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $warning = date('d-m-Y', strtotime('-30 day', strtotime(date('d-m-Y'))));
+                                    $warning = date('d-m-Y', strtotime('-1 month', strtotime(date('d-m-Y'))));
+
+
+
 
                                     foreach ($mkd as $key => $value) { ?>
 

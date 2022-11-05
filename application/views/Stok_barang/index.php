@@ -1,9 +1,3 @@
- <?php
-    if ($this->session->userdata('nama') == null) {
-        $login = base_url('Login');
-        header("Location:$login");
-    }
-    ?>
  <!-- Container Fluid-->
  <div class="container-fluid" id="container-wrapper">
      <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -171,12 +165,12 @@
                  title: 'Data ' + params1,
                  text: 'Berhasil  ' + params2,
                  icon: 'success',
-                 confirmButtonText: 'Oke'
+                 showConfirmButton: false,
+                 timer: 1500
              }).then((result) => {
-                 if (result.isConfirmed) {
-                     location.reload();
-                 }
+                 location.reload();
              })
+
          }
 
          function simpan() {

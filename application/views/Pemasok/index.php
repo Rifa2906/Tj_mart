@@ -1,9 +1,3 @@
-  <?php
-    if ($this->session->userdata('nama') == null) {
-        $login = base_url('Login');
-        header("Location:$login");
-    }
-    ?>
   <!-- Container Fluid-->
   <div class="container-fluid" id="container-wrapper">
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -17,7 +11,9 @@
               <div class="card mb-4">
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                       <button type="button" data-toggle="modal" data-target="#Modal_pemasok" id="#exampleModal" class="btn btn-primary">Tambah</button>
+                      <a href="<?= base_url('Produk'); ?>" class="btn btn-primary">Tambah Produk</a>
                   </div>
+
                   <div class="table-responsive p-3">
                       <table class="table align-items-center table-flush" id="dataTable">
                           <thead class="thead-light">
@@ -219,12 +215,12 @@
                   title: 'Data ' + params1,
                   text: 'Berhasil  ' + params2,
                   icon: 'success',
-                  confirmButtonText: 'Oke'
+                  showConfirmButton: false,
+                  timer: 1500
               }).then((result) => {
-                  if (result.isConfirmed) {
-                      location.reload();
-                  }
+                  location.reload();
               })
+
           }
 
           function ambil_id(x) {

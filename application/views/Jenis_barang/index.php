@@ -131,12 +131,12 @@
               title: 'Data ' + params1,
               text: 'Berhasil  ' + params2,
               icon: 'success',
-              confirmButtonText: 'Oke'
+              showConfirmButton: false,
+              timer: 1500
           }).then((result) => {
-              if (result.isConfirmed) {
-                  location.reload();
-              }
+              location.reload();
           })
+
       }
 
       function simpan() {

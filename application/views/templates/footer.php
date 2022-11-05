@@ -51,6 +51,11 @@
        <!-- Bootstrap Datepicker -->
        <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
        <!-- Page level custom scripts -->
+
+       <!-- Money mask -->
+       <script src="<?= base_url("assets/Mask-money/dist"); ?>/jquery.mask.min.js"></script>
+
+
        <script>
            $(document).ready(function() {
                $('#dataTable').DataTable({
@@ -72,6 +77,9 @@
                        }
                    }
                }); // ID From dataTable 
+
+
+
            });
        </script>
 
