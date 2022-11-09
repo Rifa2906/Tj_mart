@@ -26,8 +26,12 @@
                                 if ($this->session->userdata('hak_pengguna') == 'staf administrasi') { ?>
                                     <th>Aksi</th>
                                 <?php
+                                } else  if ($this->session->userdata('hak_pengguna') == 'kepala gudang') { ?>
+                                    <th>Aksi</th>
+                                <?php
                                 }
                                 ?>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -70,14 +74,22 @@
                                                 <button data-toggle="tooltip" data-placement="top" title="Disetujui" onclick=" disetujui(<?= $value['id_permintaan'] ?>)" class="btn btn-success btn-sm">
                                                     <i class="fas fa-check" aria-hidden="true"></i>
                                                 </button>
-                                                <button data-toggle="tooltip" data-placement="top" title="Ditolak" onclick="ditolak(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm">
-                                                    <i class="fas fa-exclamation-triangle"></i>
+                                                <button data-toggle="tooltip" data-placement="top" title="Ditolak" onclick="ditolak(<?= $value['id_permintaan'] ?>)" class="btn btn-info btn-sm">
+                                                    <i class="fas fa-exclamation-circle"></i>
                                                 </button>
+
+                                                <button onclick="hapus_permintaan_AM(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                             <?php
                                             }
                                             ?>
 
 
+                                        </td>
+
+                                    <?php
+                                    } else if ($this->session->userdata('hak_pengguna') == 'kepala gudang') { ?>
+                                        <td>
+                                            <button onclick="hapus_permintaan_KG(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                         </td>
 
                                     <?php
@@ -107,14 +119,15 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
 
-        function swall(produk, peramalan, satuan, bulan) {
+        function swall(params1, params2) {
             Swal.fire({
-                title: 'Produk : ' + produk + '<br>Hasil Peramalan : ' + peramalan + ' ' + satuan + '<br>Untuk Bulan : ' + bulan + '<br> Ke Supplier : ',
-                confirmButtonText: 'Oke'
+                title: 'Data ' + params1,
+                text: 'Berhasil  ' + params2,
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
             }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload();
-                }
+                location.reload();
             })
         }
 
@@ -173,7 +186,8 @@
                             title: 'Data Permintaan',
                             text: 'Telah disetujui',
                             icon: 'success',
-                            confirmButtonText: 'Oke'
+                            showConfirmButton: false,
+                            timer: 1500
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 location.reload();
@@ -199,7 +213,8 @@
                             title: 'Data Permintaan',
                             text: 'Tidak disetujui',
                             icon: 'success',
-                            confirmButtonText: 'Oke'
+                            showConfirmButton: false,
+                            timer: 1500
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 location.reload();
@@ -208,5 +223,69 @@
                     }
                 }
             })
+        }
+
+        function hapus_permintaan_KG(id_permintaan) {
+            Swal.fire({
+                title: 'Apakah anda yakin ingin menghapusnya?',
+                showCancelButton: true,
+                confirmButtonText: 'Hapus',
+                icon: 'warning'
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '<?= base_url('Permintaan/hapus') ?>',
+                        dataType: 'json',
+                        data: {
+                            id_permintaan: id_permintaan,
+                        },
+                        success: function(data) {
+                            if (data.status == 1) {
+                                swall('permintaan', 'dihapus')
+                            }
+                        }
+                    })
+
+
+
+                }
+            })
+
+
+        }
+
+        function hapus_permintaan_AM(id_permintaan) {
+            Swal.fire({
+                title: 'Apakah anda yakin ingin menghapusnya?',
+                showCancelButton: true,
+                confirmButtonText: 'Hapus',
+                icon: 'warning'
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '<?= base_url('Permintaan/hapus') ?>',
+                        dataType: 'json',
+                        data: {
+                            id_permintaan: id_permintaan,
+                        },
+                        success: function(data) {
+                            if (data.status == 1) {
+                                swall('permintaan', 'dihapus')
+                            }
+                        }
+                    })
+
+
+
+                }
+            })
+
+
         }
     </script>

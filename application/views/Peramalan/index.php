@@ -44,6 +44,7 @@
                                 <th>Nama Barang</th>
                                 <th>Stok</th>
                                 <th>Minimal Stok</th>
+                                <th>Jumlah Pengadaan</th>
                                 <th>Pemasok</th>
                                 <th>Aksi</th>
                             </tr>
@@ -57,20 +58,16 @@
                                     <td><?= $value['nama_barang']; ?></td>
                                     <td><?= $value['stok']; ?></td>
                                     <td><?= $value['minimal_stok']; ?></td>
+                                    <td><?= $value['jumlah_pengadaan']; ?></td>
                                     <td><?= $value['pemasok']; ?></td>
                                     <td>
-                                        <?php
-                                        if ($value['stok'] < $value['minimal_stok']) { ?>
-                                            <button data-toggle="tooltip" data-placement="top" title="Hasil Peramalan" onclick="peramalan(<?= $value['id_barang'] ?>,<?= $value['minimal_stok'] ?>)" class="btn btn-success btn-sm"><i class="fas fa-solid fa-calculator"></i></button>
 
-                                            <button onclick="kirim(<?= $value['id_peramalan'] ?>,<?= $value['id_barang'] ?>)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Kirim ke tabel permintaan"><i class="fas fa-sharp fa-solid fa-paper-plane"></i></button>
-                                            <button onclick="hapus(<?= $value['id_peramalan'] ?>)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Hapus data"><i class="fas fa-trash"></i></button>
+                                        <button onclick="kirim(<?= $value['id_peramalan'] ?>,<?= $value['id_barang'] ?>)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Kirim ke tabel permintaan"><i class="fas fa-sharp fa-solid fa-paper-plane"></i></button>
+                                        <button onclick="hapus(<?= $value['id_peramalan'] ?>)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Hapus data"><i class="fas fa-trash"></i></button>
 
-                                            <button data-toggle="modal" data-target="#Modal_supplier" id="#exampleModal" onclick=" tampil_supplier(<?= $value['id_peramalan'] ?>,<?= $value['id_barang'] ?>)" class="btn btn-success btn-sm"><i data-toggle="tooltip" data-placement="top" title="Pilih supplier" class="fas fa-truck-moving"></i></button>
+                                        <button data-toggle="modal" data-target="#Modal_supplier" id="#exampleModal" onclick=" tampil_supplier(<?= $value['id_peramalan'] ?>,<?= $value['id_barang'] ?>)" class="btn btn-success btn-sm"><i data-toggle="tooltip" data-placement="top" title="Pilih supplier" class="fas fa-truck-moving"></i></button>
 
-                                        <?php
-                                        }
-                                        ?>
+
 
                                     </td>
                                 </tr>
@@ -151,34 +148,6 @@
             })
         }
 
-        function peramalan(id_barang, min_stok, stok) {
-            $.ajax({
-                type: 'POST',
-                url: '<?= base_url('Peramalan/peramalan') ?>',
-                dataType: 'json',
-                data: {
-                    id_barang: id_barang,
-                    min_stok: min_stok
-                },
-                success: function(data) {
-
-                    if (data.status == 1) {
-                        produk = data.produk;
-                        peramalan = data.peramalan
-                        bulan = data.bulan_berikutnya
-                        satuan = data.satuan
-                        jenis = data.jenis
-
-                        swall(produk, peramalan, satuan, bulan)
-                    } else if (data.status == 0) {
-                        produk = data.produk;
-                        gagal_peramalan(produk)
-                    }
-
-
-                }
-            })
-        }
 
         function kirim(id_peramalan, id_barang) {
             $.ajax({
@@ -254,7 +223,7 @@
             id_peramalan = $("#id_peramalan").val()
             $.ajax({
                 method: "POST",
-                url: "<?= base_url('Peramalan/pilih_supplier') ?>",
+                url: "<?= base_url('Peramalan/pilih_suplier') ?>",
                 data: {
                     id_peramalan: id_peramalan,
                     id_pemasok: id_pemasok
@@ -275,6 +244,8 @@
                     }
                 }
             })
+
+
         }
 
         function hapus(x) {

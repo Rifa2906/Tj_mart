@@ -22,7 +22,7 @@
                           <thead class="thead-light">
                               <tr>
                                   <th>No</th>
-                                  <th>Nama Jenis</th>
+                                  <th>Jenis</th>
                                   <th>Minimal Stok</th>
                                   <th>Aksi</th>
                               </tr>

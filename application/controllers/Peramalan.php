@@ -99,7 +99,7 @@ class Peramalan extends CI_Controller
         $id_barang = $this->input->post('id_barang');
         $id_peramalan = $this->input->post('id_peramalan');
 
-        $pemasok = $this->db->query("SELECT * FROM tb_peramalan WHERE id_peramalan = $id_peramalan")->row_array();
+        $peramalan = $this->db->query("SELECT * FROM tb_peramalan WHERE id_peramalan = $id_peramalan")->row_array();
 
         $this->db->select('*');
         $this->db->from('tb_stok_barang sb',);
@@ -108,33 +108,23 @@ class Peramalan extends CI_Controller
         $this->db->where('sb.id_barang', $id_barang);
         $barang = $this->db->get()->row_array();
 
-        $query = $this->db->query("SELECT * FROM tb_barang_keluar WHERE id_barang = $id_barang ORDER BY tanggal_keluar DESC LIMIT 3")->result_array();
-        $total = 0;
-        foreach ($query as $key => $value) {
-            $total += $value['jumlah'];
-        }
-        //Rumus Single Moving Average (periode 3 bulan)
-        $nilai_peramalan = ($total / 3);
-
-        $min_stok = $this->input->post('min_stok');
-        $sisa_stok = $barang['stok'];
-
-        if ($pemasok['pemasok'] == 'Supplier belum dipilih') {
+        if ($peramalan['pemasok'] == 'Supplier belum dipilih') {
             $response['status'] = 0;
         } else {
-            $hasil_peramalan = ceil($nilai_peramalan + $min_stok - $sisa_stok);
+
             $id_barang = $barang['id_barang'];
             $id_satuan = $barang['id_satuan'];
             $data_permintaan = [
                 'id_peramalan' => $id_peramalan,
                 'id_barang' => $id_barang,
                 'id_satuan' => $id_satuan,
-                'jumlah_pengadaan' => $hasil_peramalan,
-                'pemasok' => $pemasok['pemasok'],
+                'jumlah_pengadaan' => $peramalan['jumlah_pengadaan'],
+                'pemasok' => $peramalan['pemasok'],
                 'status' => 'Meminta persetujuan'
             ];
 
             $this->db->insert('tb_permintaan', $data_permintaan);
+            $this->db->delete('tb_peramalan', ['id_peramalan' => $id_peramalan]);
 
 
             $response['status'] = 1;
@@ -164,11 +154,12 @@ class Peramalan extends CI_Controller
         echo json_encode($data);
     }
 
-    public function pilih_supplier()
+    public function pilih_suplier()
     {
         $id_peramalan = $this->input->post('id_peramalan');
         $id_pemasok = $this->input->post('id_pemasok');
-        $pemasok = $this->db->get('tb_pemasok', ['id_pemasok' => $id_pemasok])->row_array();
+
+        $pemasok = $this->db->query("SELECT * FROM tb_pemasok WHERE id_pemasok = $id_pemasok")->row_array();
 
 
         $data = [

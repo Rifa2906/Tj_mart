@@ -45,4 +45,12 @@ class Permintaan extends CI_Controller
         $response['status'] = 1;
         echo json_encode($response);
     }
+
+    public function hapus()
+    {
+        $id_permintaan = $this->input->post('id_permintaan');
+        $this->db->delete('tb_permintaan', ['id_permintaan' => $id_permintaan]);
+        $respon['status'] = 1;
+        echo json_encode($respon);
+    }
 }
