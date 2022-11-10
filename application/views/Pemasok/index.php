@@ -22,6 +22,7 @@
                                   <th>Nama pemasok</th>
                                   <th>No telpon</th>
                                   <th>Alamat</th>
+                                  <th>Produk</th>
                                   <th>Aksi</th>
                               </tr>
                           </thead>
@@ -34,19 +35,19 @@
                                       <td><?= $value['no_telpon']; ?></td>
                                       <td><?= $value['alamat']; ?></td>
                                       <td>
-                                          <!-- <a data-toggle="tooltip" data-placement="top" title="Ubah"> -->
-                                          <button data-toggle="modal" data-target="#Modal_pemasok_edit" id="#exampleModal" onclick="ambil_id(<?= $value['id_pemasok'] ?>)" class="btn btn-warning btn-sm">
+
+                                          <button data-toggle="modal" data-target="#Modal_produk" id="#exampleModal" onclick="tampil_produk(<?= $value['id_pemasok'] ?>)" class="btn btn-success btn-sm"><i data-toggle="tooltip" data-placement="top" title="Produk" class="fas fa-box"></i></button>
+
+                                      </td>
+                                      <td>
+                                          <button data-toggle="tooltip" data-placement="top" title="Ubah" data-toggle="modal" data-target="#Modal_pemasok_edit" id="#exampleModal" onclick="ambil_id(<?= $value['id_pemasok'] ?>)" class="btn btn-warning btn-sm">
                                               <i class="fas fa-pencil-alt"></i>
                                           </button>
-                                          <!-- </a> -->
 
-                                          <!-- <a data-toggle="tooltip" data-placement="top" title="Hapus"> -->
 
-                                          <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_pemasok'] ?>)">
+                                          <button data-toggle="tooltip" data-placement="top" title="Hapus" class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_pemasok'] ?>)">
                                               <i class="fas fa-trash"></i>
                                           </button>
-
-                                          <!-- </a> -->
                                       </td>
                                   </tr>
 
@@ -63,6 +64,34 @@
 
       </div>
       <!---Container Fluid-->
+
+      <!-- Modal pilih supplier -->
+      <div class="modal fade" id="Modal_produk" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable" role="document">
+              <div class="modal-content">
+                  <div class="modal-header bg-primary">
+                      <h5 class="modal-title text-white" id="exampleModalLabel">Produk</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <input type="hidden" id="id_peramalan">
+                      <table class="table align-items-center table-flush table-hover" id="dataTable">
+                          <thead>
+                              <tr>
+                                  <th>Produk</th>
+                                  <th>harga</th>
+                              </tr>
+                          </thead>
+                          <tbody id="target">
+
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
 
 
 
@@ -320,6 +349,33 @@
                       })
 
                       swall('pemasok', 'dihapus')
+
+                  }
+              })
+          }
+
+          function tampil_produk(id_pemasok) {
+              $.ajax({
+                  method: "POST",
+                  url: "<?= base_url('Pemasok/tampil_produk') ?>",
+                  data: {
+                      id_pemasok: id_pemasok,
+                  },
+                  dataType: "json",
+                  success: function(data) {
+
+                      var html = '';
+                      var i;
+                      var produk = data;
+                      for (i = 0; i < produk.length; i++) {
+                          html += '<tr>' +
+                              '<td>' + produk[i].produk + '</td>' +
+                              '<td> Rp. ' + produk[i].harga + '</td>' +
+                              '</tr>';
+                      }
+                      $('#target').html(html);
+
+
 
                   }
               })

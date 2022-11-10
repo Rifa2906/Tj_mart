@@ -71,30 +71,36 @@
                                         <td>
                                             <?php
                                             if ($value['status'] == "Meminta persetujuan") { ?>
-                                                <button data-toggle="tooltip" data-placement="top" title="Disetujui" onclick=" disetujui(<?= $value['id_permintaan'] ?>)" class="btn btn-success btn-sm">
-                                                    <i class="fas fa-check" aria-hidden="true"></i>
+                                                <button data-toggle="tooltip" data-placement="left" title="Disetujui" onclick=" disetujui(<?= $value['id_permintaan'] ?>)" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
                                                 </button>
-                                                <button data-toggle="tooltip" data-placement="top" title="Ditolak" onclick="ditolak(<?= $value['id_permintaan'] ?>)" class="btn btn-info btn-sm">
+
+
+
+                                                <button data-toggle="tooltip" data-placement="left" title="Ditolak" onclick="ditolak(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm">
+
                                                     <i class="fas fa-exclamation-circle"></i>
                                                 </button>
 
-                                                <button onclick="hapus_permintaan_AM(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                            <?php
+                                                <button data-toggle="tooltip" data-placement="left" title="Dihapus" onclick="hapus_permintaan_AM(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                        </td>
+
+                                    <?php
                                             }
-                                            ?>
-
-
-                                        </td>
-
-                                    <?php
-                                    } else if ($this->session->userdata('hak_pengguna') == 'kepala gudang') { ?>
-                                        <td>
-                                            <button onclick="hapus_permintaan_KG(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                        </td>
-
-                                    <?php
-                                    }
                                     ?>
+
+
+
+
+                                <?php
+                                    } else if ($this->session->userdata('hak_pengguna') == 'kepala gudang') { ?>
+                                    <td>
+                                        <button data-toggle="tooltip" data-placement="left" title="Dihapus" onclick="hapus_permintaan_KG(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    </td>
+
+                                <?php
+                                    }
+                                ?>
 
                                 </tr>
                             <?php
@@ -182,17 +188,7 @@
                 success: function(data) {
                     if (data.status == 1) {
 
-                        Swal.fire({
-                            title: 'Data Permintaan',
-                            text: 'Telah disetujui',
-                            icon: 'success',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        })
+                        swall('permintaan', 'Disetujui')
                     }
                 }
             })
@@ -209,17 +205,7 @@
                 success: function(data) {
                     if (data.status == 1) {
 
-                        Swal.fire({
-                            title: 'Data Permintaan',
-                            text: 'Tidak disetujui',
-                            icon: 'success',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        })
+                        swall('permintaan', 'Ditolak')
                     }
                 }
             })

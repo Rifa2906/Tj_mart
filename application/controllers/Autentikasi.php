@@ -65,8 +65,4 @@ class Autentikasi extends CI_Controller
         $this->session->unset_userdata('nama');
         redirect('Autentikasi');
     }
-
-    public function sendEmail()
-    {
-    }
 }

@@ -119,4 +119,13 @@ class Pemasok extends CI_Controller
         $this->db->where('id_pemasok', $id_pemasok);
         $this->db->delete('tb_pemasok');
     }
+
+    public function tampil_produk()
+    {
+        $id_pemasok = $this->input->post('id_pemasok');
+        $produk = $this->db->query("SELECT * FROM tb_produk WHERE id_pemasok = $id_pemasok")->result_array();
+
+
+        echo json_encode($produk);
+    }
 }
