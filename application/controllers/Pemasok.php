@@ -16,7 +16,7 @@ class Pemasok extends CI_Controller
         $data['kode_pemasok'] = $this->kode_otomatis();
         $data['pemasok'] = $this->M_pemasok->tampil();
         $data['title'] = 'Pemasok';
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Pemasok/index', $data);

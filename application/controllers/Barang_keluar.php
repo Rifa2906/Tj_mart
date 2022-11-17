@@ -12,6 +12,7 @@ class Barang_keluar extends CI_Controller
         $this->load->model('M_satuan');
         $this->load->model('M_jenis_barang');
         $this->load->model('M_stok_barang');
+        $this->load->library('Pdf'); // MEMANGGIL LIBRARY YANG KITA BUAT TADI
     }
 
     public function index()
@@ -20,7 +21,7 @@ class Barang_keluar extends CI_Controller
         $data['barang_keluar'] = $this->M_barang_keluar->tampil();
         $data['brg'] = $this->M_stok_barang->tampil();
         $data['title'] = 'Barang keluar';
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Barang_keluar/index', $data);
@@ -149,5 +150,45 @@ class Barang_keluar extends CI_Controller
 
         $this->db->where('id_keluar', $id_keluar);
         $this->db->delete('tb_barang_keluar');
+    }
+
+    public function cetak_pdf()
+    {
+        error_reporting(0); // AGAR ERROR MASALAH VERSI PHP TIDAK MUNCUL
+        $pdf = new FPDF('P', 'mm', 'Letter');
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Image('./assets/ruang-admin/img/logo/Tj.png');
+        $pdf->Cell(0, 9, 'Trengginas Jaya Mart', 0, 1, 'C');
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(200, 9, 'Jl. Sumur Bandung No. 12, Bandung ,Telp: (022) 253205,Fax: (022) 2532053', 0, 1, 'C');
+        $pdf->Cell(0, 9, '', 0, 1, 'C');
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->Cell(0, 10, 'Data Barang Keluar', 0, 1, 'C');
+        $pdf->Cell(10, 10, '', 0, 1);
+        $pdf->SetFillColor(210, 221, 242);
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(10, 6, 'No', 1, 0, 'C');
+        $pdf->Cell(50, 6, 'Tanggal keluar', 1, 0, 'C');
+        $pdf->Cell(40, 6, 'Nama Barang', 1, 0, 'C');
+        $pdf->Cell(20, 6, 'Jumlah', 1, 0, 'C');
+        $pdf->Cell(25, 6, 'Jenis barang', 1, 0, 'C');
+        $pdf->Cell(20, 6, 'Satuan', 1, 1, 'C');
+        $pdf->SetFont('Arial', '', 10);
+
+        $query = $this->M_barang_keluar->tampil();
+
+        $brg = $query;
+        $no = 0;
+        foreach ($brg as $data) {
+            $no++;
+            $pdf->Cell(10, 6, $no, 1, 0, 'C');
+            $pdf->Cell(50, 6, date('d-m-Y', strtotime($data['tanggal_keluar'])), 1, 0);
+            $pdf->Cell(40, 6, $data['nama_barang'], 1, 0);
+            $pdf->Cell(20, 6, $data['jumlah'], 1,);
+            $pdf->Cell(25, 6, $data['nama_jenis'], 1, 0);
+            $pdf->Cell(20, 6, $data['satuan'], 1, 1);
+        }
+        $pdf->Output('I', 'Laporan Barang Keluar.pdf');
     }
 }

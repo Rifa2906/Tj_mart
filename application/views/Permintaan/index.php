@@ -10,7 +10,7 @@
         <div class="col-lg-12">
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-
+                    <a class="btn btn-primary" href="<?= base_url('Permintaan/cetak_pdf'); ?>">Cetak PDF</a>
                 </div>
                 <div class="table-responsive p-3">
                     <table class="table align-items-center table-flush" id="dataTable">
@@ -95,7 +95,7 @@
                                 <?php
                                     } else if ($this->session->userdata('hak_pengguna') == 'kepala gudang') { ?>
                                     <td>
-                                        <button data-toggle="tooltip" data-placement="left" title="Dihapus" onclick="hapus_permintaan_KG(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                        <button data-toggle="tooltip" data-placement="top" title="Dihapus" onclick="hapus_permintaan_KG(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                     </td>
 
                                 <?php

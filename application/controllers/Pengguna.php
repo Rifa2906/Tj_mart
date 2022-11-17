@@ -16,7 +16,7 @@ class Pengguna extends CI_Controller
     {
         $data['user'] = $this->M_pengguna->tampil();
         $data['title'] = 'Pengguna';
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Pengguna/index', $data);

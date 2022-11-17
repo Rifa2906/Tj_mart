@@ -18,7 +18,7 @@ class Produk extends CI_Controller
         $data['pemasok'] = $this->M_pemasok->tampil();
         $data['produk'] = $this->M_produk->tampil();
         $data['satuan'] = $this->M_satuan->tampil();
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Pemasok/produk', $data);

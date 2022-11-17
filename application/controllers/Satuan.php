@@ -15,7 +15,7 @@ class Satuan extends CI_Controller
     {
         $data['satuan'] = $this->M_satuan->tampil();
         $data['title'] = 'Satuan';
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Satuan/index', $data);

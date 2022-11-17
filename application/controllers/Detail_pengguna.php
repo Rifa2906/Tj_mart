@@ -14,7 +14,7 @@ class Detail_pengguna extends CI_Controller
     public function detail($id_pengguna)
     {
         $data['detail'] = $this->M_detail->tampil($id_pengguna);
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Pengguna/detail', $data);

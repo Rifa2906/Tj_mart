@@ -6,7 +6,7 @@
           </div>
           <div class="sidebar-brand-text mx-3 text-dark">TJ MART</div>
       </a>
-      <hr class="sidebar-divider my-0">
+
       <li class="nav-item">
           <a class="nav-link" href="<?= base_url('Halaman_utama'); ?>">
               <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -15,6 +15,9 @@
       <hr class="sidebar-divider">
       <?php
         if ($this->session->userdata('hak_pengguna') == 'staf administrasi') { ?>
+          <div class="sidebar-heading">
+              Transaksi
+          </div>
           <li class="nav-item">
               <a class="nav-link" href="<?= base_url('Permintaan'); ?>">
                   <i class="fas fa-fw fa-cube"></i>

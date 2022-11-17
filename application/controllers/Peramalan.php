@@ -18,7 +18,7 @@ class Peramalan extends CI_Controller
         $data['peramalan'] = $this->M_peramalan->tampil();
         $data['barang'] = $this->M_stok_barang->tampil();
         $data['title'] = 'Peramalan';
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Peramalan/index', $data);

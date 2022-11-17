@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="<?= base_url('assets/ruang-admin'); ?>/img/logo/Tj.ico" rel="icon">
-    <title>RuangAdmin - Blank Page</title>
+    <title><?= $title; ?></title>
     <script src="<?= base_url('assets/ruang-admin'); ?>/vendor/jquery/jquery.min.js"></script>
     <link href="<?= base_url('assets/ruang-admin'); ?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="<?= base_url('assets/ruang-admin'); ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">

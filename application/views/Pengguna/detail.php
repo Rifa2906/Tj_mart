@@ -170,7 +170,6 @@
             <button type="button" class="btn btn-primary btn-edit-pass" data-toggle="modal" data-target="#exampleModal" id="#myBtn">
                 Ubah kata sandi
             </button>
-            <a class="btn btn-primary" href="<?= base_url('Pengguna'); ?>">Kembali</a>
         </div>
     </div>
 </div>

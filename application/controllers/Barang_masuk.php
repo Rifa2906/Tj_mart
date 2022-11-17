@@ -21,7 +21,7 @@ class Barang_masuk extends CI_Controller
 
         $data['barang_masuk'] = $this->M_barang_masuk->tampil();
         $data['title'] = 'Barang Masuk';
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Barang_masuk/index', $data);
@@ -167,7 +167,6 @@ class Barang_masuk extends CI_Controller
         $pdf->Cell(200, 9, 'Jl. Sumur Bandung No. 12, Bandung ,Telp: (022) 253205,Fax: (022) 2532053', 0, 1, 'C');
         $pdf->Cell(0, 9, '', 0, 1, 'C');
         $pdf->SetFont('Arial', 'B', 14);
-        $pdf->Image('./assets/ruang-admin/img/logo/Tj.png');
         $pdf->Cell(0, 10, 'Data Barang Masuk', 0, 1, 'C');
         $pdf->Cell(10, 10, '', 0, 1);
         $pdf->SetFillColor(210, 221, 242);

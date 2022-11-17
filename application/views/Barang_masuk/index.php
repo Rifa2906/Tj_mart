@@ -2,11 +2,7 @@
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="./">Home</a></li>
-            <li class="breadcrumb-item">Pages</li>
-            <li class="breadcrumb-item active" aria-current="page">Blank Page</li>
-        </ol>
+
     </div>
 
     <div class="row">
@@ -15,28 +11,16 @@
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 
-                    <table>
-                        <tr>
-                            <td>
-                                <a href="<?= base_url('Barang_masuk/form_tambah'); ?>" class="btn btn-primary">
-                                    Tambah
-                                </a>
-                            </td>
-                            <td>
-                                <div class="btn-group mb-1 mt-1">
-                                    <button type="button" class="btn btn-primary">Cetak Laporan</button>
-                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="<?= base_url('Barang_masuk/cetak_pdf'); ?>">PDF</a>
-                                        <a class="dropdown-item" href="#">EXCEL</a>
-                                        <a class="dropdown-item" href="#">PRINT</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="row">
+                        <div class="col-5">
+                            <a href="<?= base_url('Barang_masuk/form_tambah'); ?>" class="btn btn-primary">
+                                Tambah
+                            </a>
+                        </div>
+                        <div class="col-7">
+                            <a class="btn btn-primary" href="<?= base_url('Barang_masuk/cetak_pdf'); ?>">Cetak PDF</a>
+                        </div>
+                    </div>
 
 
                 </div>

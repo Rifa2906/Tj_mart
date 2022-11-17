@@ -18,7 +18,7 @@ class Halaman_utama extends CI_Controller
     {
         $data['title'] = 'Halaman Utama';
         $data['mkd'] = $this->monitoring_kadaluarsa();
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Halaman_utama/index', $data);

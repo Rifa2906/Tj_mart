@@ -20,7 +20,7 @@ class Stok_barang extends CI_Controller
         $data['brg'] = $this->M_stok_barang->tampil();
         $data['satuan'] = $this->M_satuan->tampil();
         $data['jenis'] = $this->M_jenis_barang->tampil();
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Stok_barang/index', $data);

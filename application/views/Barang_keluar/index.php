@@ -2,11 +2,7 @@
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="./">Home</a></li>
-            <li class="breadcrumb-item">Pages</li>
-            <li class="breadcrumb-item active" aria-current="page">Blank Page</li>
-        </ol>
+
     </div>
 
     <div class="row">
@@ -14,9 +10,19 @@
         <div class="col-lg-12">
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <a href="<?= base_url('Barang_keluar/form_tambah'); ?>" class="btn btn-primary">
-                        Tambah
-                    </a>
+                    <div class="row">
+                        <div class="col-5">
+                            <a href="<?= base_url('Barang_keluar/form_tambah'); ?>" class="btn btn-primary">
+                                Tambah
+                            </a>
+                        </div>
+                        <div class="col-7">
+                            <a class="btn btn-primary" href="<?= base_url('Barang_keluar/cetak_pdf'); ?>">Cetak PDF</a>
+                        </div>
+                    </div>
+
+
+
 
                 </div>
                 <div class="table-responsive p-3">

@@ -18,7 +18,7 @@ class Keluar_barang extends CI_Controller
     {
         $data['kd'] = $this->M_Keluar_barang->tampil();
         $data['title'] = 'Barang yang akan dikeluarkan';
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Keluar barang/index', $data);
