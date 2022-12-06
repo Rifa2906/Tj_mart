@@ -19,6 +19,7 @@
                                 <th>No</th>
                                 <th>Nama Barang</th>
                                 <th>Jumlah Pengadaan</th>
+                                <th>Untuk bulan</th>
                                 <th>Satuan</th>
                                 <th>Pemasok</th>
                                 <th>Status</th>
@@ -42,6 +43,7 @@
                                     <td><?= $no++; ?></td>
                                     <td><?= $value['nama_barang']; ?></td>
                                     <td><?= $value['jumlah_pengadaan']; ?></td>
+                                    <td><?= $value['bulan']; ?></td>
                                     <td><?= $value['satuan']; ?></td>
                                     <td><?= $value['pemasok']; ?></td>
                                     <td>

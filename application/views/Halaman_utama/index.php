@@ -62,10 +62,10 @@
     if ($this->session->userdata('hak_pengguna') == 'kepala gudang') { ?>
         <div class="row">
             <!-- Area Chart -->
-            <div class="col">
+            <div class="col-8">
                 <div class="card mb-4">
                     <div class="card-header  bg-primary text-white py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-black">Monitoring Barang Kadaluarsa</h6>
+                        <h6 class="m-0 font-weight-bold text-black">Monitoring Barang yang akan segera kadaluarsa</h6>
                     </div>
                     <div class="card-body">
                         <div>
@@ -81,10 +81,7 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $warning = date('d-m-Y', strtotime('-1 month', strtotime(date('d-m-Y'))));
-
-
-
+                                    $warning = date('d-m-Y', strtotime('-14 day', strtotime(date('d-m-Y'))));
 
                                     foreach ($mkd as $key => $value) { ?>
 
@@ -104,6 +101,13 @@
                                                         <span class="badge badge-warning p-2"><i class="fas fa-exclamation-triangle"></i></span><br>
                                                         <small><?= $diff->d . ' hari lagi '; ?></small>
                                                     <?php
+                                                    } else { ?>
+
+                                                        <span class="badge badge-success p-2">
+                                                            <i class="fas fa-shield-alt"></i>
+                                                        </span>
+                                                    <?php
+
                                                     }
                                                     ?>
                                                 </center>
@@ -123,6 +127,64 @@
 
                                     }
 
+                                    ?>
+                                </tbody>
+                            </table>
+                            <div class="card-footer text-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="card mb-4">
+                    <div class="card-header  bg-primary text-white py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-black">Monitoring Stok Barang</h6>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <table class="table">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                    <?php
+
+                                    foreach ($brg as $key => $value) {
+                                        $jenis_barang = $value['nama_jenis'];
+                                        $stok = $value['stok'];
+                                    ?>
+                                        <tr>
+
+                                            <td>
+
+                                                <?php
+                                                if (($jenis_barang == 'Minuman' && $stok < 10) ||  ($jenis_barang == 'Makanan' && $stok < 3)) { ?>
+                                                    <div class="small text-black-500 font-weight-bold mb-2"><?= $value['nama_barang']; ?>
+                                                        <div class="small float-right"><b class="text-black-50 font-weight-bold"> <?= $value['stok']; ?></b></div>
+                                                    </div>
+                                                    <div class="progress" style="height: 12px;">
+                                                        <div class="progress-bar bg-danger" role="progressbar" style="width: <?= $value['stok']; ?>%" aria-valuenow="<?= $value['stok']; ?>" aria-valuemin="0" aria-valuemax="0"></div>
+                                                    </div>
+
+                                                <?php
+                                                } else { ?>
+
+                                                    <div class="small text-black-500 font-weight-bold mb-2"><?= $value['nama_barang']; ?>
+                                                        <div class="small float-right"><b class="text-black-50 font-weight-bold"> <?= $value['stok']; ?></b></div>
+                                                    </div>
+                                                    <div class="progress" style="height: 12px;">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: <?= $value['stok']; ?>%" aria-valuenow="<?= $value['stok']; ?>" aria-valuemin="0" aria-valuemax="0"></div>
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
+
+                                            </td>
+                                        </tr>
+
+                                    <?php
+                                    }
                                     ?>
                                 </tbody>
                             </table>

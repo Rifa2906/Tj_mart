@@ -18,6 +18,7 @@ class Halaman_utama extends CI_Controller
     {
         $data['title'] = 'Halaman Utama';
         $data['mkd'] = $this->monitoring_kadaluarsa();
+        $data['brg'] = $this->monitoring_barang_pengadaan();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
@@ -48,6 +49,11 @@ class Halaman_utama extends CI_Controller
         $this->db->join('tb_stok_barang sb', 'sb.id_barang = mkd.id_barang');
         $query = $this->db->get()->result_array();
         return $query;
+    }
+
+    public function monitoring_barang_pengadaan()
+    {
+        return $this->M_stok_barang->tampil();
     }
 
     public function barang_keluar()

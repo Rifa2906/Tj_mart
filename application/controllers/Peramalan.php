@@ -119,6 +119,7 @@ class Peramalan extends CI_Controller
                 'id_barang' => $id_barang,
                 'id_satuan' => $id_satuan,
                 'jumlah_pengadaan' => $peramalan['jumlah_pengadaan'],
+                'bulan' => $peramalan['bulan'],
                 'pemasok' => $peramalan['pemasok'],
                 'status' => 'Meminta persetujuan'
             ];

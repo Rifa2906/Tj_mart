@@ -59,10 +59,8 @@ class M_peramalan extends CI_Model
 
         $bulan = $this->db->query("SELECT * FROM tb_barang_keluar WHERE id_barang = $id_barang ORDER BY tanggal_keluar DESC LIMIT 1")->row_array();
 
-        $bulan = date('F', strtotime("+1 month", strtotime($bulan['tanggal_keluar'])));
-        $produk = $barang['nama_barang'];
-        $satuan = $barang['satuan'];
-        $jenis = $barang['nama_jenis'];
+        $tanggal = date('j-F-Y', strtotime("+1 month", strtotime($bulan['tanggal_keluar'])));
+
 
 
 
@@ -73,6 +71,7 @@ class M_peramalan extends CI_Model
             'id_satuan' => $id_satuan,
             'id_jenis' => $id_jenis,
             'jumlah_pengadaan' => $hasil_peramalan,
+            'bulan' => $tanggal,
             'pemasok' => 'Supplier belum dipilih',
             'minimal_stok' => $minimal_stok
         ];

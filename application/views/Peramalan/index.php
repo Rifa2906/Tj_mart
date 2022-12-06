@@ -45,6 +45,7 @@
                                 <th>Stok</th>
                                 <th>Minimal Stok</th>
                                 <th>Jumlah Pengadaan</th>
+                                <th>Untuk Tanggal</th>
                                 <th>Pemasok</th>
                                 <th>Aksi</th>
                             </tr>
@@ -59,6 +60,7 @@
                                     <td><?= $value['stok']; ?></td>
                                     <td><?= $value['minimal_stok']; ?></td>
                                     <td><?= $value['jumlah_pengadaan']; ?></td>
+                                    <td><?= $value['bulan']; ?></td>
                                     <td><?= $value['pemasok']; ?></td>
                                     <td>
 
@@ -105,7 +107,7 @@
                             <tr>
                                 <th>Pemasok</th>
                                 <th>Produk</th>
-                                <th>harga</th>
+                                <th>Harga</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
