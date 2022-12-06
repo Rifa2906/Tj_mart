@@ -14,7 +14,7 @@
       </li>
       <hr class="sidebar-divider">
       <?php
-        if ($this->session->userdata('hak_pengguna') == 'admin') { ?>
+        if ($this->session->userdata('hak_pengguna') == 'administrator') { ?>
           <div class="sidebar-heading">
               Data Master
           </div>
@@ -37,12 +37,6 @@
                   <span>Supplier</span>
               </a>
           </li>
-          <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('Peramalan'); ?>">
-                  <i class="fas fa-fw fa-cube"></i>
-                  <span>Peramalan</span>
-              </a>
-          </li>
           <hr class="sidebar-divider">
           <div class="sidebar-heading">
               Transaksi
@@ -57,12 +51,6 @@
               <a class="nav-link" href="<?= base_url('Barang_keluar'); ?>">
                   <i class="fas fa-fw fa-arrow-left"></i>
                   <span>Barang Keluar</span>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('Permintaan'); ?>">
-                  <i class="fas fa-fw fa-cube"></i>
-                  <span>Permintaan</span>
               </a>
           </li>
           <li class="nav-item">
@@ -84,7 +72,7 @@
       <?php
         }
 
-        if ($this->session->userdata('hak_pengguna') == 'staf administrasi') { ?>
+        if ($this->session->userdata('hak_pengguna') == 'asisten manajer') { ?>
           <div class="sidebar-heading">
               Transaksi
           </div>

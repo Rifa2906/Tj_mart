@@ -34,7 +34,7 @@
                                     <td>
 
 
-                                        <a class="btn btn-success btn-sm btn-detail" href="<?= base_url('Detail_pengguna/detail/') . $value['id_pengguna'] ?>" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fas fa-light fa-user"></i></a>
+                                        <!-- <a class="btn btn-success btn-sm btn-detail" href="<?= base_url('Detail_pengguna/detail/') . $value['id_pengguna'] ?>" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fas fa-light fa-user"></i></a> -->
 
                                         <a data-toggle="tooltip" data-placement="top" title="Ubah">
                                             <button data-toggle="modal" data-target="#Modal_user_edit" id="#exampleModal" onclick="submit(<?= $value['id_pengguna'] ?>)" class="btn btn-warning btn-sm">

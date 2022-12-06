@@ -43,16 +43,16 @@ class M_pengguna extends CI_Model
         $pass = $this->input->post('Pass1');
 
         $Peran = $peran;
-        if ($Peran == 'admin') {
+        if ($Peran == 'administrator') {
             $data = [
                 'nama' => $nama,
                 'alamat' => $alamat,
                 'no_telpon' => $no_telpon,
                 'email' => $email,
                 'kata_sandi' => $pass,
-                'hak_pengguna' => 'admin gudang'
+                'hak_pengguna' => 'administrator'
             ];
-        } else {
+        } else  if ($Peran == 'kepala gudang') {
             $data = [
                 'nama' => $nama,
                 'alamat' => $alamat,
@@ -60,6 +60,24 @@ class M_pengguna extends CI_Model
                 'email' => $email,
                 'kata_sandi' => $pass,
                 'hak_pengguna' => 'kepala gudang'
+            ];
+        } else  if ($Peran == 'staf gudang') {
+            $data = [
+                'nama' => $nama,
+                'alamat' => $alamat,
+                'no_telpon' => $no_telpon,
+                'email' => $email,
+                'kata_sandi' => $pass,
+                'hak_pengguna' => 'staf gudang'
+            ];
+        } else  if ($Peran == 'asisten manajer') {
+            $data = [
+                'nama' => $nama,
+                'alamat' => $alamat,
+                'no_telpon' => $no_telpon,
+                'email' => $email,
+                'kata_sandi' => $pass,
+                'hak_pengguna' => 'asisten manajer'
             ];
         }
 
