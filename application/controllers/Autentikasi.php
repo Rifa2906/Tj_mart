@@ -16,7 +16,7 @@ class Autentikasi extends CI_Controller
         $this->form_validation->set_rules('password', 'Password', 'required');
 
         if ($this->form_validation->run() == false) {
-            $data['title'] = "Masuk";
+            $data['title'] = "Login";
             $this->load->view('templates/header_login', $data);
             $this->load->view('Autentikasi/index');
             $this->load->view('templates/footer_login');

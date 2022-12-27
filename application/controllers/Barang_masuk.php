@@ -164,7 +164,7 @@ class Barang_masuk extends CI_Controller
         $pdf->Image('./assets/ruang-admin/img/logo/Tj.png');
         $pdf->Cell(0, 9, 'Trengginas Jaya Mart', 0, 1, 'C');
         $pdf->SetFont('Arial', 'B', 8);
-        $pdf->Cell(200, 9, 'Jl. Sumur Bandung No. 12, Bandung ,Telp: (022) 253205,Fax: (022) 2532053', 0, 1, 'C');
+        $pdf->Cell(250, 9, 'Jl. Sumur Bandung No. 12, Bandung ,Telp: (022) 253205,Fax: (022) 2532053', 0, 1, 'C');
         $pdf->Cell(0, 9, '', 0, 1, 'C');
         $pdf->SetFont('Arial', 'B', 14);
         $pdf->Cell(0, 10, 'Data Barang Masuk', 0, 1, 'C');

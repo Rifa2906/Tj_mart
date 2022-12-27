@@ -31,7 +31,7 @@ class Peramalan extends CI_Controller
     {
 
         $this->form_validation->set_rules('id_barang', 'Nama barang', 'required|is_unique[tb_peramalan.id_barang]', [
-            'is_unique' => 'Barang sudah diramal'
+            'is_unique' => 'Barang sudah diramalkan'
         ]);
 
         if ($this->form_validation->run() == false) {
@@ -43,56 +43,7 @@ class Peramalan extends CI_Controller
         }
     }
 
-    public function peramalan()
-    {
-        $id_barang = $this->input->post('id_barang');
-        $data_peramalan = $this->db->query("SELECT * FROM tb_barang_keluar WHERE id_barang = $id_barang")->num_rows();
 
-        $this->db->select('*');
-        $this->db->from('tb_stok_barang sb',);
-        $this->db->join('tb_satuan s', 's.id_satuan = sb.id_satuan');
-        $this->db->join('tb_jenis_barang j', 'j.id_jenis = sb.id_jenis');
-        $this->db->where('sb.id_barang', $id_barang);
-        $barang = $this->db->get()->row_array();
-        if ($data_peramalan < 3) {
-            $produk = $barang['nama_barang'];
-            $response['produk'] = $produk;
-            $response['status'] = 0;
-        } else {
-            $query = $this->db->query("SELECT * FROM tb_barang_keluar WHERE id_barang = $id_barang ORDER BY tanggal_keluar DESC LIMIT 3")->result_array();
-            $total = 0;
-            foreach ($query as $key => $value) {
-                $total += $value['jumlah'];
-            }
-
-
-
-            //Rumus Single Moving Average (periode 3 bulan)
-            $nilai_peramalan = ($total / 3);
-
-            $min_stok = $this->input->post('min_stok');
-            $sisa_stok = $barang['stok'];
-
-            $hasil_peramalan = ceil($nilai_peramalan + $min_stok - $sisa_stok);
-
-            $bulan = $this->db->query("SELECT * FROM tb_barang_keluar WHERE id_barang = $id_barang ORDER BY tanggal_keluar DESC LIMIT 1")->row_array();
-
-            $bulan = date('F', strtotime("+1 month", strtotime($bulan['tanggal_keluar'])));
-            $produk = $barang['nama_barang'];
-            $satuan = $barang['satuan'];
-            $jenis = $barang['nama_jenis'];
-
-            $response = [
-                'bulan_berikutnya' => $bulan,
-                'peramalan' => $hasil_peramalan,
-                'produk' => $produk,
-                'satuan' => $satuan,
-                'jenis' => $jenis,
-                'status' => 1
-            ];
-        }
-        echo json_encode($response);
-    }
 
     public function kirim()
     {
@@ -108,28 +59,27 @@ class Peramalan extends CI_Controller
         $this->db->where('sb.id_barang', $id_barang);
         $barang = $this->db->get()->row_array();
 
-        if ($peramalan['pemasok'] == 'Supplier belum dipilih') {
-            $response['status'] = 0;
-        } else {
-
-            $id_barang = $barang['id_barang'];
-            $id_satuan = $barang['id_satuan'];
-            $data_permintaan = [
-                'id_peramalan' => $id_peramalan,
-                'id_barang' => $id_barang,
-                'id_satuan' => $id_satuan,
-                'jumlah_pengadaan' => $peramalan['jumlah_pengadaan'],
-                'bulan' => $peramalan['bulan'],
-                'pemasok' => $peramalan['pemasok'],
-                'status' => 'Meminta persetujuan'
-            ];
-
-            $this->db->insert('tb_permintaan', $data_permintaan);
-            $this->db->delete('tb_peramalan', ['id_peramalan' => $id_peramalan]);
 
 
-            $response['status'] = 1;
-        }
+        $id_barang = $barang['id_barang'];
+        $id_satuan = $barang['id_satuan'];
+        $id_jenis = $barang['id_jenis'];
+        $data_pengadaan = [
+            'id_barang' => $id_barang,
+            'id_satuan' => $id_satuan,
+            'id_jenis' => $id_jenis,
+            'jumlah_pengadaan' => $peramalan['jumlah_pengadaan'],
+            'bulan' => $peramalan['bulan'],
+            'pemasok' => "Pilih Supplier",
+            'status' => "Belum Diajukan"
+        ];
+
+        $this->db->insert('tb_pengadaan', $data_pengadaan);
+        $this->db->delete('tb_peramalan', ['id_peramalan' => $id_peramalan]);
+
+
+        $response['status'] = 1;
+
 
 
         echo json_encode($response);

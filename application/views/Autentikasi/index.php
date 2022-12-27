@@ -8,7 +8,7 @@
                     <div class="row justify-content-center">
                         <div class="col">
                             <div class="login-form">
-                                <div class="text-center mb-3 font-weight-bold">
+                                <div class="text-center mb-5 font-weight-bold">
                                     <img width="30" height="30" src=" <?= base_url('assets/ruang-admin'); ?>/img/logo/Tj.png">
                                     PT Trengginas Jaya
                                 </div>
@@ -23,7 +23,7 @@
                                         <small class="text-danger"> <?= form_error('password') ?></small>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        <button style="background-color: #cc0000; border: #cc0000;" type="submit" class="btn btn-primary btn-user btn-block">
                                             Masuk
                                         </button>
                                     </div>

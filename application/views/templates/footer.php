@@ -11,8 +11,8 @@
                        <p>Apakah anda yakin ingin keluar?</p>
                    </div>
                    <div class="modal-footer">
-                       <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Kembali</button>
-                       <a href="<?= base_url('Autentikasi/logout'); ?>" class="btn btn-primary">Keluar</a>
+                       <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Kembali</button>
+                       <a href="<?= base_url('Autentikasi/logout'); ?>" style="background-color: #cc0000; border: #cc0000;" class="btn text-white">Keluar</a>
                    </div>
                </div>
            </div>

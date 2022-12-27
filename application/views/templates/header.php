@@ -20,6 +20,11 @@
 
     <!-- Bootstrap DatePicker -->
     <link href="<?= base_url('assets/ruang-admin'); ?>/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <style>
+        .select2.select2-container {
+            width: 100% !important;
+        }
+    </style>
 </head>
 
 <body id="page-top">

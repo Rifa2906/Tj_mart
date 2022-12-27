@@ -11,12 +11,7 @@ class M_jenis_barang extends CI_Model
     function tambahdata()
     {
         $nama_jenis = $this->input->post('nama_jenis');
-
-        if ($nama_jenis == 'Minuman') {
-            $min_stok = 10;
-        } elseif ($nama_jenis == 'Makanan') {
-            $min_stok = 3;
-        }
+        $min_stok = $this->input->post('min_stok');
 
 
         $data = [

@@ -68,7 +68,7 @@
   </div>
   <!---Container Fluid-->
 
-  <!-- Modal tambah satuan -->
+  <!-- Modal tambah jenis-->
   <div class="modal fade" id="Modal_jenis_barang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -83,6 +83,11 @@
                       <div class="form-group">
                           <input type="text" placeholder="Masukan jenis barang" class="form-control" id="nama_jenis">
                           <span class="text-danger" id="nama_jenis-error"></span>
+                      </div>
+
+                      <div class="form-group">
+                          <input type="text" placeholder="Masukan minimal stok barang" class="form-control" id="min_stok">
+                          <span class="text-danger" id="min_stok-error"></span>
                       </div>
               </div>
               </form>
@@ -142,24 +147,21 @@
       function simpan() {
 
           var nama_jenis = $("#nama_jenis").val();
+          var min_stok = $("#min_stok").val();
 
           $.ajax({
               type: 'POST',
               url: '<?= base_url('Jenis_barang/tambah_jenis_barang') ?>',
               data: {
-                  nama_jenis: nama_jenis
+                  nama_jenis: nama_jenis,
+                  min_stok: min_stok
               },
               dataType: 'json',
               success: function(data) {
 
                   if (data['status'] == 0) {
-                      if (data['nama_jenis'] != "") {
-                          $("#nama_jenis-error").html(data['nama_jenis']);
-                      } else {
-                          $("#nama_jenis-error").html('');
-                      }
-
-
+                      $("#nama_jenis-error").html(data['nama_jenis']);
+                      $("#min_stok-error").html(data['min_stok']);
 
                   } else if (data['status'] == 1) {
                       $("#Modal_jenis_barang").modal('hide');

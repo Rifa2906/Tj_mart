@@ -28,6 +28,10 @@ class Jenis_barang extends CI_Controller
             'required' => 'Nama jenis tidak boleh kosong'
         ]);
 
+        $this->form_validation->set_rules('min_stok', 'min stok', 'required', [
+            'required' => 'Minimal stok tidak boleh kosong'
+        ]);
+
 
         if ($this->form_validation->run() == true) {
             $this->M_jenis_barang->tambahdata();
@@ -35,6 +39,7 @@ class Jenis_barang extends CI_Controller
         } else {
             $response['status'] = 0;
             $response['nama_jenis'] = strip_tags(form_error('nama_jenis'));
+            $response['min_stok'] = strip_tags(form_error('min_stok'));
         }
 
         echo json_encode($response);

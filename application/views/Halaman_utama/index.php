@@ -55,150 +55,32 @@
         </div>
         <!-- Pending Requests Card Example -->
 
-
-
-    </div>
-    <?php
-    if ($this->session->userdata('hak_pengguna') == 'kepala gudang') { ?>
-        <div class="row">
-            <!-- Area Chart -->
-            <div class="col-8">
-                <div class="card mb-4">
-                    <div class="card-header  bg-primary text-white py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-black">Monitoring Barang yang akan segera kadaluarsa</h6>
+        <!-- Donut Chart -->
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="chart-pie pt-">
+                        <canvas id="Pie"></canvas>
                     </div>
-                    <div class="card-body">
-                        <div>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Tanggal Kadaluarsa</th>
-                                        <th>Barang</th>
-                                        <th>Jumlah</th>
-                                        <th>Status</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $warning = date('d-m-Y', strtotime('-14 day', strtotime(date('d-m-Y'))));
-
-                                    foreach ($mkd as $key => $value) { ?>
-
-                                        <tr>
-                                            <td><?= date("d-m-Y", strtotime($value['tanggal_kadaluarsa']))  ?></td>
-                                            <td><?= $value['nama_barang']; ?></td>
-                                            <td><?= $value['jumlah']; ?></td>
-                                            <td>
-                                                <center>
-                                                    <?php
-                                                    $awal  = date_create($value['tanggal_kadaluarsa']);
-                                                    $akhir = date_create(); // waktu sekarang
-                                                    $diff  = date_diff($awal, $akhir);
-
-
-                                                    if (date("d-m-Y", strtotime($value['tanggal_kadaluarsa'])) >= $warning) { ?>
-                                                        <span class="badge badge-warning p-2"><i class="fas fa-exclamation-triangle"></i></span><br>
-                                                        <small><?= $diff->d . ' hari lagi '; ?></small>
-                                                    <?php
-                                                    } else { ?>
-
-                                                        <span class="badge badge-success p-2">
-                                                            <i class="fas fa-shield-alt"></i>
-                                                        </span>
-                                                    <?php
-
-                                                    }
-                                                    ?>
-                                                </center>
-
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if (date("d-m-Y", strtotime($value['tanggal_kadaluarsa'])) >= $warning) { ?>
-                                                    <button type="button" onclick="barang_keluar(<?= $value['id_monitoring'] ?>)" class="btn btn-danger btn-sm" id="btn-kdl"><i class="fas fa-solid fa-arrow-right"></i></button>
-                                                <?php
-                                                }
-
-                                                ?>
-                                            </td>
-                                        </tr>
-                                    <?php
-
-                                    }
-
-                                    ?>
-                                </tbody>
-                            </table>
-                            <div class="card-footer text-center">
-                            </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <i class="fas fa-circle text-primary"></i> barang masuk
+                        </div>
+                        <div class="col-6">
+                            <i class="fas fa-circle text-success"></i> barang keluar
                         </div>
                     </div>
+
                 </div>
             </div>
-
-            <div class="col-4">
-                <div class="card mb-4">
-                    <div class="card-header  bg-primary text-white py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-black">Monitoring Stok Barang</h6>
-                    </div>
-                    <div class="card-body">
-                        <div>
-                            <table class="table">
-                                <thead>
-                                </thead>
-                                <tbody>
-                                    <?php
-
-                                    foreach ($brg as $key => $value) {
-                                        $jenis_barang = $value['nama_jenis'];
-                                        $stok = $value['stok'];
-                                    ?>
-                                        <tr>
-
-                                            <td>
-
-                                                <?php
-                                                if (($jenis_barang == 'Minuman' && $stok < 10) ||  ($jenis_barang == 'Makanan' && $stok < 3)) { ?>
-                                                    <div class="small text-black-500 font-weight-bold mb-2"><?= $value['nama_barang']; ?>
-                                                        <div class="small float-right"><b class="text-black-50 font-weight-bold"> <?= $value['stok']; ?></b></div>
-                                                    </div>
-                                                    <div class="progress" style="height: 12px;">
-                                                        <div class="progress-bar bg-danger" role="progressbar" style="width: <?= $value['stok']; ?>%" aria-valuenow="<?= $value['stok']; ?>" aria-valuemin="0" aria-valuemax="0"></div>
-                                                    </div>
-
-                                                <?php
-                                                } else { ?>
-
-                                                    <div class="small text-black-500 font-weight-bold mb-2"><?= $value['nama_barang']; ?>
-                                                        <div class="small float-right"><b class="text-black-50 font-weight-bold"> <?= $value['stok']; ?></b></div>
-                                                    </div>
-                                                    <div class="progress" style="height: 12px;">
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width: <?= $value['stok']; ?>%" aria-valuenow="<?= $value['stok']; ?>" aria-valuemin="0" aria-valuemax="0"></div>
-                                                    </div>
-                                                <?php
-                                                }
-                                                ?>
-
-                                            </td>
-                                        </tr>
-
-                                    <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                            <div class="card-footer text-center">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    <?php
-    }
-    ?>
+    </div>
+    <!--Row-->
+
+
+</div>
+
 
 
 
@@ -207,31 +89,6 @@
 <!---Container Fluid-->
 
 <script>
-    function barang_keluar(id) {
-
-
-        let text;
-        if (confirm("Apakah anda yakin ingin mengeluarkan barang ini?") == true) {
-            $.ajax({
-                type: 'POST',
-                url: '<?= base_url('Halaman_utama/barang_keluar') ?>',
-                data: {
-                    id_monitoring: id
-                },
-                dataType: 'json',
-                success: function(data) {
-                    if (data['status'] == 1) {
-                        location.reload()
-                    }
-
-                }
-            })
-        } else {
-            text = "You canceled!";
-        }
-    }
-
-
     $(function() {
         jml_data()
 
@@ -246,41 +103,46 @@
                     $('#jml_stok').text(data.stok);
                     $('#brg_masuk').val(data.brg_masuk);
                     $('#brg_keluar').val(data.brg_keluar);
+
+                    bm = data.brg_masuk;
+                    bk = data.brg_keluar;
+
+                    // Pie Chart Example
+                    var ctx = document.getElementById("Pie");
+                    var myPieChart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ["Barang Masuk", "Barang Keluar"],
+                            datasets: [{
+                                data: [bm, bk],
+                                backgroundColor: ['#4e73df', '#1cc88a'],
+                                hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                                hoverBorderColor: "rgba(234, 236, 244, 1)",
+                            }],
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            tooltips: {
+                                backgroundColor: "rgb(255,255,255)",
+                                bodyFontColor: "#858796",
+                                borderColor: '#dddfeb',
+                                borderWidth: 1,
+                                xPadding: 15,
+                                yPadding: 15,
+                                displayColors: false,
+                                caretPadding: 10,
+                            },
+                            legend: {
+                                display: false
+                            },
+                            cutoutPercentage: 80,
+                        },
+                    });
                 }
             })
         }
 
-        // Pie Chart Example
-        var ctx = document.getElementById("Pie");
-        var myPieChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ["Direct", "Referral", "Social"],
-                datasets: [{
-                    data: [55, 30],
-                    backgroundColor: ['#4e73df', '#1cc88a'],
-                    hoverBackgroundColor: ['#2e59d9', '#17a673'],
-                    hoverBorderColor: "rgba(234, 236, 244, 1)",
-                }],
-            },
-            options: {
-                maintainAspectRatio: false,
-                tooltips: {
-                    backgroundColor: "rgb(255,255,255)",
-                    bodyFontColor: "#858796",
-                    borderColor: '#dddfeb',
-                    borderWidth: 1,
-                    xPadding: 15,
-                    yPadding: 15,
-                    displayColors: false,
-                    caretPadding: 10,
-                },
-                legend: {
-                    display: false
-                },
-                cutoutPercentage: 80,
-            },
-        });
+
 
     })
 </script>

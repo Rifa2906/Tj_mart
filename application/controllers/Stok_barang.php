@@ -48,7 +48,7 @@ class Stok_barang extends CI_Controller
             'is_unique' => 'Nama barang sudah ada'
         ]);
 
-        $this->form_validation->set_rules('jenis', 'jenis', 'required', [
+        $this->form_validation->set_rules('id_jenis', 'jenis', 'required', [
             'required' => 'Jenis barang tidak boleh kosong'
         ]);
         $this->form_validation->set_rules('satuan', 'satuan', 'required', [
@@ -61,14 +61,13 @@ class Stok_barang extends CI_Controller
         if ($this->form_validation->run() == false) {
             $response['status'] = 0;
             $response['nama_barang'] = strip_tags(form_error('nama_barang'));
-            $response['jenis'] = strip_tags(form_error('jenis'));
+            $response['id_jenis'] = strip_tags(form_error('id_jenis'));
             $response['satuan'] = strip_tags(form_error('satuan'));
             $response['stok'] = strip_tags(form_error('stok'));
         } else {
             $this->M_stok_barang->tambahData();
             $response['status'] = 1;
         }
-
         echo json_encode($response);
     }
 

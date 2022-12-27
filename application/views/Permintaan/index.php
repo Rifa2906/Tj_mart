@@ -19,15 +19,12 @@
                                 <th>No</th>
                                 <th>Nama Barang</th>
                                 <th>Jumlah Pengadaan</th>
-                                <th>Untuk bulan</th>
+                                <th>Untuk Tanggal</th>
                                 <th>Satuan</th>
                                 <th>Pemasok</th>
                                 <th>Status</th>
                                 <?php
-                                if ($this->session->userdata('hak_pengguna') == 'staf administrasi') { ?>
-                                    <th>Aksi</th>
-                                <?php
-                                } else  if ($this->session->userdata('hak_pengguna') == 'kepala gudang') { ?>
+                                if ($this->session->userdata('hak_pengguna') == 'asisten manajer') { ?>
                                     <th>Aksi</th>
                                 <?php
                                 }
@@ -69,7 +66,7 @@
                                         ?>
                                     </td>
                                     <?php
-                                    if ($this->session->userdata('hak_pengguna') == 'staf administrasi') { ?>
+                                    if ($this->session->userdata('hak_pengguna') == 'asisten manajer') { ?>
                                         <td>
                                             <?php
                                             if ($value['status'] == "Meminta persetujuan") { ?>
@@ -83,8 +80,6 @@
 
                                                     <i class="fas fa-exclamation-circle"></i>
                                                 </button>
-
-                                                <button data-toggle="tooltip" data-placement="left" title="Dihapus" onclick="hapus_permintaan_AM(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                         </td>
 
                                     <?php
@@ -93,12 +88,6 @@
 
 
 
-
-                                <?php
-                                    } else if ($this->session->userdata('hak_pengguna') == 'kepala gudang') { ?>
-                                    <td>
-                                        <button data-toggle="tooltip" data-placement="top" title="Dihapus" onclick="hapus_permintaan_KG(<?= $value['id_permintaan'] ?>)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                    </td>
 
                                 <?php
                                     }

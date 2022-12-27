@@ -55,6 +55,17 @@ class Permintaan extends CI_Controller
         echo json_encode($respon);
     }
 
+    public function data_permintaan()
+    {
+
+        $this->db->select('*');
+        $this->db->from('tb_permintaan p');
+        $this->db->join('tb_stok_barang sb', 'sb.id_barang = p.id_barang');
+        $this->db->join('tb_satuan s', 's.id_satuan = p.id_satuan');
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
+
     public function cetak_pdf()
     {
         error_reporting(0); // AGAR ERROR MASALAH VERSI PHP TIDAK MUNCUL
@@ -62,7 +73,7 @@ class Permintaan extends CI_Controller
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'B', 16);
         $pdf->Image('./assets/ruang-admin/img/logo/Tj.png');
-        $pdf->Cell(0, 9, 'Trengginas Jaya Mart', 0, 1, 'C');
+        $pdf->Cell(0, 5, 'Trengginas Jaya Mart', 0, 1, 'C');
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->Cell(200, 9, 'Jl. Sumur Bandung No. 12, Bandung ,Telp: (022) 253205,Fax: (022) 2532053', 0, 1, 'C');
         $pdf->Cell(0, 9, '', 0, 1, 'C');
@@ -79,7 +90,7 @@ class Permintaan extends CI_Controller
         $pdf->Cell(30, 6, 'Status', 1, 1, 'C');
         $pdf->SetFont('Arial', '', 10);
 
-        $query = $this->M_permintaan->tampil();
+        $query = $this->data_permintaan();
 
         $brg = $query;
         $no = 0;

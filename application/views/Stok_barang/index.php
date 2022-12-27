@@ -11,7 +11,7 @@
      <div class="row">
          <!-- Datatables -->
          <div class="col-lg-12">
-             <div class="card mb-4">
+             <div class="card">
                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                      <button type="button" data-toggle="modal" data-target="#Modal_stok_barang" id="#exampleModal" onclick="submit('tambah')" class="btn btn-primary">Tambah</button>
                  </div>
@@ -35,7 +35,9 @@
                                  <th>Nama Barang</th>
                                  <th>Jenis Barang</th>
                                  <th>Stok</th>
+                                 <th>Minimal Stok</th>
                                  <th>Satuan</th>
+                                 <th>Status</th>
                                  <th>Aksi</th>
                              </tr>
                          </thead>
@@ -48,8 +50,20 @@
                                      <td><?= $value['kode_barang']; ?></td>
                                      <td><?= $value['nama_barang']; ?></td>
                                      <td><?= $value['nama_jenis']; ?></td>
-                                     <td><?= $value['stok']; ?></td>
+                                     <td id="stok"><?= $value['stok']; ?></td>
+                                     <td id="minimal_stok"><?= $value['minimal_stok']; ?></td>
                                      <td><?= $value['satuan']; ?></td>
+                                     <td>
+                                         <?php
+                                            if ($value['status'] == "Harus melakukan pengadaan") { ?>
+                                             <span class="badge badge-danger p-2"><i class="fas fa-exclamation-triangle"></i> <?= $value['status']; ?></span>
+                                         <?php
+                                            } else if ($value['status'] == "Stok aman") { ?>
+                                             <span class="badge badge-success p-2"><i class="fas fa-shield-alt"></i> <?= $value['status']; ?></span>
+                                         <?php
+                                            }
+                                            ?>
+                                     </td>
                                      <td>
                                          <a data-toggle="tooltip" data-placement="top" title="Hapus">
                                              <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_barang'] ?>)">
@@ -116,7 +130,7 @@
 
                          <div class="form-group">
                              <label for="select2Single">Jenis barang</label><br>
-                             <select class="select2-single form-control" id="jenis">
+                             <select class="select2-single form-control" id="id_jenis">
                                  <option value="">Pilih jenis barang</option>
                                  <?php
                                     foreach ($jenis as $key => $value) { ?>
@@ -148,7 +162,10 @@
          $(function() {
              $('[data-toggle="tooltip"]').tooltip()
              kode_barang()
+
          })
+
+
 
          function kode_barang() {
              $.ajax({
@@ -178,7 +195,7 @@
              kode_barang = $("#kode_barang").val();
              nama_barang = $("#nama_barang").val();
              satuan = $("#satuan").val();
-             jenis = $("#jenis").val();
+             id_jenis = $("#id_jenis").val();
              stok = $("#stok").val();
              $.ajax({
                  type: 'POST',
@@ -186,9 +203,8 @@
                  data: {
                      kode_barang: kode_barang,
                      nama_barang: nama_barang,
-                     satuan,
-                     satuan,
-                     jenis: jenis,
+                     satuan: satuan,
+                     id_jenis: id_jenis,
                      stok: stok
                  },
                  dataType: 'json',
@@ -198,90 +214,13 @@
                          swall('stok barang', 'ditambahkan');
                      } else if (data.status == 0) {
                          $("#nama_barang-error").html(data['nama_barang']);
-                         $("#jenis-error").html(data['jenis']);
+                         $("#jenis-error").html(data['id_jenis']);
                          $("#satuan-error").html(data['satuan']);
                          $("#stok-error").html(data['stok']);
                      }
                  }
              })
          }
-
-         //  function ambil_id(x) {
-         //      $.ajax({
-         //          type: 'POST',
-         //          url: '<?= base_url('Stok_barang/ambil_IdBarang') ?>',
-         //          data: {
-         //              id_barang: x
-         //          },
-         //          dataType: 'json',
-         //          success: function(data) {
-         //              $("#id_barang").val(data.id_barang);
-         //              $("#Edt_kode_barang").val(data.kode_barang);
-         //              $("#Edt_nama_barang").val(data.nama_barang);
-
-         //              var baris_satuan = '<option selected="selected" value="">Pilih satuan</option>';
-         //              for (let i = 0; i < data.data_satuan.length; i++) {
-         //                  const element = data.data_satuan[i];
-         //                  baris_satuan += '<option value="' + element.id_satuan + '" >' + element.satuan + '</option>';
-         //              }
-
-         //              $('#Edt_satuan').html(baris_satuan);
-         //              $('#Edt_satuan option:selected').val(data.satuan)
-
-
-         //              var baris_jenis = '<option value="">Pilih jenis</option>';
-         //              for (let i = 0; i < data.data_jenis.length; i++) {
-         //                  const element = data.data_jenis[i];
-         //                  baris_jenis += '<option value="' + element.id_jenis + '" >' + element.nama_jenis + '</option>';
-         //              }
-
-         //              $('#Edt_jenis').html(baris_jenis);
-
-
-         //              $("#Edt_stok").val(data.stok);
-         //          }
-         //      })
-         //  }
-
-         //  function ubah() {
-         //      id_barang = $("#id_barang").val();
-         //      Edt_kode_barang = $("#Edt_kode_barang").val();
-         //      Edt_nama_barang = $("#Edt_nama_barang").val();
-         //      Edt_satuan = $("#Edt_satuan").val();
-         //      Edt_jenis = $("#Edt_jenis").val();
-         //      Edt_stok = $("#Edt_stok").val();
-
-         //      $.ajax({
-         //          type: 'POST',
-         //          url: '<?= base_url('Stok_barang/ubah_data') ?>',
-         //          data: {
-         //              id_barang: id_barang,
-         //              Edt_kode_barang,
-         //              Edt_kode_barang,
-         //              Edt_nama_barang: Edt_nama_barang,
-         //              Edt_satuan: Edt_satuan,
-         //              Edt_jenis: Edt_jenis,
-         //              Edt_stok: Edt_stok
-         //          },
-         //          dataType: 'json',
-         //          success: function(data) {
-         //              if (data.status == 1) {
-         //                  $("#Modal_stok_edit").modal('hide');
-         //                  $("#Edt_kode_barang").val('');
-         //                  $("#Edt_nama_barang").val('');
-         //                  $("#Edt_satuan").val('');
-         //                  $("#Edt_jenis").val('');
-         //                  $("#Edt_stok").val('');
-         //                  swall('stok barang', 'diubah');
-         //              } else if (data.status == 0) {
-         //                  $("#Edt_nama_barang-error").html(data['Edt_nama_barang']);
-         //                  $("#Edt_jenis-error").html(data['Edt_jenis']);
-         //                  $("#Edt_satuan-error").html(data['Edt_satuan']);
-         //                  $("#Edt_stok-error").html(data['Edt_stok']);
-         //              }
-         //          }
-         //      })
-         //  }
 
          function hapus(x) {
              Swal.fire({

@@ -44,7 +44,7 @@
                                       <td><?= $value['alamat']; ?></td>
                                       <td>
 
-                                          <button data-toggle="modal" data-target="#Modal_produk" id="#exampleModal" onclick="tampil_produk(<?= $value['id_pemasok'] ?>)" class="btn btn-success btn-sm"><i data-toggle="tooltip" data-placement="top" title="Produk" class="fas fa-box"></i></button>
+                                          <button data-toggle="modal" data-target="#Modal_produk" id="#exampleModal" onclick="tampil_produk(<?= $value['id_pemasok'] ?>)" class="btn btn-success btn-sm">Produk</button>
 
                                       </td>
                                       <td>

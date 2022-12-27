@@ -17,9 +17,9 @@
                                     <option value="">Pilih barang</option>
                                     <?php
                                     foreach ($barang as $key => $value) {
-                                        $jenis_barang = $value['nama_jenis'];
                                         $stok = $value['stok'];
-                                        if (($jenis_barang == 'Minuman' && $stok < 10) ||  ($jenis_barang == 'Makanan' && $stok < 3)) { ?>
+                                        $min_stok = $value['minimal_stok'];
+                                        if ($stok < $min_stok) { ?>
                                             <option value="<?= $value['id_barang']; ?>"><?= $value['nama_barang']; ?></option>
                                         <?php }  ?>
                                     <?php
@@ -42,11 +42,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Barang</th>
-                                <th>Stok</th>
-                                <th>Minimal Stok</th>
                                 <th>Jumlah Pengadaan</th>
                                 <th>Untuk Tanggal</th>
-                                <th>Pemasok</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -57,20 +54,12 @@
                                 <tr>
                                     <td><?= $no++; ?></td>
                                     <td><?= $value['nama_barang']; ?></td>
-                                    <td><?= $value['stok']; ?></td>
-                                    <td><?= $value['minimal_stok']; ?></td>
                                     <td><?= $value['jumlah_pengadaan']; ?></td>
                                     <td><?= $value['bulan']; ?></td>
-                                    <td><?= $value['pemasok']; ?></td>
                                     <td>
+                                        <button onclick="kirim(<?= $value['id_peramalan'] ?>,<?= $value['id_barang'] ?>)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Kirim ke tabel pengadaan"><i class="fas fa-sharp fa-solid fa-paper-plane"></i></button>
 
-                                        <button onclick="kirim(<?= $value['id_peramalan'] ?>,<?= $value['id_barang'] ?>)" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Kirim ke tabel permintaan"><i class="fas fa-sharp fa-solid fa-paper-plane"></i></button>
                                         <button onclick="hapus(<?= $value['id_peramalan'] ?>)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Hapus data"><i class="fas fa-trash"></i></button>
-
-                                        <button data-toggle="modal" data-target="#Modal_supplier" id="#exampleModal" onclick=" tampil_supplier(<?= $value['id_peramalan'] ?>,<?= $value['id_barang'] ?>)" class="btn btn-success btn-sm"><i data-toggle="tooltip" data-placement="top" title="Pilih supplier" class="fas fa-truck-moving"></i></button>
-
-
-
                                     </td>
                                 </tr>
 
@@ -79,7 +68,6 @@
                             ?>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
@@ -90,42 +78,15 @@
     <!---Container Fluid-->
 
 
-    <!-- Modal pilih supplier -->
-    <div class="modal fade" id="Modal_supplier" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white" id="exampleModalLabel">Menentukan supplier</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="id_peramalan">
-                    <table class="table align-items-center table-flush table-hover" id="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Pemasok</th>
-                                <th>Produk</th>
-                                <th>Harga</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="show_data">
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
-            $('.select2-single').select2();
+            $('.select2-single').select2()
+
         })
 
         function swall(produk, peramalan, satuan, bulan) {
@@ -150,7 +111,6 @@
             })
         }
 
-
         function kirim(id_peramalan, id_barang) {
             $.ajax({
                 method: "POST",
@@ -166,77 +126,7 @@
 
                         Swal.fire({
                             title: 'Data',
-                            text: 'Berhasi disimpan ke tabel permintaanl',
-                            icon: 'success',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            location.reload();
-                        })
-                    } else
-                    if (data.status == 0) {
-                        Swal.fire({
-                            title: 'Supplier',
-                            text: 'Belum dipilih',
-                            icon: 'warning',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        })
-                    }
-
-
-                }
-            })
-        }
-
-        function tampil_supplier(id_peramalan, id_barang) {
-            $.ajax({
-                method: "POST",
-                url: "<?= base_url('Peramalan/tampil_supplier') ?>",
-                data: {
-                    id_peramalan: id_peramalan,
-                    id_barang: id_barang
-                },
-                dataType: "json",
-                success: function(data) {
-                    $("#id_peramalan").val(data.id_peramalan)
-                    var html = '';
-                    var i;
-                    var data = data.supplier;
-                    for (i = 0; i < data.length; i++) {
-                        html += '<tr>' +
-                            '<td>' + data[i].nama_pemasok + '</td>' +
-                            '<td>' + data[i].produk + '</td>' +
-                            '<td>' + data[i].harga + '</td>' +
-                            '<td><button onclick="pilih_supplier(' + data[i].id_pemasok + ')" class="btn btn-success btn-sm">Pilih</button></td>' +
-                            '</tr>';
-                    }
-                    $('#show_data').html(html);
-
-                }
-            })
-        }
-
-        function pilih_supplier(id_pemasok) {
-            id_peramalan = $("#id_peramalan").val()
-            $.ajax({
-                method: "POST",
-                url: "<?= base_url('Peramalan/pilih_suplier') ?>",
-                data: {
-                    id_peramalan: id_peramalan,
-                    id_pemasok: id_pemasok
-                },
-                dataType: "json",
-                success: function(data) {
-                    if (data.status == 1) {
-                        $("#Modal_supplier").modal('hide');
-                        Swal.fire({
-                            title: 'Supplier',
-                            text: 'Berhasil dipilih',
+                            text: 'Berhasil Disimpan ke Tabel Pengadaan',
                             icon: 'success',
                             showConfirmButton: false,
                             timer: 1500
@@ -244,10 +134,10 @@
                             location.reload();
                         })
                     }
+
+
                 }
             })
-
-
         }
 
         function hapus(x) {
@@ -269,7 +159,7 @@
                         success: function(data) {
                             if (data.status == 1) {
                                 Swal.fire({
-                                    title: 'Data peramalan',
+                                    title: 'Data Peramalan',
                                     text: 'Berhasil dihapus',
                                     icon: 'success',
                                     showConfirmButton: false,

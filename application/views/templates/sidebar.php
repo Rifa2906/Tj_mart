@@ -82,6 +82,12 @@
                   <span>Permintaan</span>
               </a>
           </li>
+          <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('Data_perTahun'); ?>">
+                  <i class="fas fa-fw fa-cube"></i>
+                  <span>Barang keluar</span>
+              </a>
+          </li>
       <?php
         }
         ?>
@@ -163,6 +169,24 @@
                   <span>Peramalan</span>
               </a>
           </li>
+          <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('Pengadaan'); ?>">
+                  <i class="fas fa-fw fa-cube"></i>
+                  <span>Pengadaan</span>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('Monitoring_kadaluarsa'); ?>">
+                  <i class="fas fa-fw fa-cube"></i>
+                  <span>Monitoring Kadaluarsa</span>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('Retur_barang'); ?>">
+                  <i class="fas fa-fw fa-cube"></i>
+                  <span>Retur Barang</span>
+              </a>
+          </li>
           <hr class="sidebar-divider">
           <div class="sidebar-heading">
               Transaksi
@@ -188,7 +212,7 @@
           <li class="nav-item">
               <a class="nav-link" href="<?= base_url('Keluar_barang'); ?>">
                   <i class="fas fa-fw fa-cube"></i>
-                  <span>Barang yang dikeluarkan</span>
+                  <span>Barang Kadaluarsa</span>
               </a>
           </li>
 

@@ -104,13 +104,13 @@
             showConfirmButton: false,
             timer: 1500
         }).then((result) => {
-            if (result.isConfirmed) {
-                location.reload();
-            }
+
+            location.reload();
+
         })
     }
 
-    function hapus(x) {
+    function hapus(id_keluar) {
         Swal.fire({
             title: 'Apakah anda yakin ingin menghapusnya?',
             showCancelButton: true,
@@ -124,7 +124,7 @@
                     type: 'POST',
                     url: '<?= base_url('Barang_keluar/hapus_data') ?>',
                     data: {
-                        id_keluar: x
+                        id_keluar: id_keluar
                     },
                     dataType: 'json',
                     success: function(data) {}

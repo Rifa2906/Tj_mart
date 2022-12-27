@@ -1,9 +1,62 @@
  <!-- TopBar -->
- <nav style="background-color: #6777EF;" class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+ <nav style="background-color: #cc0000;" class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
      <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
          <i class="fa fa-bars"></i>
      </button>
      <ul class="navbar-nav ml-auto">
+         <?php
+            if ($this->session->userdata('hak_pengguna') == 'asisten manajer') { ?>
+             <li class="nav-item dropdown no-arrow mx-1">
+                 <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="fas fa-envelope fa-fw"></i>
+                     <?php
+                        $jumlah = $this->db->query("SELECT * FROM tb_permintaan WHERE status = 'Meminta persetujuan' ")->num_rows() ?>
+
+                     <?php
+                        if ($jumlah > 0) { ?>
+                         <span class="badge badge-warning badge-counter"><?= $jumlah; ?></span>
+
+                     <?php
+                        }
+                        ?>
+
+                 </a>
+                 <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                     <h6 class="dropdown-header" style="background-color: #cc0000;">
+                         Meminta Persetujuan
+                     </h6>
+                     <?php
+                        $query = $this->db->query("SELECT * FROM tb_permintaan WHERE status = 'Meminta persetujuan' ")->result_array();
+
+                        $jumlah = $this->db->query("SELECT * FROM tb_permintaan WHERE status = 'Meminta persetujuan' ")->num_rows();
+
+                        if ($jumlah > 0) { ?>
+                         <a class="dropdown-item d-flex align-items-center" href="#">
+                             <div class="font-weight-bold">
+                                 <div class="text-truncate"><?= $jumlah; ?> Permintaan</div>
+                             </div>
+                         </a>
+
+                     <?php
+                        } else { ?>
+                         <a class="dropdown-item d-flex align-items-center" href="#">
+                             <div class="font-weight-bold">
+                                 <div class="text-truncate">Tidak ada permintaan</div>
+                             </div>
+                         </a>
+                     <?php
+                        }
+
+                        ?>
+
+                 </div>
+             </li>
+
+         <?php
+            }
+            ?>
+
+
          <div class="topbar-divider d-none d-sm-block"></div>
          <li class="nav-item dropdown no-arrow">
              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
