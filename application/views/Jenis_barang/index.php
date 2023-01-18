@@ -116,6 +116,10 @@
                           <input type="text" class="form-control" id="edit_nama_jenis">
                           <span class="text-danger" id="edit_nama_jenis-error"></span>
                       </div>
+                      <div class="form-group">
+                          <input type="text" class="form-control" id="edit_min_stok">
+                          <span class="text-danger" id="edit_min_stok-error"></span>
+                      </div>
               </div>
               </form>
               <div class="modal-footer">
@@ -188,6 +192,7 @@
               success: function(data) {
                   $("#id_jenis").val(data.id_jenis);
                   $("#edit_nama_jenis").val(data.nama_jenis);
+                  $("#edit_min_stok").val(data.minimal_stok);
               }
           })
 
@@ -197,25 +202,23 @@
 
           var id_jenis = $("#id_jenis").val();
           var nama_jenis = $("#edit_nama_jenis").val();
+          var minimal_stok = $("#edit_min_stok").val();
 
           $.ajax({
               type: 'POST',
               url: '<?= base_url('Jenis_barang/ubah_data') ?>',
               data: {
                   id_jenis: id_jenis,
-                  nama_jenis: nama_jenis
+                  nama_jenis: nama_jenis,
+                  minimal_stok: minimal_stok
               },
               dataType: 'json',
               success: function(data) {
 
                   if (data['status'] == 0) {
-                      if (data['nama_jenis'] != "") {
-                          $("#edit_nama_jenis-error").html(data['nama_jenis']);
-                      } else {
-                          $("#edit_nama_jenis-error").html('');
-                      }
 
-
+                      $("#edit_nama_jenis-error").html(data['nama_jenis']);
+                      $("#edit_namin_stok-error").html(data['minimal_stok']);
 
                   } else if (data['status'] == 1) {
                       $("#Modal_jenis_barang_edit").modal('hide');

@@ -24,7 +24,8 @@ class Monitoring_kadaluarsa extends CI_Controller
     {
         $this->db->select('*');
         $this->db->from('tb_monitoring_kadaluarsa mkd');
-        $this->db->join('tb_stok_barang sb', 'sb.id_barang = mkd.id_barang');
+        $this->db->join('tb_stok_barang sb', 'sb.kode_barang = mkd.kode_barang');
+        $this->db->join('tb_barang b', 'b.kode_barang = mkd.kode_barang');
         $query = $this->db->get()->result_array();
         return $query;
     }
@@ -70,4 +71,6 @@ class Monitoring_kadaluarsa extends CI_Controller
 
         echo json_encode($respon);
     }
+
+    
 }

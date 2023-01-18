@@ -27,7 +27,6 @@
                             <th>Pemasok</th>
                             <th>Jumlah</th>
                             <th>Satuan</th>
-                            <th>Status</th>
                             <th>Aksi</th>
                         </thead>
                         <tbody>
@@ -41,14 +40,6 @@
                                     <td><?= $value['nama_pemasok']; ?></td>
                                     <td><?= $value['jumlah']; ?></td>
                                     <td><?= $value['satuan']; ?></td>
-                                    <td>
-                                        <?php
-                                        if ($value['status'] == 'Belum diterima') { ?>
-                                            <a class="text-primary" style="cursor: pointer;" onclick="diterima('Sudah diterima')"><?= $value['status'] ?></a>
-                                        <?php
-                                        }
-                                        ?>
-                                    </td>
                                     <td>
                                         <a data-toggle="tooltip" data-placement="top" title="Hapus">
                                             <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_retur'] ?>)">
@@ -93,28 +84,36 @@
                 <form>
                     <div class="form-group">
                         <label for="select2Single">Barang</label><br>
-                        <select class="form-control" id="barang">
+                        <select class="select2-single form-control" id="kode_barang">
                             <option value="">Pilih barang</option>
                             <?php
                             foreach ($brg as $key => $value) { ?>
-                                <option value="<?= $value['id_barang']; ?>"><?= $value['nama_barang']; ?></option>
+                                <option value="<?= $value['kode_barang']; ?>"><?= $value['nama_barang']; ?></option>
 
                             <?php
                             }
                             ?>
                         </select>
-                        <span class="text-danger" id="barang-error"></span>
+                        <span class="text-danger" id="kode_barang-error"></span>
                     </div>
-
-                    <div class="form-group">
-                        <label for="jumlah">Jumlah</label>
-                        <input type="number" class="form-control" id="jumlah">
-                        <span class="text-danger" id="jumlah-error"></span>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="jumlah">Retur</label>
+                                <input type="number" class="form-control" id="jumlah">
+                                <span class="text-danger" id="jumlah-error"></span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="jumlah">Stok Gudang</label>
+                                <input type="number" class="form-control" readonly id="stok_g">
+                            </div>
+                        </div>
                     </div>
-
                     <div class="form-group">
                         <label for="select2Single">Pemasok</label><br>
-                        <select class="form-control" id="pemasok">
+                        <select class="select2-single form-control" id="pemasok">
                             <option value="">Pilih pemasok</option>
                             <?php
                             foreach ($pm as $key => $value) { ?>
@@ -138,6 +137,7 @@
 <script>
     $(function() {
         $('[data-toggle="tooltip"]').tooltip()
+        $('.select2-single').select2();
     })
 
     function swall(params1, params2) {
@@ -156,7 +156,7 @@
 
     function simpan() {
 
-        var barang = $("#barang").val();
+        var kode_barang = $("#kode_barang").val();
         var jumlah = $("#jumlah").val();
         var pemasok = $("#pemasok").val();
 
@@ -164,7 +164,7 @@
             type: 'POST',
             url: '<?= base_url('Retur_barang/tambah_retur') ?>',
             data: {
-                barang: barang,
+                kode_barang: kode_barang,
                 jumlah: jumlah,
                 pemasok: pemasok
             },
@@ -172,7 +172,7 @@
             success: function(data) {
 
                 if (data['status'] == 0) {
-                    $("#barang-error").html(data['barang']);
+                    $("#kode_barang-error").html(data['kode_barang']);
                     $("#jumlah-error").html(data['jumlah']);
                     $("#pemasok-error").html(data['pemasok']);
 
@@ -241,4 +241,19 @@
             }
         })
     }
+
+    $("#kode_barang").change(function() {
+        kode_barang = $("#kode_barang").val();
+        $.ajax({
+            method: "POST",
+            url: "<?= base_url('Retur_barang/tampil_stok') ?>",
+            data: {
+                kode_barang: kode_barang
+            },
+            dataType: "json",
+            success: function(data) {
+                $("#stok_g").val(data);
+            }
+        })
+    })
 </script>

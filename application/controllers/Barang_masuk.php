@@ -13,6 +13,7 @@ class Barang_masuk extends CI_Controller
         $this->load->model('M_pemasok');
         $this->load->model('M_jenis_barang');
         $this->load->model('M_stok_barang');
+        $this->load->model('M_barang');
         $this->load->library('Pdf'); // MEMANGGIL LIBRARY YANG KITA BUAT TADI
     }
 
@@ -28,25 +29,11 @@ class Barang_masuk extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function tampil_brg()
-    {
-        $id_brg = $this->input->post('id_brg');
-
-        $barang =  $this->M_barang_masuk->tampil_idBrg($id_brg);
-        $data = [
-            'stok' => $barang['stok']
-        ];
-
-        echo json_encode($data);
-    }
-
-
-
 
     public function form_tambah()
     {
 
-        $this->form_validation->set_rules('nama_barang', 'nama_barang', 'required', [
+        $this->form_validation->set_rules('kode_barang', 'kode_barang', 'required', [
             'required' => 'Nama barang tidak boleh kosong'
         ]);
 
@@ -66,10 +53,8 @@ class Barang_masuk extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Form Tambah Barang Masuk';
-            $data['satuan'] = $this->M_satuan->tampil();
             $data['pemasok'] = $this->M_pemasok->tampil();
-            $data['jenis'] = $this->M_jenis_barang->tampil();
-            $data['brg'] = $this->M_stok_barang->tampil();
+            $data['barang'] = $this->M_stok_barang->tampil();
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar');
             $this->load->view('templates/topbar');
@@ -87,14 +72,14 @@ class Barang_masuk extends CI_Controller
     public function form_ubah($id_masuk)
     {
 
-        $this->form_validation->set_rules('nama_barang', 'nama_barang', 'required', [
+        $this->form_validation->set_rules('kode_barang', 'kode_barang', 'required', [
             'required' => 'Nama barang tidak boleh kosong'
         ]);
 
-        $this->form_validation->set_rules('jumlah', 'No telpon', 'required', [
+        $this->form_validation->set_rules('jumlah', 'jumlah', 'required', [
             'required' => 'Jumlah tidak boleh kosong'
         ]);
-        $this->form_validation->set_rules('pemasok', 'Alamat', 'required', [
+        $this->form_validation->set_rules('pemasok', 'pemasok', 'required', [
             'required' => 'Pemasok tidak boleh kosong'
         ]);
 
@@ -108,7 +93,7 @@ class Barang_masuk extends CI_Controller
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Form Ubah Barang Masuk';
             $data['pemasok'] = $this->M_pemasok->tampil();
-            $data['brg'] = $this->M_stok_barang->tampil();
+            $data['barang'] = $this->M_barang->tampil();
             $data['id_masuk'] = $this->ambil_IdMasuk($id_masuk);
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar');
@@ -133,26 +118,35 @@ class Barang_masuk extends CI_Controller
         $id_masuk = $this->input->post('id_masuk');
 
         $brg_masuk = $this->db->get_where('tb_barang_masuk', ['id_masuk' => $id_masuk])->row_array();
-        $id_barang = $brg_masuk['id_barang'];
+        $kode_barang = $brg_masuk['kode_barang'];
         $jumlah = $brg_masuk['jumlah'];
-        $brg_gudang = $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
+        $brg_gudang = $this->db->get_where('tb_stok_barang', ['kode_barang' => $kode_barang])->row_array();
         $stok_gudang = $brg_gudang['stok'];
 
         $total_stok = $stok_gudang - $jumlah;
 
+        $id_jenis = $brg_gudang['id_jenis'];
+        $jenis = $this->db->get_where('tb_jenis_barang', ['id_jenis' => $id_jenis])->row_array();
+        $min_stok = $jenis['minimal_stok'];
+        if ($total_stok < $min_stok) {
+            $status = "Harus melakukan pengadaan";
+        } else {
+            $status = "Stok aman";
+        }
 
 
         $data = [
-            'stok' => $total_stok
+            'stok' => $total_stok,
+            'status' => $status
         ];
-        $this->db->where('id_barang', $id_barang);
+        $this->db->where('kode_barang', $kode_barang);
         $this->db->update('tb_stok_barang', $data);
 
         $this->db->where('id_masuk', $id_masuk);
         $this->db->delete('tb_barang_masuk');
 
-        $this->db->where('id_barang', $id_barang);
-        $this->db->delete('tb_monitoring_kadaluarsa');
+        // $this->db->where('id_barang', $id_barang);
+        // $this->db->delete('tb_monitoring_kadaluarsa');
     }
 
     public function cetak_pdf()
@@ -172,13 +166,13 @@ class Barang_masuk extends CI_Controller
         $pdf->SetFillColor(210, 221, 242);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(10, 6, 'No', 1, 0, 'C');
-        $pdf->Cell(50, 6, 'Tanggal Masuk', 1, 0, 'C');
+        $pdf->Cell(30, 6, 'Tanggal Masuk', 1, 0, 'C');
         $pdf->Cell(40, 6, 'Nama Barang', 1, 0, 'C');
         $pdf->Cell(20, 6, 'Jumlah', 1, 0, 'C');
         $pdf->Cell(20, 6, 'Jenis', 1, 0, 'C');
         $pdf->Cell(20, 6, 'Satuan', 1, 0, 'C');
-        $pdf->Cell(50, 6, 'Pemasok', 1, 0, 'C');
-        $pdf->Cell(50, 6, 'Tanggal Kadaluarsa', 1, 1, 'C');
+        $pdf->Cell(70, 6, 'Pemasok', 1, 0, 'C');
+        $pdf->Cell(40, 6, 'Tanggal Kadaluarsa', 1, 1, 'C');
         $pdf->SetFont('Arial', '', 10);
 
         $query = $this->M_barang_masuk->tampil();
@@ -188,13 +182,13 @@ class Barang_masuk extends CI_Controller
         foreach ($brg as $data) {
             $no++;
             $pdf->Cell(10, 6, $no, 1, 0, 'C');
-            $pdf->Cell(50, 6, date('d-m-Y', strtotime($data['tanggal_masuk'])), 1, 0);
-            $pdf->Cell(40, 6, $data['nama_barang'], 1, 0);
-            $pdf->Cell(20, 6, $data['jumlah'], 1,);
-            $pdf->Cell(20, 6, $data['nama_jenis'], 1, 0);
-            $pdf->Cell(20, 6, $data['satuan'], 1, 0);
-            $pdf->Cell(50, 6, $data['nama_pemasok'], 1, 0);
-            $pdf->Cell(50, 6, date('d-m-Y', strtotime($data['tanggal_kadaluarsa'])), 1, 1);
+            $pdf->Cell(30, 6, date('d-m-Y', strtotime($data['tanggal_masuk'])), 1, 0, 'C');
+            $pdf->Cell(40, 6, $data['nama_barang'], 1, 0, 'C');
+            $pdf->Cell(20, 6, $data['jumlah'], 1, 0, 'C');
+            $pdf->Cell(20, 6, $data['nama_jenis'], 1, 0, 'C');
+            $pdf->Cell(20, 6, $data['satuan'], 1, 0, 'C');
+            $pdf->Cell(70, 6, $data['nama_pemasok'], 1, 0, 'L');
+            $pdf->Cell(40, 6, date('d-m-Y', strtotime($data['tanggal_kadaluarsa'])), 1, 1, 'C');
         }
         $pdf->Output('Laporan Barang Masuk.pdf', 'D');
     }

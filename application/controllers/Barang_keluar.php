@@ -12,6 +12,7 @@ class Barang_keluar extends CI_Controller
         $this->load->model('M_satuan');
         $this->load->model('M_jenis_barang');
         $this->load->model('M_stok_barang');
+        $this->load->model('M_barang');
         $this->load->library('Pdf'); // MEMANGGIL LIBRARY YANG KITA BUAT TADI
     }
 
@@ -30,9 +31,9 @@ class Barang_keluar extends CI_Controller
 
     public function tampil_brg()
     {
-        $id_brg = $this->input->post('id_brg');
+        $kode_barang = $this->input->post('kode_barang');
 
-        $barang =  $this->M_barang_keluar->tampil_idBrg($id_brg);
+        $barang =  $this->M_barang_keluar->tampil_idBrg($kode_barang);
         $data = [
             'stok' => $barang['stok']
         ];
@@ -46,7 +47,7 @@ class Barang_keluar extends CI_Controller
     {
 
 
-        $this->form_validation->set_rules('nama_barang', 'nama_barang', 'required', [
+        $this->form_validation->set_rules('kode_barang', 'kode_barang', 'required', [
             'required' => 'Nama barang tidak boleh kosong'
         ]);
 
@@ -60,8 +61,6 @@ class Barang_keluar extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Form Tambah Barang Keluar';
-            $data['satuan'] = $this->M_satuan->tampil();
-            $data['jenis'] = $this->M_jenis_barang->tampil();
             $data['brg'] = $this->M_stok_barang->tampil();
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar');
@@ -92,7 +91,7 @@ class Barang_keluar extends CI_Controller
     public function form_ubah($id_keluar)
     {
 
-        $this->form_validation->set_rules('nama_barang', 'nama_barang', 'required', [
+        $this->form_validation->set_rules('kode_barang', 'kode_barang', 'required', [
             'required' => 'Nama barang tidak boleh kosong'
         ]);
 
@@ -106,9 +105,7 @@ class Barang_keluar extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Form Ubah Barang Keluar';
-            $data['satuan'] = $this->M_satuan->tampil();
-            $data['jenis'] = $this->M_jenis_barang->tampil();
-            $data['brg'] = $this->M_stok_barang->tampil();
+            $data['barang'] = $this->M_barang->tampil();
             $data['id_keluar'] = $this->ambil_IdKeluar($id_keluar);
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar');
@@ -133,19 +130,27 @@ class Barang_keluar extends CI_Controller
         $id_keluar = $this->input->post('id_keluar');
 
         $brg_keluar = $this->db->get_where('tb_barang_keluar', ['id_keluar' => $id_keluar])->row_array();
-        $id_barang = $brg_keluar['id_barang'];
+        $kode_barang = $brg_keluar['kode_barang'];
         $jumlah = $brg_keluar['jumlah'];
-        $brg_gudang = $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
+        $brg_gudang = $this->db->get_where('tb_stok_barang', ['kode_barang' => $kode_barang])->row_array();
         $stok_gudang = $brg_gudang['stok'];
 
         $total_stok = $stok_gudang + $jumlah;
-
+        $id_jenis = $brg_gudang['id_jenis'];
+        $jenis = $this->db->get_where('tb_jenis_barang', ['id_jenis' => $id_jenis])->row_array();
+        $min_stok = $jenis['minimal_stok'];
+        if ($total_stok < $min_stok) {
+            $status = "Harus melakukan pengadaan";
+        } else {
+            $status = "Stok aman";
+        }
 
 
         $data = [
-            'stok' => $total_stok
+            'stok' => $total_stok,
+            'status' => $status
         ];
-        $this->db->where('id_barang', $id_barang);
+        $this->db->where('kode_barang', $kode_barang);
         $this->db->update('tb_stok_barang', $data);
 
         $this->db->where('id_keluar', $id_keluar);

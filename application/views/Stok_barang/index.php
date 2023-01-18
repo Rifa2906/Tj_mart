@@ -44,7 +44,7 @@
                          <tbody>
                              <?php
                                 $no = 1;
-                                foreach ($brg as $key => $value) { ?>
+                                foreach ($stok as $key => $value) { ?>
                                  <tr>
                                      <td><?= $no++; ?></td>
                                      <td><?= $value['kode_barang']; ?></td>
@@ -54,28 +54,23 @@
                                      <td id="minimal_stok"><?= $value['minimal_stok']; ?></td>
                                      <td><?= $value['satuan']; ?></td>
                                      <td>
+
                                          <?php
-                                            if ($value['status'] == "Harus melakukan pengadaan") { ?>
-                                             <span class="badge badge-danger p-2"><i class="fas fa-exclamation-triangle"></i> <?= $value['status']; ?></span>
-                                         <?php
-                                            } else if ($value['status'] == "Stok aman") { ?>
+                                            if ($value['status'] == "Stok aman") { ?>
                                              <span class="badge badge-success p-2"><i class="fas fa-shield-alt"></i> <?= $value['status']; ?></span>
+                                         <?php
+                                            } else if ($value['status'] == "Harus melakukan pengadaan") { ?>
+                                             <span class="badge badge-danger p-2"><i class="fas fa-shield-alt"></i> <?= $value['status']; ?></span>
                                          <?php
                                             }
                                             ?>
                                      </td>
                                      <td>
                                          <a data-toggle="tooltip" data-placement="top" title="Hapus">
-                                             <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_barang'] ?>)">
+                                             <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_stok'] ?>)">
                                                  <i class="fas fa-trash"></i>
                                              </button>
                                          </a>
-
-
-                                         <a class="btn btn-warning btn-sm" href="<?= base_url('Stok_barang/form_ubah') ?>/<?= $value['id_barang']; ?>" data-toggle="tooltip" data-placement="top" title="Ubah">
-                                             <i class="fas fa-pencil-alt"></i>
-                                         </a>
-
                                      </td>
                                  </tr>
                              <?php
@@ -105,46 +100,23 @@
                  <div class="modal-body">
                      <form>
                          <div class="form-group">
-                             <label for="">Kode Barang</label>
-                             <input class="form-control" type="text" id="kode_barang" readonly>
-                         </div>
-                         <div class="form-group">
                              <label for="">Nama Barang</label>
-                             <input type="text" class="form-control" id="nama_barang">
-                             <small class="text-danger" id="nama_barang-error"></small>
-                         </div>
-                         <div class="form-group">
-                             <label for="select2Single">Satuan</label><br>
-                             <select class="select2-single form-control" id="satuan">
-                                 <option value="">Pilih satuan</option>
+                             <select class="select2-single form-control" id="kode_barang">
+                                 <option value="">Pilih barang</option>
                                  <?php
-                                    foreach ($satuan as $key => $value) { ?>
-                                     <option value="<?= $value['id_satuan']; ?>"><?= $value['satuan']; ?></option>
+                                    foreach ($barang as $key => $value) { ?>
+                                     <option value="<?= $value['kode_barang']; ?>"><?= $value['kode_barang']; ?> - <?= $value['nama_barang']; ?></option>
 
                                  <?php
                                     }
                                     ?>
                              </select>
-                             <small class="text-danger" id="satuan-error"></small>
+                             <small class="text-danger" id="kode_barang-error"></small>
                          </div>
 
-                         <div class="form-group">
-                             <label for="select2Single">Jenis barang</label><br>
-                             <select class="select2-single form-control" id="id_jenis">
-                                 <option value="">Pilih jenis barang</option>
-                                 <?php
-                                    foreach ($jenis as $key => $value) { ?>
-                                     <option value="<?= $value['id_jenis']; ?>"><?= $value['nama_jenis']; ?></option>
-
-                                 <?php
-                                    }
-                                    ?>
-                             </select>
-                             <small class="text-danger" id="jenis-error"></small>
-                         </div>
                          <div class="form-group">
                              <label for="">Jumlah stok</label>
-                             <input type="text" class="form-control" id="stok">
+                             <input type="text" class="form-control" id="stok_barang">
                              <small class="text-danger" id="stok-error"></small>
                          </div>
                      </form>
@@ -158,11 +130,13 @@
      </div>
 
 
+
+
      <script>
          $(function() {
              $('[data-toggle="tooltip"]').tooltip()
              kode_barang()
-
+             $('.select2-single').select2();
          })
 
 
@@ -190,21 +164,17 @@
 
          }
 
-         function simpan() {
 
+
+         function simpan() {
              kode_barang = $("#kode_barang").val();
-             nama_barang = $("#nama_barang").val();
-             satuan = $("#satuan").val();
-             id_jenis = $("#id_jenis").val();
-             stok = $("#stok").val();
+             stok = $("#stok_barang").val();
+             console.log(stok)
              $.ajax({
                  type: 'POST',
                  url: '<?= base_url('Stok_barang/tambah_data') ?>',
                  data: {
                      kode_barang: kode_barang,
-                     nama_barang: nama_barang,
-                     satuan: satuan,
-                     id_jenis: id_jenis,
                      stok: stok
                  },
                  dataType: 'json',
@@ -213,10 +183,8 @@
                          $("#Modal_stok_barang").modal('hide');
                          swall('stok barang', 'ditambahkan');
                      } else if (data.status == 0) {
-                         $("#nama_barang-error").html(data['nama_barang']);
-                         $("#jenis-error").html(data['id_jenis']);
-                         $("#satuan-error").html(data['satuan']);
-                         $("#stok-error").html(data['stok']);
+                         $("#kode_barang-error").html(data['kode_barang']);
+                         $("#stok-error").html(data['Stok']);
                      }
                  }
              })
@@ -236,7 +204,7 @@
                          type: 'POST',
                          url: '<?= base_url('Stok_barang/hapus_data') ?>',
                          data: {
-                             id_barang: x
+                             id_stok: x
                          },
                          dataType: 'json',
                          success: function(data) {}

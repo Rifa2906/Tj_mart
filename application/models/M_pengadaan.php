@@ -7,7 +7,8 @@ class M_pengadaan extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('tb_pengadaan p',);
-        $this->db->join('tb_stok_barang sb', 'sb.id_barang = p.id_barang');
+        $this->db->join('tb_stok_barang sb', 'sb.kode_barang = p.kode_barang');
+        $this->db->join('tb_barang b', 'b.kode_barang = p.kode_barang');
         $this->db->join('tb_satuan s', 's.id_satuan = p.id_satuan');
         $this->db->join('tb_jenis_barang j', 'j.id_jenis = p.id_jenis');
         $query = $this->db->get()->result_array();
@@ -24,12 +25,7 @@ class M_pengadaan extends CI_Model
         $id_jenis = $barang['id_jenis'];
 
         $jenis_barang = $this->db->query("SELECT * FROM tb_jenis_barang WHERE id_jenis = $id_jenis")->row_array();
-
-        if ($jenis_barang['nama_jenis'] == 'Makanan') {
-            $minimal_stok = 3;
-        } elseif ($jenis_barang['nama_jenis'] == 'Minuman') {
-            $minimal_stok = 10;
-        }
+        $minimal_stok = $jenis_barang['minimal_stok'];
 
         // Peramalan
         $data_peramalan = $this->db->query("SELECT * FROM tb_barang_keluar WHERE id_barang = $id_barang")->num_rows();
@@ -60,11 +56,6 @@ class M_pengadaan extends CI_Model
         $bulan = $this->db->query("SELECT * FROM tb_barang_keluar WHERE id_barang = $id_barang ORDER BY tanggal_keluar DESC LIMIT 1")->row_array();
 
         $tanggal = date('j F Y', strtotime("+1 month", strtotime($bulan['tanggal_keluar'])));
-
-
-
-
-
 
         $data = [
             'id_barang' => $id_barang,

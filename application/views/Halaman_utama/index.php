@@ -55,6 +55,10 @@
         </div>
         <!-- Pending Requests Card Example -->
 
+
+    </div>
+    <!--Row-->
+    <div class="row">
         <!-- Donut Chart -->
         <div class="col-lg-4">
             <div class="card shadow mb-4">
@@ -75,9 +79,17 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!--Row-->
 
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="myAreaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 

@@ -10,25 +10,25 @@
         <div class="col-lg-12">
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <a href="<?= base_url('Laporan/Data_perBulan'); ?>" class="btn btn-primary">Bulan</a>
+
                 </div>
                 <div class="table-responsive p-3">
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
                                 <th>Periode</th>
-                                <th>Action</th>
+                                <th>Nama barang</th>
+                                <th>Jumlah</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($data_pertahun as $key => $value) {
+                            foreach ($D_bulan as $key => $value) {
                             ?>
                                 <tr>
-                                    <td><?= date("Y", strtotime($value['tanggal_keluar'])) ?></td>
-                                    <td>
-                                        <a href="<?= base_url('Laporan/Detail_tahun/') . date("Y", strtotime($value['tanggal_keluar'])) ?>" class="btn btn-success btn-sm text-white"><i class="fas fa-eye"></i></a>
-                                    </td>
+                                    <td><?= date("j F Y", strtotime($value['tanggal_keluar'])) ?></td>
+                                    <td><?= $value['nama_barang']; ?></td>
+                                    <td><?= $value['jumlah'] ?></td>
                                 </tr>
                             <?php
                             }

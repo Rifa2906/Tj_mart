@@ -7,30 +7,24 @@ class M_barang_masuk extends CI_Model
     function tampil()
     {
         $this->db->select('*');
-        $this->db->from('tb_barang_masuk bm',);
+        $this->db->from('tb_barang_masuk bm');
+        $this->db->join('tb_stok_barang sb', 'sb.kode_barang = bm.kode_barang');
+        $this->db->join('tb_barang b', 'b.kode_barang = bm.kode_barang');
         $this->db->join('tb_satuan s', 's.id_satuan = bm.id_satuan');
         $this->db->join('tb_pemasok p', 'p.id_pemasok = bm.id_pemasok');
         $this->db->join('tb_jenis_barang j', 'j.id_jenis = bm.id_jenis');
-        $this->db->join('tb_stok_barang sb', 'sb.id_barang = bm.id_barang');
         $query = $this->db->get()->result_array();
         return $query;
     }
 
-    function get_max($tabel = null, $field = null)
-    {
-        $this->db->select_max($field);
-        return $this->db->get($tabel)->row_array()[$field];
-    }
 
-    function tampil_idBrg($id_brg)
-    {
-        return $this->db->get_where('tb_stok_barang', ['id_barang' => $id_brg])->row_array();
-    }
+
+
 
     function tambahData()
     {
-        $id_barang = $this->input->post('nama_barang');
-        $barang = $this->db->query("SELECT * FROM tb_stok_barang WHERE id_barang = $id_barang")->row_array();
+        $kode_barang = $this->input->post('kode_barang');
+        $barang = $this->db->get_where('tb_stok_barang', ['kode_barang' => $kode_barang])->row_array();
         $id_satuan = $barang['id_satuan'];
         $id_jenis = $barang['id_jenis'];
         $jumlah = $this->input->post('jumlah');
@@ -39,7 +33,7 @@ class M_barang_masuk extends CI_Model
         $tanggal_kadaluarsa = $this->input->post('tanggal_kadaluarsa');
 
         $data = [
-            'id_barang' => $id_barang,
+            'kode_barang' => $kode_barang,
             'id_satuan' => $id_satuan,
             'id_jenis' => $id_jenis,
             'id_pemasok' => $pemasok,
@@ -50,7 +44,7 @@ class M_barang_masuk extends CI_Model
         $this->db->insert('tb_barang_masuk', $data);
 
         $data_monitoring = [
-            'id_barang' => $id_barang,
+            'kode_barang' => $kode_barang,
             'id_satuan' => $id_satuan,
             'id_jenis' => $id_jenis,
             'tanggal_kadaluarsa' => $tanggal_kadaluarsa,
@@ -58,61 +52,82 @@ class M_barang_masuk extends CI_Model
         ];
         $this->db->insert('tb_monitoring_kadaluarsa', $data_monitoring);
 
-        $jumlah_stok = $this->input->post('jumlah_stok');
+        $jumlah_stok = $barang['stok'];
         $total = $jumlah + $jumlah_stok;
+        $jenis = $this->db->get_where('tb_jenis_barang', ['id_jenis' => $id_jenis])->row_array();
+        $min_stok = $jenis['minimal_stok'];
+        if ($total < $min_stok) {
+            $status = "Harus melakukan pengadaan";
+        } else {
+            $status = "Stok aman";
+        }
 
         $data = [
-            'stok' => $total
+            'stok' => $total,
+            'status' => $status
         ];
 
-        $this->db->update('tb_stok_barang', $data, ['id_barang' => $id_barang]);
+        $this->db->update('tb_stok_barang', $data, ['kode_barang' => $kode_barang]);
     }
 
     function ubahData()
     {
         $id_masuk = $this->input->post('id_masuk');
-        $id_barang = $this->input->post('nama_barang');
-        $barang = $this->db->query("SELECT * FROM tb_stok_barang WHERE id_barang = $id_barang")->row_array();
+        $kode_barang = $this->input->post('kode_barang');
+        $barang = $this->db->get_where('tb_stok_barang', ['kode_barang' => $kode_barang])->row_array();
         $id_satuan = $barang['id_satuan'];
         $id_jenis = $barang['id_jenis'];
         $jumlah = $this->input->post('jumlah');
         $jumlah_sebelumnya = $this->input->post('jumlah_sebelum');
-        $pemasok = $this->input->post('pemasok');
+        $id_pemasok = $this->input->post('pemasok');
         $tanggal_masuk = $this->input->post('tanggal_masuk');
         $tanggal_kadaluarsa = $this->input->post('tanggal_kadaluarsa');
 
-
-        $brg_stok = $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
-
-        $jumlah_gudang = $brg_stok['stok'];
+        $jumlah_gudang = $barang['stok'];
 
         if ($jumlah < $jumlah_sebelumnya) {
             $selisih = $jumlah_sebelumnya - $jumlah;
             $total_stok = $jumlah_gudang - $selisih;
+            $jenis = $this->db->get_where('tb_jenis_barang', ['id_jenis' => $id_jenis])->row_array();
+            $min_stok = $jenis['minimal_stok'];
+            if ($total_stok < $min_stok) {
+                $status = "Harus melakukan pengadaan";
+            } else {
+                $status = "Stok aman";
+            }
             $data = [
-                'stok' => $total_stok
+                'stok' => $total_stok,
+                'status' => $status
             ];
 
-            $this->db->where('id_barang', $id_barang);
+            $this->db->where('kode_barang', $kode_barang);
             $this->db->update('tb_stok_barang', $data);
         } else if ($jumlah > $jumlah_sebelumnya) {
             $selisih = $jumlah - $jumlah_sebelumnya;
             $total_stok = $selisih + $jumlah_gudang;
+            $jenis = $this->db->get_where('tb_jenis_barang', ['id_jenis' => $id_jenis])->row_array();
+            $min_stok = $jenis['minimal_stok'];
+            if ($total_stok < $min_stok) {
+                $status = "Harus melakukan pengadaan";
+            } else {
+                $status = "Stok aman";
+            }
             $data = [
-                'stok' => $total_stok
+                'stok' => $total_stok,
+                'status' => $status
             ];
 
-            $this->db->where('id_barang', $id_barang);
+            $this->db->where('kode_barang', $kode_barang);
             $this->db->update('tb_stok_barang', $data);
         }
 
 
 
         $data = [
-            'id_barang' => $id_barang,
+            'kode_barang' => $kode_barang,
             'id_satuan' => $id_satuan,
             'id_jenis' => $id_jenis,
-            'id_pemasok' => $pemasok,
+            'id_pemasok' => $id_pemasok,
             'tanggal_masuk' => $tanggal_masuk,
             'jumlah' => $jumlah,
             'tanggal_kadaluarsa' => $tanggal_kadaluarsa
@@ -121,12 +136,12 @@ class M_barang_masuk extends CI_Model
         $this->db->update('tb_barang_masuk', $data);
 
         $data = [
-            'id_barang' => $id_barang,
+            'kode_barang' => $kode_barang,
             'tanggal_kadaluarsa' => $tanggal_kadaluarsa,
             'jumlah' => $jumlah,
         ];
 
-        $this->db->where('id_barang', $id_barang);
+        $this->db->where('kode_barang', $kode_barang);
         $this->db->update('tb_monitoring_kadaluarsa', $data);
     }
 }

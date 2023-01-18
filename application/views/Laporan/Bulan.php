@@ -10,7 +10,7 @@
         <div class="col-lg-12">
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <a href="<?= base_url('Laporan/Data_perBulan'); ?>" class="btn btn-primary">Bulan</a>
+                    <a href="<?= base_url('Laporan'); ?>" class="btn btn-primary">Tahun</a>
                 </div>
                 <div class="table-responsive p-3">
                     <table class="table align-items-center table-flush">
@@ -22,12 +22,13 @@
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($data_pertahun as $key => $value) {
+                            foreach ($data_perbulan as $key => $value) {
                             ?>
                                 <tr>
-                                    <td><?= date("Y", strtotime($value['tanggal_keluar'])) ?></td>
+
+                                    <td><?= date("F Y", strtotime($value['tanggal_keluar'])) ?></td>
                                     <td>
-                                        <a href="<?= base_url('Laporan/Detail_tahun/') . date("Y", strtotime($value['tanggal_keluar'])) ?>" class="btn btn-success btn-sm text-white"><i class="fas fa-eye"></i></a>
+                                        <a class="btn btn-success btn-sm text-white"><i class="fas fa-eye"></i></a>
                                     </td>
                                 </tr>
                             <?php

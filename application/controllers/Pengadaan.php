@@ -10,7 +10,7 @@ class Pengadaan extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('M_pengadaan');
         $this->load->model('M_stok_barang');
-        $this->load->model('M_produk');
+        $this->load->model('M_barang');
     }
 
     public function index()
@@ -108,7 +108,7 @@ class Pengadaan extends CI_Controller
         $this->db->where('sb.id_barang', $id_barang);
         $barang = $this->db->get()->row_array();
 
-        if ($pengadaan['pemasok'] == 'Pilih Supplier') {
+        if ($pengadaan['pemasok'] == 'Supplier belum dipilih') {
             $response['status'] = 0;
         } else {
 

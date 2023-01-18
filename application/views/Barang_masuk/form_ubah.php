@@ -27,18 +27,18 @@
                                </div>
                                <div class="form-group">
                                    <label for="">Nama Barang</label>
-                                   <select class="select2-single form-control" id="nama_barang" name="nama_barang">
+                                   <select class="select2-single form-control" id="kode_barang" name="kode_barang">
                                        <option value="">Pilih barang</option>
                                        <?php
-                                        foreach ($brg as $key => $value) { ?>
-                                           <option <?php if ($value['id_barang'] == $id_masuk['id_barang']) {
+                                        foreach ($barang as $key => $value) { ?>
+                                           <option <?php if ($value['kode_barang'] == $id_masuk['kode_barang']) {
                                                         echo 'selected';
-                                                    } ?> value="<?= $id_masuk['id_barang']; ?>"><?= $value['nama_barang']; ?></option>
+                                                    } ?> value="<?= $id_masuk['kode_barang']; ?>"><?= $value['nama_barang']; ?></option>
                                        <?php
                                         }
                                         ?>
                                    </select>
-                                   <span class="text-danger" id="nama_barang-error"><?= form_error('nama_barang'); ?></span>
+                                   <span class="text-danger" id="kode_barang-error"><?= form_error('kode_barang'); ?></span>
                                </div>
                                <div class="form-group" id="simple-date1">
                                    <label for="simpleDataInput">Tanggal Kadaluarsa</label>
@@ -61,7 +61,7 @@
                                <div class="form-group">
                                    <label for="">Pemasok</label><br>
                                    <select class="form-control select2-single-placeholder" name="pemasok" id="pemasok">
-                                       <option value="">Select</option>
+                                       <option value="">Pilih Supplier</option>
                                        <?php
                                         foreach ($pemasok as $key => $value) { ?>
                                            <option <?php if ($value['id_pemasok'] == $id_masuk['id_pemasok']) {

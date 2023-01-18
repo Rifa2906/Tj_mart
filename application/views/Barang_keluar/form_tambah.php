@@ -24,13 +24,13 @@
                        </div>
                        <div class="form-group">
                            <label for="">Nama Barang</label><br>
-                           <select class="select2-single form-control" id="nama_barang" name="nama_barang">
+                           <select class="select2-single form-control" id="kode_barang" name="kode_barang">
                                <option value="">Pilih barang</option>
                                <?php
                                 foreach ($brg as $key => $value) { ?>
                                    <?php
                                     if ($value['stok'] > 0) { ?>
-                                       <option value="<?= $value['id_barang']; ?>">
+                                       <option value="<?= $value['kode_barang']; ?>">
                                            <?= $value['nama_barang']; ?></option>
                                    <?php
                                     }
@@ -41,7 +41,7 @@
                                 }
                                 ?>
                            </select>
-                           <span class="text-danger" id="nama_barang-error"><?= form_error('nama_barang'); ?></span>
+                           <span class="text-danger" id="nama_barang-error"><?= form_error('kode_barang'); ?></span>
                        </div>
                        <div class="form-group">
                            <label for="">Jumlah keluar</label>
@@ -80,13 +80,13 @@
 
        })
 
-       $("#nama_barang").change(function() {
-           id_barang = $("#nama_barang").val();
+       $("#kode_barang").change(function() {
+           kode_barang = $("#kode_barang").val();
            $.ajax({
                method: "POST",
                url: "<?= base_url('Barang_keluar/tampil_brg') ?>",
                data: {
-                   id_brg: id_barang
+                   kode_barang: kode_barang
                },
                dataType: "json",
                success: function(data) {

@@ -20,7 +20,7 @@
                                 <th>Nama Barang</th>
                                 <th>Jumlah Pengadaan</th>
                                 <th>Untuk Tanggal</th>
-                                <th>Pemasok</th>
+                                <th>Supplier</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>

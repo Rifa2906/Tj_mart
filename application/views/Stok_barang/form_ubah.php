@@ -13,60 +13,21 @@
            <div class="card mb-4">
                <div class="card-body">
                    <form method="POST">
-                       <div class="row">
-                           <div class="col-6">
-                               <div class="form-group">
-                                   <input type="hidden" name="Edt_id_barang" value="<?= $id_barang['id_barang']; ?>">
-                                   <label for="">Kode Barang</label>
-                                   <input class="form-control" value="<?= $id_barang['kode_barang']; ?>" type="text" id="Edt_kode_barang" name="Edt_kode_barang" readonly>
-                               </div>
-                               <div class="form-group">
-                                   <label for="">Nama Barang</label>
-                                   <input class="form-control" id="Edt_nama_barang" name="Edt_nama_barang" value="<?= $id_barang['nama_barang']; ?>">
-                                   <span class="text-danger" id="nama_barang-error"><?= form_error('Edt_nama_barang'); ?></span>
-                               </div>
-                               <div class="form-group">
-                                   <label for="select2Single">Satuan</label><br>
-                                   <select class="form-control select2-single" id="Edt_satuan" name="Edt_satuan">
-                                       <option value="">Pilih satuan</option>
-                                       <?php
-                                        foreach ($satuan as $key => $value) { ?>
-                                           <option <?php if ($value['id_satuan'] == $id_barang['id_satuan']) {
-                                                        echo 'selected';
-                                                    } ?> value="<?= $value['id_satuan']; ?>"><?= $value['satuan']; ?></option>
-                                       <?php
-                                        }
-                                        ?>
-                                   </select>
-                               </div>
-                               <span class="text-danger" id="satuan-error"><?= form_error('Edt_satuan'); ?></span>
-                           </div>
-                           <div class="col-6">
-                               <div class="form-group">
-                                   <label for="select2Single">Jenis barang</label><br>
-                                   <select class="form-control select2-single" id="Edt_jenis" name="Edt_jenis">
-                                       <option value="">pilih jenis barang</option>
-                                       <?php
-                                        foreach ($jenis as $key => $value) { ?>
-                                           <option <?php if ($value['id_jenis'] == $id_barang['id_jenis']) {
-                                                        echo 'selected';
-                                                    } ?> value="<?= $value['id_jenis']; ?>"><?= $value['nama_jenis']; ?></option>
 
-                                       <?php
-                                        }
-                                        ?>
-                                   </select>
-                               </div>
-                               <span class="text-danger" id="jenis-error"><?= form_error('Edt_jenis'); ?></span>
-                               <div class="form-group">
-                                   <label for="">Stok</label>
-                                   <input type="text" class="form-control" id="Edt_stok" name="Edt_stok" value="<?= $id_barang['stok']; ?>">
-                                   <span class="text-danger" id="stok-error"><?= form_error('Edt_stok'); ?></span>
-                               </div>
-                           </div>
-                           <button type="submit" class="btn btn-primary">Ubah</button>
-                           <a href="<?= base_url('Stok_barang'); ?>" class="btn btn-warning ml-1">Kembali</a>
+                       <div class="form-group">
+                           <label for="">Nama Barang</label>
+                           <input type="hidden" name="id_barang" value="<?= $id_stok['id_barang']; ?>">
+                           <input class="form-control" id="Edt_nama_barang" name="Edt_nama_barang" value="<?= $id_stok['barang']; ?>">
+                           <span class="text-danger" id="nama_barang-error"><?= form_error('Edt_nama_barang'); ?></span>
                        </div>
+                       <div class="form-group">
+                           <label for="">Stok</label>
+                           <input type="text" class="form-control" id="Edt_stok" name="Edt_stok" value="<?= $id_stok['stok']; ?>">
+                           <input type="hidden" class="form-control" id="Edt_status" name="Edt_status" value="<?= $id_stok['status']; ?>">
+                           <span class="text-danger" id="stok-error"><?= form_error('Edt_stok'); ?></span>
+                       </div>
+                       <button type="submit" class="btn btn-primary">Ubah</button>
+                       <a href="<?= base_url('Stok_barang'); ?>" class="btn btn-warning ml-1">Kembali</a>
                    </form>
 
                </div>

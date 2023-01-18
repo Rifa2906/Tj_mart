@@ -2,11 +2,7 @@
   <div class="container-fluid" id="container-wrapper">
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
-          <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="./">Supplier</a></li>
-              <li class="breadcrumb-item"><a href="./">Tambah produk</a></li>
-              <li class="breadcrumb-item"><?= $title; ?></li>
-          </ol>
+
       </div>
 
 
@@ -23,34 +19,38 @@
                           <thead class="thead-light">
                               <tr>
                                   <th>No</th>
-                                  <th>Pemasok</th>
-                                  <th>Produk</th>
+                                  <th>Kode Barang</th>
+                                  <th>Nama Barang</th>
                                   <th>Harga</th>
                                   <th>Satuan</th>
+                                  <th>Jenis</th>
+                                  <th>Supplier</th>
                                   <th>Aksi</th>
                               </tr>
                           </thead>
                           <tbody>
                               <?php
                                 $no = 1;
-                                foreach ($produk as $key => $value) { ?>
+                                foreach ($barang as $key => $value) { ?>
                                   <tr>
                                       <td><?= $no++; ?></td>
-                                      <td><?= $value['nama_pemasok'] ?></td>
-                                      <td><?= $value['produk'] ?></td>
+                                      <td><?= $value['kode_barang']; ?></td>
+                                      <td><?= $value['nama_barang'] ?></td>
                                       <td>Rp. <?= number_format($value['harga'], 0, ',', '.'); ?></td>
                                       <td><?= $value['satuan']; ?></td>
+                                      <td><?= $value['nama_jenis']; ?></td>
+                                      <td><?= $value['nama_pemasok']; ?></td>
                                       <td>
                                           <a data-toggle="tooltip" data-placement="top" title="Ubah">
-                                              <button data-toggle="modal" data-target="#Modal_produk_edit" id="#exampleModal" onclick="ambil_id(<?= $value['id_produk'] ?>)" class="btn btn-warning btn-sm">
+                                              <button data-toggle="modal" data-target="#Modal_produk_edit" id="#exampleModal" onclick="ambil_id(<?= $value['id_barang'] ?>)" class="btn btn-warning btn-sm">
                                                   <i class="fas fa-pencil-alt"></i>
                                               </button>
                                           </a>
 
                                           <a data-toggle="tooltip" data-placement="top" title="Hapus">
-                                              <a href="<?= basename('Produk/form_edit'); ?>" class="btn btn-danger btn-sm">
+                                              <button class="btn btn-danger btn-sm" onclick="hapus(<?= $value['id_barang'] ?>)">
                                                   <i class="fas fa-trash"></i>
-                                              </a>
+                                              </button>
                                           </a>
                                       </td>
                                   </tr>
@@ -77,7 +77,7 @@
       <div class="modal-dialog" role="document">
           <div class="modal-content">
               <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Tambah produk</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Tambah Barang</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
@@ -99,9 +99,15 @@
                       </div>
 
                       <div class="form-group">
-                          <label for="">Produk</label>
-                          <input type="text" class="form-control" id="produk">
-                          <span class="text-danger" id="produk-error"></span>
+                          <label for="">Kode Barang</label>
+                          <input type="text" class="form-control" readonly value="<?= $kode_barang; ?>" id="kode_barang">
+                          <span class="text-danger" id="kode_barang-error"></span>
+                      </div>
+
+                      <div class="form-group">
+                          <label for="">Barang</label>
+                          <input type="text" class="form-control" id="barang">
+                          <span class="text-danger" id="barang-error"></span>
                       </div>
 
                       <div class="form-group">
@@ -122,6 +128,19 @@
                                 ?>
                           </select>
                           <span class="text-danger" id="satuan-error"></span>
+                      </div>
+                      <div class="form-group">
+                          <label for="">Jenis</label>
+                          <select id="jenis" class="form-control">
+                              <option value="">Pilih jenis</option>
+                              <?php
+                                foreach ($jenis as $key => $value) { ?>
+                                  <option value="<?= $value['id_jenis']; ?>"><?= $value['nama_jenis']; ?></option>
+                              <?php
+                                }
+                                ?>
+                          </select>
+                          <span class="text-danger" id="jenis-error"></span>
                       </div>
               </div>
               </form>
@@ -158,29 +177,61 @@
       function simpan() {
 
           id_pemasok = $('#pemasok').val();
-          produk = $('#produk').val();
+          kode_barang = $('#kode_barang').val();
+          barang = $('#barang').val();
           harga = $('#harga').val();
           satuan = $('#satuan').val();
+          jenis = $('#jenis').val();
           $.ajax({
               type: 'POST',
-              url: '<?= base_url('Produk/tambah_produk') ?>',
+              url: '<?= base_url('Barang/tambah_barang') ?>',
               data: {
                   pemasok: id_pemasok,
-                  produk: produk,
+                  barang: barang,
+                  kode_barang: kode_barang,
                   harga: harga,
-                  satuan: satuan
+                  satuan: satuan,
+                  jenis: jenis
               },
               dataType: 'json',
               success: function(data) {
                   if (data.status == 0) {
                       $('#pemasok-error').html(data.pemasok)
-                      $('#produk-error').html(data.produk)
+                      $('#barang-error').html(data.barang)
                       $('#harga-error').html(data.harga)
                       $('#satuan-error').html(data.satuan)
+                      $('#jenis-error').html(data.jenis)
                   } else if (data.status == 1) {
                       $("#Modal_produk").modal('hide');
-                      swall('produk', 'ditambahkan');
+                      swall('Barang', 'ditambahkan');
                   }
+              }
+          })
+      }
+
+
+      function hapus(x) {
+          Swal.fire({
+              title: 'Apakah anda yakin ingin menghapusnya?',
+              showCancelButton: true,
+              confirmButtonText: 'Hapus',
+              icon: 'warning'
+          }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+
+                  $.ajax({
+                      type: 'POST',
+                      url: '<?= base_url('Barang/hapus_data') ?>',
+                      data: {
+                          id_barang: x
+                      },
+                      dataType: 'json',
+                      success: function(data) {}
+                  })
+
+                  swall('Barang', 'dihapus')
+
               }
           })
       }

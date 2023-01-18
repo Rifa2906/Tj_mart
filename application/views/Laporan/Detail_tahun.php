@@ -10,24 +10,24 @@
         <div class="col-lg-12">
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+
                 </div>
                 <div class="table-responsive p-3">
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
-                                <th>Tanggal</th>
+                                <th>Periode</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($data_pertahun as $key => $value) {
+                            foreach ($Detail_tahun as $key => $value) {
                             ?>
                                 <tr>
-
-                                    <td><?= date("F Y", strtotime($value['tanggal_keluar'])) ?></td>
+                                    <td><?= date("F", strtotime($value['tanggal_keluar'])) ?></td>
                                     <td>
-                                        <button class="btn btn-success btn-sm"><i class="fas fa-eye"></i></button>
+                                        <a href="<?= base_url('Laporan/Detail_bulan/') . date("m", strtotime($value['tanggal_keluar'])) ?>" class="btn btn-success btn-sm text-white"><i class="fas fa-eye"></i></a>
                                     </td>
                                 </tr>
                             <?php
@@ -47,19 +47,5 @@
 
 </div>
 <script>
-    function cari() {
 
-        tahun = $('#tahun').val();
-        $.ajax({
-            method: "POST",
-            url: "<?= base_url('Data_perTahun/tahun') ?>",
-            data: {
-                tahun: tahun
-            },
-            dataType: "json",
-            success: function(data) {
-
-            }
-        })
-    }
 </script>

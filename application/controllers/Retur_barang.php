@@ -9,13 +9,14 @@ class Retur_barang extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('M_retur_barang');
+        $this->load->model('M_stok_barang');
         $this->load->library('Pdf'); // MEMANGGIL LIBRARY YANG KITA BUAT TADI
     }
 
     public function index()
     {
         $data['retur'] = $this->M_retur_barang->tampil();
-        $data['brg'] = $this->tampil_barang();
+        $data['brg'] = $this->M_stok_barang->tampil();
         $data['pm'] = $this->tampil_pemasok();
         $data['title'] = 'Retur Barang';
         $this->load->view('templates/header', $data);
@@ -23,12 +24,6 @@ class Retur_barang extends CI_Controller
         $this->load->view('templates/topbar');
         $this->load->view('Retur_barang/index', $data);
         $this->load->view('templates/footer');
-    }
-
-    function tampil_barang()
-    {
-        $query = $this->db->get('tb_stok_barang')->result_array();
-        return $query;
     }
 
     function tampil_pemasok()
@@ -39,7 +34,7 @@ class Retur_barang extends CI_Controller
 
     public function tambah_retur()
     {
-        $this->form_validation->set_rules('barang', 'barang', 'required', [
+        $this->form_validation->set_rules('kode_barang', 'kode_barang', 'required', [
             'required' => 'barang tidak boleh kosong'
         ]);
 
@@ -52,11 +47,11 @@ class Retur_barang extends CI_Controller
         ]);
 
         if ($this->form_validation->run() == true) {
-            $this->M_retur_barang->tambahdata();
+            $response['data'] = $this->M_retur_barang->tambahdata();
             $response['status'] = 1;
         } else {
             $response['status'] = 0;
-            $response['barang'] = strip_tags(form_error('barang'));
+            $response['kode_barang'] = strip_tags(form_error('kode_barang'));
             $response['jumlah'] = strip_tags(form_error('jumlah'));
             $response['pemasok'] = strip_tags(form_error('pemasok'));
         }
@@ -67,9 +62,36 @@ class Retur_barang extends CI_Controller
     function hapus_data()
     {
         $id_retur = $this->input->post('id_retur');
+
+        $retur =  $this->db->get_where('tb_retur_barang', ['id_retur' => $id_retur])->row_array();
+        $kode_barang = $retur['kode_barang'];
+        $brg = $this->db->get_where('tb_stok_barang', ['kode_barang' => $kode_barang])->row_array();
+        $id_jenis = $brg['id_jenis'];
+        $jenis = $this->db->get_where('tb_jenis_barang', ['id_jenis' => $id_jenis])->row_array();
+        $min_stok = $jenis['minimal_stok'];
+        $stok_g = $brg['stok'];
+        $jml_retur = $retur['jumlah'];
+        $total_stok = $stok_g + $jml_retur;
+
+        if ($total_stok < $min_stok) {
+            $status = "Harus melakukan pengadaan";
+        } else {
+            $status = "Stok aman";
+        }
+
+        $data_stok = [
+            'stok' => $total_stok,
+            'status' => $status
+        ];
+        $this->db->where('kode_barang', $kode_barang);
+        $this->db->update('tb_stok_barang', $data_stok);
+
+
         $this->db->where('id_retur', $id_retur);
         $this->db->delete('tb_retur_barang');
     }
+
+
 
     public function cetak_pdf()
     {
@@ -107,5 +129,14 @@ class Retur_barang extends CI_Controller
             $pdf->Cell(20, 6, $data['satuan'], 1, 0);
         }
         $pdf->Output('Laporan Retur Barang.pdf', 'D');
+    }
+
+    public function tampil_stok()
+    {
+        $kode_barang = $this->input->post('kode_barang');
+        $brg = $this->db->get('tb_stok_barang', ['kode_barang' => $kode_barang])->row_array();
+        $stok = $brg['stok'];
+
+        echo json_encode($stok);
     }
 }

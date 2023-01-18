@@ -7,11 +7,21 @@ class M_stok_barang extends CI_Model
     function tampil()
     {
         $this->db->select('*');
-        $this->db->from('tb_stok_barang sb',);
-        $this->db->join('tb_satuan s', 's.id_satuan = sb.id_satuan');
+        $this->db->from('tb_stok_barang sb');
+        $this->db->join('tb_barang b', 'b.kode_barang  = sb.kode_barang ');
         $this->db->join('tb_jenis_barang j', 'j.id_jenis = sb.id_jenis');
-        $query = $this->db->get()->result_array();
-        return $query;
+        $this->db->join('tb_satuan s', 's.id_satuan = sb.id_satuan');
+        return $this->db->get()->result_array();
+    }
+
+    public function tampil_groupBy()
+    {
+        $this->db->select('*');
+        $this->db->from('tb_barang b',);
+        $this->db->join('tb_pemasok pm', 'pm.id_pemasok = b.id_pemasok');
+        $this->db->join('tb_satuan s', 's.id_satuan = b.id_satuan');
+        $this->db->join('tb_jenis_barang j', 'j.id_jenis = b.id_jenis');
+        return $this->db->get()->result_array();
     }
 
     function jumlah_stok()
@@ -25,35 +35,25 @@ class M_stok_barang extends CI_Model
         return $jml_stok;
     }
 
-    function get_max($tabel = null, $field = null)
-    {
-        $this->db->select_max($field);
-        return $this->db->get($tabel)->row_array()[$field];
-    }
-
-
 
     function tambahData()
     {
-        $nama_barang = $this->input->post('nama_barang');
-        $id_jenis = $this->input->post('id_jenis');
         $kode_barang = $this->input->post('kode_barang');
         $stok = $this->input->post('stok');
-        $satuan = $this->input->post('satuan');
-
-        $jenis = $this->db->get('tb_jenis_barang', ['id_jenis' => $id_jenis])->row_array();
+        $barang = $this->db->get_where('tb_barang', ['kode_barang' => $kode_barang])->row_array();
+        $id_jenis = $barang['id_jenis'];
+        $jenis = $this->db->get_where('tb_jenis_barang', ['id_jenis' => $id_jenis])->row_array();
         $min_stok = $jenis['minimal_stok'];
         if ($stok < $min_stok) {
             $status = "Harus melakukan pengadaan";
         } else {
-            $status = "Stok aman ";
+            $status = "Stok aman";
         }
 
         $data = [
             'kode_barang' => $kode_barang,
-            'nama_barang' => $nama_barang,
-            'id_jenis' => $id_jenis,
-            'id_satuan' => $satuan,
+            'id_jenis' => $barang['id_jenis'],
+            'id_satuan' => $barang['id_satuan'],
             'stok' => $stok,
             'status' => $status
 
@@ -61,26 +61,38 @@ class M_stok_barang extends CI_Model
         $this->db->insert('tb_stok_barang', $data);
     }
 
-    function ambilId($id_barang)
+    function ambilId($id_stok)
     {
-        return $this->db->get_where('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
+        $this->db->select('*');
+        $this->db->from('tb_stok_barang sb');
+        $this->db->from('tb_barang b', 'b.id_barang = sb.id_barang');
+        $this->db->where('sb.id_stok', $id_stok);
+        return $this->db->get()->row_array();
     }
 
     function ubahData()
     {
-        $id_barang = $this->input->post('Edt_id_barang');
-        $kode_barang = $this->input->post('Edt_kode_barang');
-        $nama_barang = $this->input->post('Edt_nama_barang');
-        $id_satuan = $this->input->post('Edt_satuan');
-        $id_jenis = $this->input->post('Edt_jenis');
+        $id_barang = $this->input->post('id_barang');
         $stok = $this->input->post('Edt_stok');
 
+        $brg = $this->db->get('tb_stok_barang', ['id_barang' => $id_barang])->row_array();
+        $id_jenis = $brg['id_jenis'];
+        $jenis = $this->db->get('tb_jenis_barang', ['id_jenis' => $id_jenis])->row_array();
+
+        $min_stok = $jenis['minimal_stok'];
+
+        if ($stok < $min_stok) {
+            $status = "Harus melakukan pengadaan";
+        } else {
+            $status = "Stok aman";
+        }
+
         $data = [
-            'kode_barang' => $kode_barang,
-            'nama_barang' => $nama_barang,
+            'id_barang' => $id_barang,
             'id_jenis' => $id_jenis,
             'id_satuan' => $id_satuan,
-            'stok' => $stok
+            'stok' => $stok,
+            'status' => $status
 
         ];
         $this->db->where('id_barang', $id_barang);

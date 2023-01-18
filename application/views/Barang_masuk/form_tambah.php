@@ -26,17 +26,17 @@
                                </div>
                                <div class="form-group">
                                    <label for="">Nama Barang</label><br>
-                                   <select class="select2-single form-control" id="nama_barang" name="nama_barang">
+                                   <select class="select2-single form-control" id="kode_barang" name="kode_barang">
                                        <option value="">Pilih barang</option>
                                        <?php
-                                        foreach ($brg as $key => $value) { ?>
-                                           <option value="<?= $value['id_barang']; ?>"><?= $value['nama_barang']; ?></option>
+                                        foreach ($barang as $key => $value) { ?>
+                                           <option value="<?= $value['kode_barang']; ?>"><?= $value['kode_barang']; ?> - <?= $value['nama_barang']; ?></option>
 
                                        <?php
                                         }
                                         ?>
                                    </select>
-                                   <span class="text-danger" id="nama_barang-error"><?= form_error('nama_barang'); ?></span>
+                                   <span class="text-danger" id="kode_barang-error"><?= form_error('kode_barang'); ?></span>
                                </div>
                                <div class="form-group">
                                    <div class="row">
@@ -44,10 +44,6 @@
                                            <label for="">Jumlah</label>
                                            <input type="text" class="form-control" id="jumlah" name="jumlah">
                                            <span class="text-danger" id="jumlah-error"><?= form_error('jumlah'); ?></span>
-                                       </div>
-                                       <div class="col-4">
-                                           <label for="">Jumlah stok</label>
-                                           <input type="text" class="form-control" id="jumlah_stok" name="jumlah_stok" readonly>
                                        </div>
                                    </div>
 
@@ -101,20 +97,5 @@
 
            $('.select2-single').select2();
 
-       })
-
-       $("#nama_barang").change(function() {
-           id_barang = $("#nama_barang").val();
-           $.ajax({
-               method: "POST",
-               url: "<?= base_url('Barang_masuk/tampil_brg') ?>",
-               data: {
-                   id_brg: id_barang
-               },
-               dataType: "json",
-               success: function(data) {
-                   $("#jumlah_stok").val(data.stok);
-               }
-           })
        })
    </script>

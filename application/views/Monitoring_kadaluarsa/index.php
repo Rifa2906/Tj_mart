@@ -33,33 +33,24 @@
                                     <td>
                                         <center>
                                             <?php
+                                            $warning = date('Y-m-d', strtotime('-14 day', strtotime($value['tanggal_kadaluarsa'])));
+                                            echo $warning;
+                                            if (strtotime('now') >= strtotime($warning)) {
+                                                $tgl1 = strtotime('now');
+                                                $tgl2 = strtotime($value['tanggal_kadaluarsa']);
 
-
-
-                                            $tgl1 = strtotime(date("Y-m-d"));
-                                            $tgl2 = strtotime(date("Y-m-d", strtotime($value['tanggal_kadaluarsa'])));
-
-                                            $jarak = $tgl2 - $tgl1;
-
-                                            $hari = $jarak / 60 / 60 / 24;
-
-
-                                            if (date("d", strtotime($value['tanggal_kadaluarsa'])) >= $warning) { ?>
+                                                $jarak = $tgl2 - $tgl1;
+                                                $hari = $jarak / 60 / 60 / 24;
+                                            ?>
                                                 <span class="badge badge-warning p-2"><i class="fas fa-exclamation-triangle"></i> Segera kadaluarsa</span><br>
-                                                <small><?= $hari . ' hari lagi '; ?></small>
-                                            <?php
-                                            } else { ?>
-
+                                                <small><?= date('d', strtotime($hari)) . ' hari lagi '; ?></small>
+                                            <?php } else { ?>
                                                 <span class="badge badge-success p-2">
                                                     <i class="fas fa-shield-alt"></i>
                                                     Aman
                                                 </span>
-                                            <?php
-
-                                            }
-                                            ?>
+                                            <?php } ?>
                                         </center>
-
                                     </td>
                                     <td>
                                         <?php

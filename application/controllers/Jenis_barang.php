@@ -52,6 +52,7 @@ class Jenis_barang extends CI_Controller
         $data = [
             'id_jenis' => $jenis['id_jenis'],
             'nama_jenis' => $jenis['nama_jenis'],
+            'minimal_stok' => $jenis['minimal_stok']
         ];
         echo json_encode($data);
     }
@@ -62,6 +63,9 @@ class Jenis_barang extends CI_Controller
         $this->form_validation->set_rules('nama_jenis', 'nama_jenis', 'required', [
             'required' => 'Nama jenis tidak boleh kosong'
         ]);
+        $this->form_validation->set_rules('minimal_stok', 'minimal_stok', 'required', [
+            'required' => 'Minimal stok tidak boleh kosong'
+        ]);
 
 
         if ($this->form_validation->run() == true) {
@@ -71,6 +75,7 @@ class Jenis_barang extends CI_Controller
         } else {
             $response['status'] = 0;
             $response['nama_jenis'] = strip_tags(form_error('nama_jenis'));
+            $response['minimal_stok'] = strip_tags(form_error('minimal_stok'));
         }
 
         echo json_encode($response);

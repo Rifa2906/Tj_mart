@@ -83,9 +83,9 @@
               </a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('Data_perTahun'); ?>">
+              <a class="nav-link" href="<?= base_url('Laporan/index'); ?>">
                   <i class="fas fa-fw fa-cube"></i>
-                  <span>Barang keluar</span>
+                  <span>Laporan</span>
               </a>
           </li>
       <?php
@@ -164,9 +164,9 @@
               </a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('Peramalan'); ?>">
+              <a class="nav-link" href="<?= base_url('Barang'); ?>">
                   <i class="fas fa-fw fa-cube"></i>
-                  <span>Peramalan</span>
+                  <span>Data Barang</span>
               </a>
           </li>
           <li class="nav-item">
