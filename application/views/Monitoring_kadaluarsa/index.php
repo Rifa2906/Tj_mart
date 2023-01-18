@@ -34,16 +34,25 @@
                                         <center>
                                             <?php
                                             $warning = date('Y-m-d', strtotime('-14 day', strtotime($value['tanggal_kadaluarsa'])));
-                                            echo $warning;
+                                            //echo $warning;
                                             if (strtotime('now') >= strtotime($warning)) {
-                                                $tgl1 = strtotime('now');
-                                                $tgl2 = strtotime($value['tanggal_kadaluarsa']);
+                                                // $tgl1 = strtotime('now');
+                                                //$tgl2 = strtotime($value['tanggal_kadaluarsa']);
 
-                                                $jarak = $tgl2 - $tgl1;
-                                                $hari = $jarak / 60 / 60 / 24;
+                                                // $jarak = $tgl2 - $tgl1;
+                                                // $hari = $jarak / 60 / 60 / 24;
+
+                                                // $awal  = date_create($value['tanggal_kadaluarsa']);
+                                                // $akhir = date_create();
+                                                // $diff = date_diff($awal, $akhir);
+
+                                                $tgl_kadaluarsa = new DateTime($value['tanggal_kadaluarsa']);
+                                                $tanggal_sekarang = new DateTime();
+                                                $selisih = $tgl_kadaluarsa->diff($tanggal_sekarang);
+
                                             ?>
                                                 <span class="badge badge-warning p-2"><i class="fas fa-exclamation-triangle"></i> Segera kadaluarsa</span><br>
-                                                <small><?= date('d', strtotime($hari)) . ' hari lagi '; ?></small>
+                                                <small><?= $selisih->days ?> Hari lagi</small>
                                             <?php } else { ?>
                                                 <span class="badge badge-success p-2">
                                                     <i class="fas fa-shield-alt"></i>
@@ -54,7 +63,7 @@
                                     </td>
                                     <td>
                                         <?php
-                                        if (date("d", strtotime($value['tanggal_kadaluarsa'])) >= $warning) { ?>
+                                        if (strtotime('now') >= strtotime($warning)) { ?>
                                             <button type="button" onclick="barang_keluar(<?= $value['id_monitoring'] ?>)" class="btn btn-danger btn-sm" id="btn-kdl"><i class="fas fa-solid fa-arrow-right"></i></button>
                                         <?php
                                         }
@@ -102,3 +111,7 @@
         }
     }
 </script>
+
+
+
+<!-- GglHruNae29o -->
