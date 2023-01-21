@@ -28,7 +28,7 @@
 
                                     <td><?= date("F Y", strtotime($value['tanggal_keluar'])) ?></td>
                                     <td>
-                                        <a class="btn btn-success btn-sm text-white"><i class="fas fa-eye"></i></a>
+                                        <a href="<?= base_url('Laporan/Detail_bulan/') . date("m", strtotime($value['tanggal_keluar'])) ?>" class="btn btn-success btn-sm text-white"><i class="fas fa-eye"></i></a>
                                     </td>
                                 </tr>
                             <?php

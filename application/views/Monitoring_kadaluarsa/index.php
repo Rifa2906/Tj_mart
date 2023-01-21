@@ -15,6 +15,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>Tanggal Kadaluarsa</th>
+                                <th>Kode Barang</th>
                                 <th>Barang</th>
                                 <th>Jumlah</th>
                                 <th>Status</th>
@@ -28,6 +29,7 @@
 
                                 <tr>
                                     <td><?= date("j F Y", strtotime($value['tanggal_kadaluarsa']))  ?></td>
+                                    <td><?= $value['kode_barang']; ?></td>
                                     <td><?= $value['nama_barang']; ?></td>
                                     <td><?= $value['jumlah']; ?></td>
                                     <td>
@@ -52,7 +54,7 @@
 
                                             ?>
                                                 <span class="badge badge-warning p-2"><i class="fas fa-exclamation-triangle"></i> Segera kadaluarsa</span><br>
-                                                <small><?= $selisih->days ?> Hari lagi</small>
+                                                <small><?= $selisih->days + 1 ?> Hari lagi</small>
                                             <?php } else { ?>
                                                 <span class="badge badge-success p-2">
                                                     <i class="fas fa-shield-alt"></i>
@@ -89,26 +91,46 @@
 <!---Container Fluid-->
 
 <script>
-    function barang_keluar(id) {
-        let text;
-        if (confirm("Apakah anda yakin ingin mengeluarkan barang ini?") == true) {
-            $.ajax({
-                type: 'POST',
-                url: '<?= base_url('Monitoring_kadaluarsa/barang_keluar') ?>',
-                data: {
-                    id_monitoring: id
-                },
-                dataType: 'json',
-                success: function(data) {
-                    if (data['status'] == 1) {
-                        location.reload()
-                    }
+    function swall(params1, params2) {
+        Swal.fire({
+            title: 'Data ' + params1,
+            text: 'Berhasil  ' + params2,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500
+        }).then((result) => {
+            location.reload();
+        })
 
-                }
-            })
-        } else {
-            text = "You canceled!";
-        }
+    }
+
+
+    function barang_keluar(id) {
+
+        Swal.fire({
+            title: 'Apakah anda yakin ingin mengeluarkan nya?',
+            showCancelButton: true,
+            confirmButtonText: 'Hapus',
+            icon: 'warning'
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '<?= base_url('Monitoring_kadaluarsa/barang_keluar') ?>',
+                    data: {
+                        id_monitoring: id
+                    },
+                    dataType: 'json',
+                    success: function() {}
+                })
+
+                swall('Data barang', 'dikeluarkan')
+
+            }
+        })
+
     }
 </script>
 

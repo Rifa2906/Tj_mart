@@ -17,6 +17,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>No</th>
+                                <th>Kode Barang</th>
                                 <th>Nama Barang</th>
                                 <th>Jumlah Pengadaan</th>
                                 <th>Untuk Tanggal</th>
@@ -38,6 +39,7 @@
                             foreach ($permintaan as $key => $value) { ?>
                                 <tr>
                                     <td><?= $no++; ?></td>
+                                    <td><?= $value['kode_barang']; ?></td>
                                     <td><?= $value['nama_barang']; ?></td>
                                     <td><?= $value['jumlah_pengadaan']; ?></td>
                                     <td><?= $value['bulan']; ?></td>
@@ -128,45 +130,7 @@
             })
         }
 
-        function gagal_peramalan(produk) {
-            Swal.fire({
-                title: 'Data ' + produk + ' belum bisa diramalkan',
-                confirmButtonText: 'Oke'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload();
-                }
-            })
-        }
 
-        function peramalan(id_barang, min_stok, stok) {
-            $.ajax({
-                type: 'POST',
-                url: '<?= base_url('Peramalan/peramalan') ?>',
-                dataType: 'json',
-                data: {
-                    id_barang: id_barang,
-                    min_stok: min_stok
-                },
-                success: function(data) {
-
-                    if (data.status == 1) {
-                        produk = data.produk;
-                        peramalan = data.peramalan
-                        bulan = data.bulan_berikutnya
-                        satuan = data.satuan
-                        jenis = data.jenis
-
-                        swall(produk, peramalan, satuan, bulan)
-                    } else if (data.status == 0) {
-                        produk = data.produk;
-                        gagal_peramalan(produk)
-                    }
-
-
-                }
-            })
-        }
 
         function disetujui(x) {
             $.ajax({

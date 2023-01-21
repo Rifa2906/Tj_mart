@@ -23,6 +23,7 @@
                     <table class="table align-items-center table-flush" id="dataTable">
                         <thead class="thead-light">
                             <th>No</th>
+                            <th>Kode Barang</th>
                             <th>Barang</th>
                             <th>Pemasok</th>
                             <th>Jumlah</th>
@@ -36,6 +37,7 @@
                             ?>
                                 <tr>
                                     <td><?= $no++; ?></td>
+                                    <td><?= $value['kode_barang']; ?></td>
                                     <td><?= $value['nama_barang']; ?></td>
                                     <td><?= $value['nama_pemasok']; ?></td>
                                     <td><?= $value['jumlah']; ?></td>
@@ -88,7 +90,7 @@
                             <option value="">Pilih barang</option>
                             <?php
                             foreach ($brg as $key => $value) { ?>
-                                <option value="<?= $value['kode_barang']; ?>"><?= $value['nama_barang']; ?></option>
+                                <option value="<?= $value['kode_barang']; ?>"><?= $value['kode_barang']; ?> - <?= $value['nama_barang']; ?></option>
 
                             <?php
                             }

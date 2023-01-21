@@ -174,7 +174,7 @@ class Barang_keluar extends CI_Controller
         $pdf->SetFillColor(210, 221, 242);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(10, 6, 'No', 1, 0, 'C');
-        $pdf->Cell(50, 6, 'Tanggal keluar', 1, 0, 'C');
+        $pdf->Cell(30, 6, 'Tanggal keluar', 1, 0, 'C');
         $pdf->Cell(40, 6, 'Nama Barang', 1, 0, 'C');
         $pdf->Cell(20, 6, 'Jumlah', 1, 0, 'C');
         $pdf->Cell(25, 6, 'Jenis barang', 1, 0, 'C');
@@ -188,11 +188,11 @@ class Barang_keluar extends CI_Controller
         foreach ($brg as $data) {
             $no++;
             $pdf->Cell(10, 6, $no, 1, 0, 'C');
-            $pdf->Cell(50, 6, date('d-m-Y', strtotime($data['tanggal_keluar'])), 1, 0);
-            $pdf->Cell(40, 6, $data['nama_barang'], 1, 0);
-            $pdf->Cell(20, 6, $data['jumlah'], 1,);
-            $pdf->Cell(25, 6, $data['nama_jenis'], 1, 0);
-            $pdf->Cell(20, 6, $data['satuan'], 1, 1);
+            $pdf->Cell(30, 6, date('d-m-Y', strtotime($data['tanggal_keluar'])), 1, 0, 'C');
+            $pdf->Cell(40, 6, $data['nama_barang'], 1, 0, 'C');
+            $pdf->Cell(20, 6, $data['jumlah'], 1, 0, 'C');
+            $pdf->Cell(25, 6, $data['nama_jenis'], 1, 0, 'C');
+            $pdf->Cell(20, 6, $data['satuan'], 1, 1, 'C');
         }
         $pdf->Output('I', 'Laporan Barang Keluar.pdf');
     }
