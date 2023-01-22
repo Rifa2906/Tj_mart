@@ -48,7 +48,7 @@ class Keluar_barang extends CI_Controller
         $pdf->Cell(20, 6, 'Jenis', 1, 1, 'C');
         $pdf->SetFont('Arial', '', 10);
 
-        $query = $this->M_kadaluarsa->tampil();
+        $query = $this->M_Keluar_barang->tampil();
 
         $brg = $query;
         $no = 0;

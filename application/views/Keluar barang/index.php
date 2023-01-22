@@ -15,7 +15,7 @@
             <div class="card mb-4">
                 <div class="table-responsive p-3">
 
-                    <a data-toggle="tooltip" data-placement="top" title="Cetak Laporan" href="<?= base_url('Kadaluarsa/cetak_pdf'); ?>" class="btn btn-primary mb-4">Cetak PDF</a>
+                    <a data-toggle="tooltip" data-placement="top" title="Cetak Laporan" href="<?= base_url('Keluar_barang/cetak_pdf'); ?>" class="btn btn-primary mb-4">Cetak PDF</a>
                     <button data-toggle="tooltip" data-placement="right" title="Hapus semua data" class="btn btn-danger mb-4" onclick="hapus()"><i class="fas fa-trash-alt"></i></button>
                     <table class="table align-items-center table-flush" id="dataTable">
                         <thead class="thead-light">
