@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+require './vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Retur_barang extends CI_Controller
 {
@@ -91,7 +95,14 @@ class Retur_barang extends CI_Controller
         $this->db->delete('tb_retur_barang');
     }
 
+    public function tampil_stok()
+    {
+        $kode_barang = $this->input->post('kode_barang');
+        $brg = $this->db->get('tb_stok_barang', ['kode_barang' => $kode_barang])->row_array();
+        $stok = $brg['stok'];
 
+        echo json_encode($stok);
+    }
 
     public function cetak_pdf()
     {
@@ -111,7 +122,7 @@ class Retur_barang extends CI_Controller
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(10, 6, 'No', 1, 0, 'C');
         $pdf->Cell(50, 6, 'Nama Barang', 1, 0, 'C');
-        $pdf->Cell(60, 6, 'Pemasok', 1, 0, 'C');
+        $pdf->Cell(70, 6, 'Pemasok', 1, 0, 'C');
         $pdf->Cell(20, 6, 'Jumlah', 1, 0, 'C');
         $pdf->Cell(20, 6, 'Satuan', 1, 1, 'C');
         $pdf->SetFont('Arial', '', 10);
@@ -124,19 +135,50 @@ class Retur_barang extends CI_Controller
             $no++;
             $pdf->Cell(10, 6, $no, 1, 0, 'C');
             $pdf->Cell(50, 6, $data['nama_barang'], 1, 0);
-            $pdf->Cell(60, 6, $data['nama_pemasok'], 1, 0);
+            $pdf->Cell(70, 6, $data['nama_pemasok'], 1, 0);
             $pdf->Cell(20, 6, $data['jumlah'], 1,);
             $pdf->Cell(20, 6, $data['satuan'], 1, 0);
         }
         $pdf->Output('Laporan Retur Barang.pdf', 'D');
     }
 
-    public function tampil_stok()
+    public function cetak_excel()
     {
-        $kode_barang = $this->input->post('kode_barang');
-        $brg = $this->db->get('tb_stok_barang', ['kode_barang' => $kode_barang])->row_array();
-        $stok = $brg['stok'];
 
-        echo json_encode($stok);
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        foreach (range('A', 'E') as $coulum) {
+            $spreadsheet->getActiveSheet()->getColumnDimension($coulum)->setAutosize(true);
+        }
+        $sheet->setCellValue('A1', 'NO');
+        $sheet->setCellValue('B1', 'Nama Barang');
+        $sheet->setCellValue('C1', 'Supplier');
+        $sheet->setCellValue('D1', 'Jumlah');
+        $sheet->setCellValue('E1', 'Satuan');
+
+
+        $users = $this->M_retur_barang->tampil();
+        $x = 2; //start from row 2
+        $no = 1;
+        foreach ($users as $row) {
+            $sheet->setCellValue('A' . $x, $no++);
+            $sheet->setCellValue('B' . $x, $row['nam_barang']);
+            $sheet->setCellValue('C' . $x, $row['nama_pemasok']);
+            $sheet->setCellValue('D' . $x, $row['jumlah']);
+            $sheet->setCellValue('E' . $x, $row['satuan']);
+            $x++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $FileName = 'Retur barang.xlsx';
+        //$writer->save($fileName);  //this is for save in folder
+
+
+        /* for force download */
+        header('Content-Type: appliction/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $FileName . '"');
+        ob_end_clean();
+        $writer->save('php://output');
     }
 }

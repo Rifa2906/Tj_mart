@@ -18,7 +18,13 @@
                             </a>
                         </div>
                         <div class="col-7">
-                            <a class="btn btn-primary" href="<?= base_url('Barang_masuk/cetak_pdf'); ?>">Cetak PDF</a>
+                            <div class="dropdown">
+                                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Cetak Laporan </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="<?= base_url('Barang_masuk/cetak_excel'); ?>"><i class="fas fa-file-excel"> Excel</i></a>
+                                    <a class="dropdown-item" href="<?= base_url('Barang_masuk/cetak_pdf'); ?>"><i class="fas fa-file-pdf"></i> Pdf</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

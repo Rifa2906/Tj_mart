@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+require './vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Barang_masuk extends CI_Controller
 {
@@ -15,6 +19,7 @@ class Barang_masuk extends CI_Controller
         $this->load->model('M_stok_barang');
         $this->load->model('M_barang');
         $this->load->library('Pdf'); // MEMANGGIL LIBRARY YANG KITA BUAT TADI
+
     }
 
     public function index()
@@ -191,5 +196,48 @@ class Barang_masuk extends CI_Controller
             $pdf->Cell(40, 6, date('d-m-Y', strtotime($data['tanggal_kadaluarsa'])), 1, 1, 'C');
         }
         $pdf->Output('Laporan Barang Masuk.pdf', 'D');
+    }
+
+    public function cetak_excel()
+    {
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        foreach (range('A', 'G') as $coulumID) {
+            $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
+        }
+        $sheet->setCellValue('A1', 'NO');
+        $sheet->setCellValue('B1', 'Tanggal Masuk');
+        $sheet->setCellValue('C1', 'Nama Barang');
+        $sheet->setCellValue('D1', 'Jumlah');
+        $sheet->setCellValue('E1', 'Jenis Barang');
+        $sheet->setCellValue('F1', 'Satuan');
+        $sheet->setCellValue('G1', 'Supplier');
+
+        $users = $this->M_barang_masuk->tampil();
+        $x = 2; //start from row 2
+        $no = 1;
+        foreach ($users as $row) {
+            $sheet->setCellValue('A' . $x, $no++);
+            $sheet->setCellValue('B' . $x, $row['tanggal_masuk']);
+            $sheet->setCellValue('C' . $x, $row['nama_barang']);
+            $sheet->setCellValue('D' . $x, $row['jumlah']);
+            $sheet->setCellValue('E' . $x, $row['nama_jenis']);
+            $sheet->setCellValue('F' . $x, $row['satuan']);
+            $sheet->setCellValue('F' . $x, $row['nama_pemasok']);
+            $x++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $fileName = 'Laporan barang masuk.xlsx';
+        //$writer->save($fileName);  //this is for save in folder
+
+
+        /* for force download */
+        header('Content-Type: appliction/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        ob_end_clean();
+        $writer->save('php://output');
     }
 }

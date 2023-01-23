@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+require './vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Barang_keluar extends CI_Controller
 {
@@ -195,5 +199,46 @@ class Barang_keluar extends CI_Controller
             $pdf->Cell(20, 6, $data['satuan'], 1, 1, 'C');
         }
         $pdf->Output('I', 'Laporan Barang Keluar.pdf');
+    }
+
+    public function cetak_excel()
+    {
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        foreach (range('A', 'F') as $coulumID) {
+            $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
+        }
+        $sheet->setCellValue('A1', 'NO');
+        $sheet->setCellValue('B1', 'Tanggal Keluar');
+        $sheet->setCellValue('C1', 'Nama Barang');
+        $sheet->setCellValue('D1', 'Jumlah');
+        $sheet->setCellValue('E1', 'Jenis Barang');
+        $sheet->setCellValue('F1', 'Satuan');
+
+        $users = $this->M_barang_keluar->tampil();
+        $x = 2; //start from row 2
+        $no = 1;
+        foreach ($users as $row) {
+            $sheet->setCellValue('A' . $x, $no++);
+            $sheet->setCellValue('B' . $x, $row['tanggal_keluar']);
+            $sheet->setCellValue('C' . $x, $row['nama_barang']);
+            $sheet->setCellValue('D' . $x, $row['jumlah']);
+            $sheet->setCellValue('E' . $x, $row['nama_jenis']);
+            $sheet->setCellValue('F' . $x, $row['satuan']);
+            $x++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $fileName = 'Laporan barang keluar.xlsx';
+        //$writer->save($fileName);  //this is for save in folder
+
+
+        /* for force download */
+        header('Content-Type: appliction/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        ob_end_clean();
+        $writer->save('php://output');
     }
 }

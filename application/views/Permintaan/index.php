@@ -10,7 +10,13 @@
         <div class="col-lg-12">
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <a class="btn btn-primary" href="<?= base_url('Permintaan/cetak_pdf'); ?>">Cetak PDF</a>
+                    <div class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Cetak Laporan </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="<?= base_url('Permintaan/cetak_excel'); ?>"><i class="fas fa-file-excel"> Excel</i></a>
+                            <a class="dropdown-item" href="<?= base_url('Permintaan/cetak_pdf'); ?>"><i class="fas fa-file-pdf"></i> Pdf</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="table-responsive p-3">
                     <table class="table align-items-center table-flush" id="dataTable">

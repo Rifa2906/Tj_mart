@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+require './vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Permintaan extends CI_Controller
 {
@@ -89,9 +93,50 @@ class Permintaan extends CI_Controller
             $pdf->Cell(40, 6, $data['nama_barang'], 1, 0, 'C');
             $pdf->Cell(40, 6, $data['jumlah_pengadaan'], 1, 0, 'C');
             $pdf->Cell(20, 6, $data['satuan'], 1, 0, 'C');
-            $pdf->Cell(80, 6, $data['pemasok'], 1, 0);
+            $pdf->Cell(80, 6, $data['nama_pemasok'], 1, 0);
             $pdf->Cell(30, 6, $data['status'], 1, 1, 'C');
         }
         $pdf->Output('I', 'Laporan Permintaan Barang.pdf');
+    }
+
+    public function cetak_excel()
+    {
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        foreach (range('A', 'F') as $coulumID) {
+            $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
+        }
+        $sheet->setCellValue('A1', 'NO');
+        $sheet->setCellValue('B1', 'Nama Barang');
+        $sheet->setCellValue('C1', 'Jumlah Pengadaan');
+        $sheet->setCellValue('D1', 'Satuan');
+        $sheet->setCellValue('E1', 'Supplier');
+        $sheet->setCellValue('F1', 'Status');
+
+        $users = $this->M_permintaan->tampil();
+        $x = 2; //start from row 2
+        $no = 1;
+        foreach ($users as $row) {
+            $sheet->setCellValue('A' . $x, $no++);
+            $sheet->setCellValue('B' . $x, $row['nama_barang']);
+            $sheet->setCellValue('C' . $x, $row['jumlah_pengadaan']);
+            $sheet->setCellValue('D' . $x, $row['satuan']);
+            $sheet->setCellValue('E' . $x, $row['nama_pemasok']);
+            $sheet->setCellValue('F' . $x, $row['status']);
+            $x++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $fileName = 'Laporan Permintaan.xlsx';
+        //$writer->save($fileName);  //this is for save in folder
+
+
+        /* for force download */
+        header('Content-Type: appliction/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        ob_end_clean();
+        $writer->save('php://output');
     }
 }
