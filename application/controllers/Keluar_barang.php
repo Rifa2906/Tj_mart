@@ -8,7 +8,7 @@ class Keluar_barang extends CI_Controller
     {
         parent::__construct();
         $this->load->library('form_validation');
-        $this->load->model('M_Keluar_barang');
+        $this->load->model('M_keluar_barang');
         $this->load->library('Pdf'); // MEMANGGIL LIBRARY YANG KITA BUAT TADI
 
 
@@ -16,7 +16,7 @@ class Keluar_barang extends CI_Controller
 
     public function index()
     {
-        $data['kd'] = $this->M_Keluar_barang->tampil();
+        $data['kd'] = $this->M_keluar_barang->tampil();
         $data['title'] = 'Barang yang segera kadaluarsa';
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
@@ -48,7 +48,7 @@ class Keluar_barang extends CI_Controller
         $pdf->Cell(20, 6, 'Jenis', 1, 1, 'C');
         $pdf->SetFont('Arial', '', 10);
 
-        $query = $this->M_Keluar_barang->tampil();
+        $query = $this->M_keluar_barang->tampil();
 
         $brg = $query;
         $no = 0;

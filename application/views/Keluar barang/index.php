@@ -14,9 +14,21 @@
         <div class="col-lg-12">
             <div class="card mb-4">
                 <div class="table-responsive p-3">
+                    <div class="row">
+                        <div class="col-2">
+                            <button data-toggle="tooltip" data-placement="right" title="Hapus semua data" class="btn btn-danger mb-4" onclick="hapus()">Hapus semua</button>
+                        </div>
+                        <div class="col-3">
+                            <div class="dropdown">
+                                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Cetak Laporan </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="<?= base_url('Keluar_barang/cetak_excel'); ?>"><i class="fas fa-file-excel"> Excel</i></a>
+                                    <a class="dropdown-item" href="<?= base_url('Keluar_barang/cetak_pdf'); ?>"><i class="fas fa-file-pdf"></i> Pdf</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    <a data-toggle="tooltip" data-placement="top" title="Cetak Laporan" href="<?= base_url('Keluar_barang/cetak_pdf'); ?>" class="btn btn-primary mb-4">Cetak PDF</a>
-                    <button data-toggle="tooltip" data-placement="right" title="Hapus semua data" class="btn btn-danger mb-4" onclick="hapus()"><i class="fas fa-trash-alt"></i></button>
                     <table class="table align-items-center table-flush" id="dataTable">
                         <thead class="thead-light">
                             <tr>

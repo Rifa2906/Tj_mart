@@ -207,6 +207,7 @@ class Barang_keluar extends CI_Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
+
         foreach (range('A', 'F') as $coulumID) {
             $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
         }
@@ -216,6 +217,7 @@ class Barang_keluar extends CI_Controller
         $sheet->setCellValue('D1', 'Jumlah');
         $sheet->setCellValue('E1', 'Jenis Barang');
         $sheet->setCellValue('F1', 'Satuan');
+
 
         $users = $this->M_barang_keluar->tampil();
         $x = 2; //start from row 2
