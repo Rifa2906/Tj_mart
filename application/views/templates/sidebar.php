@@ -56,7 +56,7 @@
           <li class="nav-item">
               <a class="nav-link" href="<?= base_url('Keluar_barang'); ?>">
                   <i class="fas fa-fw fa-cube"></i>
-                  <span>Barang yang dikeluarkan</span>
+                  <span>Barang kadaluarsa</span>
               </a>
           </li>
           <hr class="sidebar-divider">

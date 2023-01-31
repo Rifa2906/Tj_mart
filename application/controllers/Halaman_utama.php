@@ -39,6 +39,17 @@ class Halaman_utama extends CI_Controller
         echo json_encode($data);
     }
 
+    public function data_bulan()
+    {
+        $query =  $this->db->query("SELECT *,SUM(jumlah) AS jumlah FROM tb_laporan GROUP BY MONTH(tanggal_keluar) ORDER BY tanggal_keluar ASC")->result_array();
+        $janu = $this->db->query("SELECT *,SUM(jumlah) AS jumlah FROM tb_laporan GROUP BY MONTH(tanggal_keluar) =01 ORDER BY tanggal_keluar ASC")->result_array();
+        $data = [
+            'j' => $janu['jumlah']
+        ];
+
+        echo json_encode($data);
+    }
+
 
 
 
