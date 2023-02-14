@@ -81,6 +81,47 @@ class Barang extends CI_Controller
         echo json_encode($response);
     }
 
+    public function form_ubah($id_barang)
+    {
+
+        $this->form_validation->set_rules('nama_barang', 'nama_barang', 'required', [
+            'required' => 'Nama barang tidak boleh kosong'
+        ]);
+
+        $this->form_validation->set_rules('harga', 'harga', 'required', [
+            'required' => 'Harga tidak boleh kosong'
+        ]);
+        $this->form_validation->set_rules('satuan', 'satuan', 'required', [
+            'required' => 'Satuan tidak boleh kosong'
+        ]);
+
+        $this->form_validation->set_rules('jenis_barang', 'jenis_barang', 'required', [
+            'required' => 'Jenis barang tidak boleh kosong'
+        ]);
+
+        $this->form_validation->set_rules('supplier', 'pemasok', 'required', [
+            'required' => 'Supplier tidak boleh kosong'
+        ]);
+
+
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'Form Ubah Data Barang';
+            $data['pemasok'] = $this->M_pemasok->tampil();
+            $data['satuan'] = $this->M_satuan->tampil();
+            $data['jenis'] = $this->M_jenis_barang->tampil();
+            $data['id_barang'] = $this->M_barang->ambil_IdBarang($id_barang);
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar');
+            $this->load->view('templates/topbar');
+            $this->load->view('Barang/form_ubah', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->M_barang->ubah_data();
+            $this->session->set_flashdata('message', 'Diubah');
+            redirect('Barang');
+        }
+    }
+
     function hapus_data()
     {
         $id_barang = $this->input->post('id_barang');

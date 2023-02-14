@@ -17,31 +17,81 @@ class Lupa_kataSandi extends CI_Controller
 
         ]);
 
-        $this->form_validation->set_rules('password_baru', 'Kata sandi', 'required', [
-            'required' => 'Kata sandi tidak boleh kosong'
-
-        ]);
-
-        $this->form_validation->set_rules('password_conf', 'Kata sandi', 'required|matches[password_baru]', [
-            'required' => 'Kata sandi tidak boleh kosong',
-            'matches' => 'Kata sandi tidak sama'
-
-        ]);
-
         if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header_login');
+
+            $data['title'] = 'Masukan Email';
+            $this->load->view('templates/header_login', $data);
             $this->load->view('Lupa_kataSandi/index');
             $this->load->view('templates/footer_login');
         } else {
-
-            $this->ganti_kataSandi();
+            $email = $this->input->post('email');
+            $this->sendmail($email);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Kata sandi berhasil dibuat
+            Silahkan cek email anda
            </div>');
             redirect('Lupa_kataSandi');
         }
     }
 
+    public function Ubah_kata_sandi()
+    {
+        $this->form_validation->set_rules('password_baru', 'Password Baru', 'required', [
+            'required' => 'Password tidak boleh kosong'
+
+        ]);
+
+        $this->form_validation->set_rules('password_conf', 'Konfirmasi Password', 'required|matches[password_baru]', [
+            'required' => 'Password tidak boleh kosong',
+            'matches' => 'Password tidak sama'
+
+        ]);
+
+        $data['email'] = $this->input->get('email');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/header_login');
+            $this->load->view('Lupa_kataSandi/Ubah_kata_sandi', $data);
+            $this->load->view('templates/footer_login');
+        } else {
+            $this->ganti_kataSandi();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+           Kata sandi berhasil diubah
+           </div>');
+            redirect('Autentikasi');
+        }
+    }
+
+    public function sendmail($email)
+    {
+        $type = 'lupakatasandi';
+        $config = [
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://mail.trengginasjayamart.com',
+            'smtp_user' => 'tjmart@trengginasjayamart.com',
+            'smtp_pass' => 'm4ul4n429',
+            'smtp_port' => 465,
+            'mailtype' => 'html',
+            'charset' => 'utf-8',
+            'newline' => "\r\n"
+        ];
+
+        $this->load->library('email', $config);
+
+        $this->email->from('tjmart@trengginasjayamart.com', 'TJ MART');
+        $this->email->to($email);
+
+        if ($type == 'lupakatasandi') {
+            $this->email->subject('Reset Katasandi');
+            $this->email->message('Klik link ini untuk mengubah katasandi anda : <a href="' . base_url() . 'Lupa_kataSandi/Ubah_kata_sandi?email=' . $email . '" >Reset Katasandi</a>');
+        }
+
+        if ($this->email->send()) {
+            return true;
+        } else {
+            $this->email->print_debugger();
+            die;
+        }
+    }
     public function ganti_kataSandi()
     {
         $email = $this->input->post('email');
@@ -59,7 +109,7 @@ class Lupa_kataSandi extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
             Email tidak terdaftar
            </div>');
-            redirect('Lupa_kataSandi');
+            redirect('Ubah_kata_sandi');
         }
     }
 }

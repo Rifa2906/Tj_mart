@@ -30,6 +30,7 @@
                                     <hr>
                                 </form>
                                 <a style="margin-right: 150px;" href="<?= base_url('Lupa_kataSandi'); ?>">Lupa kata sandi?</a>
+
                             </div>
                         </div>
                     </div>

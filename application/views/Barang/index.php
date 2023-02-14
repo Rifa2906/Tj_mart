@@ -15,6 +15,17 @@
                       <button type="button" data-toggle="modal" data-target="#Modal_produk" id="#exampleModal" onclick="submit('tambah')" class="btn btn-primary">Tambah</button>
                   </div>
                   <div class="table-responsive p-3">
+                      <?php
+                        if ($this->session->flashdata('message')) { ?>
+                          <div class="alert alert-success alert-dismissible" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                              Data barang berhasil <?= $this->session->flashdata('message') ?>
+                          </div>
+                      <?php
+                        }
+                        ?>
                       <table class="table align-items-center table-flush" id="dataTable">
                           <thead class="thead-light">
                               <tr>
@@ -42,9 +53,9 @@
                                       <td><?= $value['nama_pemasok']; ?></td>
                                       <td>
                                           <a data-toggle="tooltip" data-placement="top" title="Ubah">
-                                              <button data-toggle="modal" data-target="#Modal_produk_edit" id="#exampleModal" onclick="ambil_id(<?= $value['id_barang'] ?>)" class="btn btn-warning btn-sm">
+                                              <a href="<?= base_url('Barang/form_ubah/') . $value['id_barang']; ?>" class="btn btn-warning btn-sm">
                                                   <i class="fas fa-pencil-alt"></i>
-                                              </button>
+                                              </a>
                                           </a>
 
                                           <a data-toggle="tooltip" data-placement="top" title="Hapus">
@@ -151,6 +162,7 @@
           </div>
       </div>
   </div>
+
 
 
 

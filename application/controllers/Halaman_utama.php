@@ -17,12 +17,24 @@ class Halaman_utama extends CI_Controller
     public function index()
     {
         $data['title'] = 'Halaman Utama';
-
+        $data['tahun'] = $this->tahun();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('Halaman_utama/index', $data);
         $this->load->view('templates/footer');
+    }
+
+    public function tahun()
+    {
+        $query =  $this->db->query("SELECT * FROM tb_laporan GROUP BY YEAR(tanggal_keluar) ORDER BY tanggal_keluar ASC")->result_array();
+        return $query;
+    }
+
+    public function data_tahun()
+    {
+        $query =  $this->db->query("SELECT * FROM tb_laporan GROUP BY YEAR(tanggal_keluar) ORDER BY tanggal_keluar ASC")->result_array();
+        echo json_encode($query);
     }
 
     public function jml_data()

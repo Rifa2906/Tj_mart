@@ -42,4 +42,34 @@ class M_barang extends CI_Model
         ];
         $this->db->insert('tb_barang', $data);
     }
+
+    function ambil_IdBarang($id_barang)
+    {
+        return $this->db->get_where('tb_barang', ['id_barang' => $id_barang])->row_array();
+    }
+
+    function ubah_data()
+    {
+        $id_barang = $this->input->post('id_barang');
+        $kode_barang = $this->input->post('kode_barang');
+        $nama_barang = $this->input->post('nama_barang');
+        $harga = $this->input->post('harga');
+        $harga_str = preg_replace('/[^A-Za-z0-9]/', '', $harga);
+        $harga_int = (int)$harga_str;
+        $satuan = $this->input->post('satuan');
+        $jenis_barang = $this->input->post('jenis_barang');
+        $supplier = $this->input->post('supplier');
+
+        $data = [
+            'kode_barang' => $kode_barang,
+            'id_satuan' => $satuan,
+            'id_jenis' => $jenis_barang,
+            'id_pemasok' => $supplier,
+            'nama_barang' => $nama_barang,
+            'harga' => $harga_int
+        ];
+
+        $this->db->where('id_barang', $id_barang);
+        $this->db->update('tb_barang', $data);
+    }
 }

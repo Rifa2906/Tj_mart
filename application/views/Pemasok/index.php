@@ -10,16 +10,9 @@
           <div class="col-lg-12">
               <div class="card mb-4">
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <div class="row">
-                          <div class="col-5">
-                              <button type="button" data-toggle="modal" data-target="#Modal_pemasok" id="#exampleModal" class="btn btn-primary">Tambah</button>
-                          </div>
-                          <div class="col-7">
-                              <a href="<?= base_url('Produk'); ?>" class="btn btn-primary"> Produk</a>
-                          </div>
+                      <div class="col-5">
+                          <button type="button" data-toggle="modal" data-target="#Modal_pemasok" id="#exampleModal" class="btn btn-primary">Tambah</button>
                       </div>
-
-
                   </div>
 
                   <div class="table-responsive p-3">

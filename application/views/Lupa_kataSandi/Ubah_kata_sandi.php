@@ -8,13 +8,20 @@
                         <div class="col">
                             <div class="login-form">
                                 <div class="font-weight-bold  mb-3">
-                                    <h4>Masukan Email</h4>
+                                    <h4>Ubah Kata Sandi</h4>
                                 </div>
                                 <?= $this->session->flashdata('message'); ?>
                                 <form class="user" method="POST">
                                     <div class="form-group">
-                                        <input type="email" name="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Masukan Email">
-                                        <small class="text-danger"> <?= form_error('email') ?></small>
+                                        <input type="email" name="email" value="<?= $email; ?>" class="form-control" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password_baru" class="form-control" placeholder="Masukan Kata sandi baru" id="exampleInputPassword">
+                                        <small class="text-danger"> <?= form_error('password_baru') ?></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password_conf" class="form-control" placeholder="Konfirmasi Kata sandi" id="exampleInputPassword">
+                                        <small class="text-danger"> <?= form_error('password_conf') ?></small>
                                     </div>
                                     <div class="form-group">
                                         <div class="row">

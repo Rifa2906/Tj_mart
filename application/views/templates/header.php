@@ -24,6 +24,28 @@
         .select2.select2-container {
             width: 100% !important;
         }
+
+        .chartMenu {
+            width: 100vw;
+            height: 40px;
+            background: #1A1A1A;
+            color: rgba(54, 162, 235, 1);
+        }
+
+        .chartMenu p {
+            padding: 10px;
+            font-size: 20px;
+        }
+
+
+
+        .chartBox {
+            width: 700px;
+            padding: 20px;
+            border-radius: 20px;
+
+            background: white;
+        }
     </style>
 </head>
 
